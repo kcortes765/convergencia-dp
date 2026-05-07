@@ -36,38 +36,38 @@
   </section>
 
   <section>
-    <h2>2. Variables temporales comparadas al refinar dp</h2>
-    <p>La primera revisión mira curvas en el tiempo. Esto responde directamente a la pregunta clásica de convergencia: si se disminuye <code>dp</code>, las variables relevantes deberían tender a una respuesta similar o al menos mostrar una sensibilidad interpretable.</p>
+    <h2>2. Lectura directa de convergencia</h2>
+    <p>La pregunta central es: al disminuir <code>dp</code>, ¿las variables se acercan al resultado fino? Para hacerlo explícito, se toma <code>dp=0.002 m</code> como referencia de comparación y se calcula el cambio porcentual de cada máximo.</p>
     <figure>
-      <img src="figures/01_desplazamiento_tiempo_dp.png" alt="Desplazamiento temporal del bloque para varios dp">
-      <figcaption>Desplazamiento acumulado del bloque para varias resoluciones. La línea de 5% se muestra como referencia del criterio de movimiento, pero la lectura principal aquí es la forma temporal de la variable.</figcaption>
+      <img src="figures/01_cambio_maximos_vs_fino.png" alt="Cambio porcentual de máximos contra dp fino">
+      <figcaption>El área verde marca una referencia de ±5% respecto a <code>dp=0.002 m</code>. Se ve qué variables se acercan razonablemente al caso fino y cuáles siguen siendo sensibles.</figcaption>
     </figure>
     <div class="grid">
       <figure>
-        <img src="figures/02_velocidad_rotacion_tiempo_dp.png" alt="Velocidad y rotación del bloque para varios dp">
-        <figcaption>Velocidad del bloque y rotación acumulada observada. La rotación se reporta como variable física adicional, no como criterio único de movimiento.</figcaption>
+        <img src="figures/02_error_temporal_vs_fino.png" alt="Error temporal relativo contra dp fino">
+        <figcaption>El RMSE temporal compara la forma completa de la curva, no solo el valor máximo. Mientras más bajo, más parecida es la respuesta al caso fino.</figcaption>
       </figure>
       <figure>
-        <img src="figures/03_gauges_tiempo_dp.png" alt="Variables hidráulicas de gauges para varios dp">
-        <figcaption>Velocidad del flujo y altura/cota máxima en gauges cercanos. Estas variables ayudan a revisar si el forzante hidráulico cambia fuertemente con la resolución.</figcaption>
+        <img src="figures/03_curvas_temporales_finas.png" alt="Curvas temporales para resoluciones finas">
+        <figcaption>Curvas temporales de las resoluciones finas. Sirven para ver si la respuesta completa mantiene una forma similar al refinar.</figcaption>
       </figure>
     </div>
   </section>
 
   <section>
-    <h2>3. Resumen clásico por resolución</h2>
-    <p>Además de las curvas temporales, se comparan máximos de variables continuas contra <code>dp</code>. Esta vista resume la sensibilidad de la respuesta al refinar la resolución.</p>
+    <h2>3. Qué converge mejor y qué queda sensible</h2>
+    <p>La lectura no es binaria. Algunas variables se acercan razonablemente al caso fino cerca de <code>dp=0.003 m</code>; otras siguen mostrando sensibilidad. Por eso la conclusión debe ser conservadora.</p>
     <div class="grid">
       <figure>
-        <img src="figures/04_metricas_continuas_vs_dp.png" alt="Métricas continuas contra dp">
-        <figcaption>Máximos de desplazamiento, velocidad del bloque, velocidad del flujo y altura/cota de agua. No todas las variables evolucionan de forma perfectamente monótona.</figcaption>
+        <img src="figures/04_rotacion_sensibilidad.png" alt="Sensibilidad de la rotación al refinar dp">
+        <figcaption>La rotación es la variable más sensible al refinamiento; se reporta como observación física, pero no se usa sola para decidir movimiento.</figcaption>
       </figure>
       <figure>
         <img src="figures/05_costo_vs_dp.png" alt="Costo computacional contra dp">
         <figcaption>El refinamiento reduce <code>dp</code>, pero aumenta fuertemente partículas, memoria y tiempo. Esto pesa en la selección de resolución productiva.</figcaption>
       </figure>
     </div>
-    <p class="note"><strong>Lectura:</strong> <code>dp=0.003 m</code> se adopta como resolución operativa porque permite ejecutar lotes productivos con costo manejable y mantiene una respuesta comparable con el refinamiento fino en varias variables, aunque no autoriza afirmar convergencia asintótica fuerte de toda la dinámica.</p>
+    <p class="note"><strong>Lectura:</strong> <code>dp=0.003 m</code> no se presenta como convergencia fuerte de todas las variables. Se adopta como resolución operativa porque varias respuestas principales quedan cercanas al caso fino, mientras el costo de <code>dp=0.002 m</code> crece mucho. La rotación y la frontera estable/falla quedan explícitamente como aspectos sensibles.</p>
   </section>
 
   <section>

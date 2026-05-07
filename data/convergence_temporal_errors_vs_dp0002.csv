@@ -1,0 +1,26 @@
+dp,variable,label,temporal_rmse_pct
+0.006,disp_pct,Desplazamiento,35.34375061614489
+0.005,disp_pct,Desplazamiento,10.8735780115021
+0.004,disp_pct,Desplazamiento,5.132184635697123
+0.003,disp_pct,Desplazamiento,5.16324276310428
+0.002,disp_pct,Desplazamiento,0.0
+0.006,block_speed,Velocidad bloque,12.780621458321892
+0.005,block_speed,Velocidad bloque,9.74264384343367
+0.004,block_speed,Velocidad bloque,7.890833743153301
+0.003,block_speed,Velocidad bloque,5.560376467815467
+0.002,block_speed,Velocidad bloque,0.0
+0.006,flow_speed,Velocidad flujo,14.097404843884153
+0.005,flow_speed,Velocidad flujo,13.02200891108371
+0.004,flow_speed,Velocidad flujo,12.391605051382449
+0.003,flow_speed,Velocidad flujo,10.025905112461613
+0.002,flow_speed,Velocidad flujo,0.0
+0.006,water_height,Altura/cota agua,10.399345343751715
+0.005,water_height,Altura/cota agua,9.235887924479394
+0.004,water_height,Altura/cota agua,5.604926121840532
+0.003,water_height,Altura/cota agua,4.625815659434383
+0.002,water_height,Altura/cota agua,0.0
+0.006,rotation_deg,Rotación,32.17197813471449
+0.005,rotation_deg,Rotación,22.83684001023929
+0.004,rotation_deg,Rotación,20.93456030936659
+0.003,rotation_deg,Rotación,23.553155937819323
+0.002,rotation_deg,Rotación,0.0
