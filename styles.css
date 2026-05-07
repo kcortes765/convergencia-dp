@@ -105,6 +105,13 @@ figcaption {
   padding: 10px 12px;
   margin-top: 14px;
 }
+.compact {
+  margin: 8px 0 14px 18px;
+  padding: 0;
+}
+.compact li {
+  margin: 5px 0;
+}
 .table-wrap {
   overflow-x: auto;
   border: 1px solid var(--line);

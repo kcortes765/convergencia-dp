@@ -12,7 +12,7 @@
     <div>
       <p class="meta">Tesis UCN · modelo SPH–Chrono</p>
       <h1>Estudio de convergencia y decisión de malla</h1>
-      <p>Documento técnico para explicar el proceso completo: qué se mantuvo fijo, qué se varió, cómo se ubicó la frontera de estabilidad y por qué se adoptó <code>dp=0.003 m</code> para las simulaciones productivas.</p>
+      <p>Documento técnico para explicar cómo se planteó el estudio de resolución: qué se mantuvo fijo, qué se varió, cómo se ubicó la frontera de estabilidad y por qué se adoptó <code>dp=0.003 m</code> para las simulaciones productivas.</p>
     </div>
     <aside class="summary">
       <dl>
@@ -25,10 +25,17 @@
   </header>
 
   <section>
-    <h2>1. Objetivo del estudio de convergencia</h2>
-    <p>El objetivo no fue ajustar una curva genérica ni buscar una única simulación “perfecta”. El objetivo fue decidir una malla de trabajo para la tesis y entender cómo la clasificación estable/falla cambia al modificar la resolución SPH.</p>
-    <p>La resolución se controla con <code>dp</code>, el espaciamiento inicial entre partículas. La variable física usada para ubicar la frontera fue <code>μ</code>, el coeficiente de fricción bloque-suelo. Para cada malla se buscó el rango de <code>μ</code> donde el bloque pasa de falla a estable.</p>
-    <p>Esto es importante: la convergencia se trató como <strong>sensibilidad de frontera</strong>, porque el problema no entrega una respuesta suave única, sino una decisión de umbral.</p>
+    <h2>1. Cómo se planteó el estudio</h2>
+    <p>La pregunta práctica no fue “cuál es el valor exacto final de una variable al refinar indefinidamente la malla”. La pregunta fue: <strong>qué resolución SPH permite estudiar de forma trazable el movimiento incipiente del bloque</strong>, sin convertir la tesis en una campaña de refinamiento interminable.</p>
+    <p>Por eso el análisis se planteó como un estudio de <strong>decisión de malla y sensibilidad de frontera</strong>. El fenómeno combina superficie libre, contacto bloque-suelo, fricción y un criterio de umbral. Cerca del límite, cambios pequeños en resolución pueden cambiar la clase ESTABLE/FALLO, aunque las magnitudes continuas sigan siendo físicamente interpretables.</p>
+    <p>La estrategia fue congelar el problema físico base y variar solo lo necesario para responder esa pregunta:</p>
+    <ul class="compact">
+      <li><code>dp</code>: controla la resolución SPH y el costo computacional.</li>
+      <li><code>μ</code>: se usa como variable de barrido para ubicar la frontera entre estabilidad y falla.</li>
+      <li><code>D_max/d_eq</code>: desplazamiento máximo normalizado, usado como respuesta principal.</li>
+      <li><code>5% d_eq</code>: umbral operativo para clasificar el caso como ESTABLE o FALLO.</li>
+    </ul>
+    <p>En términos simples: no se buscó demostrar una convergencia asintótica fuerte de toda la dinámica, sino decidir una malla operativa y dejar explícito cuánto se mueve la frontera al cambiar la resolución.</p>
   </section>
 
   <section>
