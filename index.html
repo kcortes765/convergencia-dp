@@ -3,128 +3,100 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Informe de convergencia y lotes productivos</title>
+  <title>Convergencia de resolución SPH</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <main class="page">
   <header class="top">
     <div>
-      <p class="meta">Tesis UCN · modelo SPH–Chrono</p>
-      <h1>Estudio de convergencia y decisión de malla</h1>
-      <p>Documento técnico para explicar cómo se planteó el estudio de resolución: qué se mantuvo fijo, qué se varió, cómo se ubicó la frontera de estabilidad y por qué se adoptó <code>dp=0.003 m</code> para las simulaciones productivas.</p>
+      <p class="meta">Tesis UCN · modelo SPH-Chrono</p>
+      <h1>Convergencia de resolución SPH y uso posterior en estabilidad</h1>
+      <p>Esta página separa dos niveles de análisis: primero se revisa cómo cambian variables continuas al disminuir <code>dp</code>; después se usa la resolución adoptada para estudiar estabilidad del bloque.</p>
     </div>
     <aside class="summary">
       <dl>
-        <div><dt>Malla productiva</dt><dd>dp = 0.003 m</dd></div>
-        <div><dt>Criterio principal</dt><dd>desplazamiento &gt; 5% d_eq</dd></div>
-        <div><dt>Rotación</dt><dd>diagnóstico</dd></div>
-        <div><dt>Lotes posteriores</dt><dd>5/5 OK + 8/8 OK</dd></div>
+        <div><dt>Resolución adoptada</dt><dd>dp = 0.003 m</dd></div>
+        <div><dt>Convergencia</dt><dd>variables temporales y máximos</dd></div>
+        <div><dt>Estabilidad</dt><dd>análisis posterior al dp elegido</dd></div>
+        <div><dt>Criterio de movimiento</dt><dd>D_max &gt; 5% d_eq</dd></div>
       </dl>
     </aside>
   </header>
 
   <section>
-    <h2>1. Cómo se planteó el estudio</h2>
-    <p>La pregunta práctica no fue “cuál es el valor exacto final de una variable al refinar indefinidamente la malla”. La pregunta fue: <strong>qué resolución SPH permite estudiar de forma trazable el movimiento incipiente del bloque</strong>, sin convertir la tesis en una campaña de refinamiento interminable.</p>
-    <p>Por eso el análisis se planteó como un estudio de <strong>decisión de malla y sensibilidad de frontera</strong>. El fenómeno combina superficie libre, contacto bloque-suelo, fricción y un criterio de umbral. Cerca del límite, cambios pequeños en resolución pueden cambiar la clase ESTABLE/FALLO, aunque las magnitudes continuas sigan siendo físicamente interpretables.</p>
-    <p>La estrategia fue congelar el problema físico base y variar solo lo necesario para responder esa pregunta:</p>
-    <ul class="compact">
-      <li><code>dp</code>: controla la resolución SPH y el costo computacional.</li>
-      <li><code>μ</code>: se usa como variable de barrido para ubicar la frontera entre estabilidad y falla.</li>
-      <li><code>D_max/d_eq</code>: desplazamiento máximo normalizado, usado como respuesta principal.</li>
-      <li><code>5% d_eq</code>: umbral operativo para clasificar el caso como ESTABLE o FALLO.</li>
-    </ul>
-    <p>En términos simples: no se buscó demostrar una convergencia asintótica fuerte de toda la dinámica, sino decidir una malla operativa y dejar explícito cuánto se mueve la frontera al cambiar la resolución.</p>
-  </section>
-
-  <section>
-    <h2>2. Secuencia usada</h2>
-    <p>El estudio se organizó en familias de corridas. Los nombres internos se mantienen solo para trazabilidad; abajo se indica qué significa cada una.</p>
-    
-    <ol class="process">
-      <li><strong>Se corrigió y congeló la geometría.</strong> El bloque quedó alineado con la pendiente, apoyado sobre la playa y tratado como cuerpo rígido acoplado con Chrono.</li>
-      <li><strong>Se definió el criterio de clase.</strong> La falla se mide por desplazamiento máximo mayor a 5% de <code>d_eq</code>. La rotación se conserva solo como diagnóstico.</li>
-      <li><strong>Se exploró la frontera con <code>conv_edge</code>.</strong> Para varios valores de <code>μ</code> y <code>dp</code>, se observó dónde el bloque pasa de estable a falla.</li>
-      <li><strong>Se refinó la zona crítica con <code>conv_reassure</code>.</strong> Se agregaron puntos cerca de <code>μ≈0.6805-0.68075</code> para acotar mejor la transición en <code>dp=0.003</code>.</li>
-      <li><strong>Se hicieron repeticiones con <code>conv_repeat</code>.</strong> Sirven para comprobar que los casos marginales no fueran un accidente operacional.</li>
-      <li><strong>Se agregó un caso fino <code>conv_probe</code>.</strong> En <code>dp=0.002</code> y <code>μ=0.6625</code>, el bloque siguió estable por desplazamiento. Eso muestra sensibilidad de resolución.</li>
-      <li><strong>Se tomó una decisión productiva.</strong> Usar <code>dp=0.003 m</code> como malla de trabajo y reportar la frontera como práctica, no como valor universal.</li>
-    </ol>
-    
+    <h2>1. Enfoque del estudio</h2>
+    <p>SPH no usa una malla fija; usa partículas. Por eso aquí <code>dp</code> significa <strong>espaciamiento inicial entre partículas</strong> y se interpreta como resolución espacial del modelo.</p>
+    <p>El análisis se ordena así: primero se comparan variables continuas para distintos <code>dp</code>, como desplazamiento del bloque, velocidad del bloque, velocidad del flujo y altura de agua en gauges. Esa es la parte de convergencia o sensibilidad de resolución.</p>
+    <p>Luego, con una resolución seleccionada por equilibrio entre respuesta y costo, se analiza si el bloque inicia movimiento bajo un criterio operacional. Esa segunda parte es el estudio de estabilidad, no el reemplazo del análisis de convergencia.</p>
     <figure>
-      <img src="figures/00_proceso_convergencia.png" alt="Estructura del estudio de convergencia">
-      <figcaption>La tabla consolidada reúne 27 casos comparables de convergencia/frontera. No todos tienen el mismo rol metodológico.</figcaption>
+      <img src="figures/00_orden_metodologico.png" alt="Orden metodológico del análisis">
+      <figcaption>La lectura final separa convergencia de variables, selección de resolución y análisis posterior de estabilidad.</figcaption>
     </figure>
   </section>
 
   <section>
-    <h2>3. Resultado de la comparación de mallas</h2>
-    <p>En <code>dp=0.003 m</code>, los casos alrededor de <code>μ≈0.68</code> cruzan el umbral de desplazamiento. En <code>dp=0.002 m</code>, los casos equivalentes quedan bajo el umbral. Por eso el resultado se interpreta como sensibilidad de resolución.</p>
+    <h2>2. Variables temporales comparadas al refinar dp</h2>
+    <p>La primera revisión mira curvas en el tiempo. Esto responde directamente a la pregunta clásica de convergencia: si se disminuye <code>dp</code>, las variables relevantes deberían tender a una respuesta similar o al menos mostrar una sensibilidad interpretable.</p>
     <figure>
-      <img src="figures/01_convergencia_decision.png" alt="Convergencia tratada como sensibilidad de frontera">
-      <figcaption>E = estable, F = falla. En <code>dp=0.003</code> aparece una frontera práctica clara. En <code>dp=0.002</code>, los casos cercanos quedan bajo el umbral.</figcaption>
-    </figure>
-  </section>
-
-  <section>
-    <h2>4. Decisión de malla</h2>
-    <p>En <code>dp=0.003 m</code>, la transición de la condición base queda acotada entre <code>μ=0.68050</code> y <code>μ=0.68075</code>. Por eso se adopta <code>dp=0.003 m</code> como malla operativa para producción.</p>
-    <div class="grid">
-      <figure>
-        <img src="figures/02_frontera_dp003.png" alt="Frontera práctica en dp 0.003">
-        <figcaption>La frontera práctica se reporta como intervalo, no como valor universal exacto.</figcaption>
-      </figure>
-      <figure>
-        <img src="figures/03_costo_refinamiento.png" alt="Costo computacional del refinamiento">
-        <figcaption>El refinamiento a <code>dp=0.002</code> aumenta fuertemente partículas, memoria y tiempo.</figcaption>
-      </figure>
-    </div>
-    <p class="note"><strong>Interpretación:</strong> no se afirma convergencia asintótica fuerte. Se reporta una frontera práctica condicionada a la malla <code>dp=0.003 m</code>, porque el problema es de umbral y muestra sensibilidad de resolución. La malla fina <code>dp=0.002 m</code> se usa como evidencia de sensibilidad, no como nueva malla productiva.</p>
-  </section>
-
-  <section>
-    <h2>5. Gráficos clásicos de convergencia</h2>
-    <p>Además de la lectura por frontera, se pueden mostrar los gráficos típicos de convergencia: una métrica continua contra <code>dp</code>. Estos gráficos son útiles para responder a la expectativa metodológica clásica, pero deben leerse como <strong>sensibilidad de resolución</strong>.</p>
-    <p>La razón es que el caso está cerca de un umbral de movimiento: el desplazamiento puede cruzar o no el 5% de <code>d_eq</code> con cambios pequeños de resolución. Por eso no se espera necesariamente una curva monótona limpia.</p>
-    <figure>
-      <img src="figures/09_desplazamiento_vs_dp_clasico.png" alt="Desplazamiento máximo versus dp">
-      <figcaption>Este es el gráfico más parecido al esperado en una revisión clásica: desplazamiento máximo contra resolución. La línea vertical marca la malla adoptada.</figcaption>
+      <img src="figures/01_desplazamiento_tiempo_dp.png" alt="Desplazamiento temporal del bloque para varios dp">
+      <figcaption>Desplazamiento acumulado del bloque para varias resoluciones. La línea de 5% se muestra como referencia del criterio de movimiento, pero la lectura principal aquí es la forma temporal de la variable.</figcaption>
     </figure>
     <div class="grid">
       <figure>
-        <img src="figures/07_metricas_clasicas_vs_dp.png" alt="Métricas continuas versus dp">
-        <figcaption>Desplazamiento, rotación, velocidad y fuerza SPH como funciones de <code>dp</code>. No todas evolucionan de forma monótona.</figcaption>
+        <img src="figures/02_velocidad_rotacion_tiempo_dp.png" alt="Velocidad y rotación del bloque para varios dp">
+        <figcaption>Velocidad del bloque y rotación acumulada observada. La rotación se reporta como variable física adicional, no como criterio único de movimiento.</figcaption>
       </figure>
       <figure>
-        <img src="figures/08_cambios_relativos_refinamiento.png" alt="Cambios relativos al refinar malla">
-        <figcaption>Los cambios relativos ayudan a cuantificar sensibilidad, pero no se usan como prueba automática de convergencia fuerte.</figcaption>
+        <img src="figures/03_gauges_tiempo_dp.png" alt="Variables hidráulicas de gauges para varios dp">
+        <figcaption>Velocidad del flujo y altura/cota máxima en gauges cercanos. Estas variables ayudan a revisar si el forzante hidráulico cambia fuertemente con la resolución.</figcaption>
       </figure>
     </div>
   </section>
 
   <section>
-    <h2>6. Qué se hizo después</h2>
-    <p>Después de cerrar la convergencia no se siguió refinando <code>dp</code>. Se pasó a producción controlada con <code>dp=0.003 m</code>. Primero se ejecutó un piloto productivo de 5 casos y luego un segundo lote dirigido de 8 casos. Ambos terminaron sin fallos numéricos.</p>
-    <p>Estos lotes no son todavía una campaña paramétrica completa. Su función fue verificar que el flujo productivo funciona y empezar a leer tendencias físicas bajo la malla ya fijada.</p>
-    <figure>
-      <img src="figures/04_produccion_base.png" alt="Producción en condición base">
-      <figcaption>La condición base posterior refuerza la zona de transición: <code>μ=0.675</code> falla, mientras <code>μ=0.685</code> y <code>μ=0.700</code> son estables.</figcaption>
-    </figure>
+    <h2>3. Resumen clásico por resolución</h2>
+    <p>Además de las curvas temporales, se comparan máximos de variables continuas contra <code>dp</code>. Esta vista resume la sensibilidad de la respuesta al refinar la resolución.</p>
     <div class="grid">
       <figure>
-        <img src="figures/05_hidraulica_pendiente.png" alt="Efecto hidráulico y pendiente">
-        <figcaption>Con mayor altura hidráulica, la falla aparece con fricciones mayores. Los casos de pendiente 1:10 se mantienen estables por desplazamiento, aunque rotan.</figcaption>
+        <img src="figures/04_metricas_continuas_vs_dp.png" alt="Métricas continuas contra dp">
+        <figcaption>Máximos de desplazamiento, velocidad del bloque, velocidad del flujo y altura/cota de agua. No todas las variables evolucionan de forma perfectamente monótona.</figcaption>
       </figure>
       <figure>
-        <img src="figures/06_rotacion_diagnostica.png" alt="Rotación diagnóstica">
-        <figcaption>La rotación se conserva como salida diagnóstica; no cambia la clase bajo el criterio <code>displacement_only</code>.</figcaption>
+        <img src="figures/05_costo_vs_dp.png" alt="Costo computacional contra dp">
+        <figcaption>El refinamiento reduce <code>dp</code>, pero aumenta fuertemente partículas, memoria y tiempo. Esto pesa en la selección de resolución productiva.</figcaption>
+      </figure>
+    </div>
+    <p class="note"><strong>Lectura:</strong> <code>dp=0.003 m</code> se adopta como resolución operativa porque permite ejecutar lotes productivos con costo manejable y mantiene una respuesta comparable con el refinamiento fino en varias variables, aunque no autoriza afirmar convergencia asintótica fuerte de toda la dinámica.</p>
+  </section>
+
+  <section>
+    <h2>4. Uso posterior: estabilidad y frontera</h2>
+    <p>Una vez fijado <code>dp=0.003 m</code>, se puede estudiar estabilidad. Aquí <strong>frontera</strong> significa el intervalo de fricción <code>μ</code> donde, bajo la misma geometría y forzante, el bloque cambia entre no superar y superar el umbral de movimiento.</p>
+    <p>El umbral usado es <code>D_max &gt; 5% d_eq</code>, donde <code>D_max</code> es el desplazamiento máximo del bloque y <code>d_eq</code> su diámetro equivalente. La rotación se informa aparte como variable observada.</p>
+    <div class="grid">
+      <figure>
+        <img src="figures/06_frontera_posterior_dp003.png" alt="Frontera posterior con dp 0.003">
+        <figcaption>Con <code>dp=0.003 m</code>, la condición base queda acotada entre <code>μ=0.68050</code> y <code>μ=0.68075</code>.</figcaption>
+      </figure>
+      <figure>
+        <img src="figures/07_sensibilidad_frontera_dp.png" alt="Sensibilidad de la frontera al cambiar dp">
+        <figcaption>Al refinar a <code>dp=0.002 m</code>, los casos cercanos quedan bajo el umbral. Esto se reporta como sensibilidad de resolución de la frontera.</figcaption>
       </figure>
     </div>
   </section>
 
   <section>
-    <h2>7. Tabla resumida de lotes productivos</h2>
+    <h2>5. Qué se lanzó después</h2>
+    <p>Después de adoptar <code>dp=0.003 m</code>, se ejecutaron lotes controlados. Su objetivo no fue seguir demostrando convergencia, sino verificar el flujo productivo y comenzar a leer tendencias de estabilidad bajo la resolución seleccionada.</p>
+    <figure>
+      <img src="figures/08_lotes_posteriores.png" alt="Resultados de lotes posteriores">
+      <figcaption>El piloto y batch2 muestran casos estables y de falla bajo la resolución adoptada. Estos resultados pertenecen a la etapa de aplicación, no a la prueba de convergencia.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>6. Tabla resumida de lotes posteriores</h2>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Lote</th><th>Caso</th><th>H (m)</th><th>μ</th><th>Pendiente</th><th>Clase</th><th>Despl.</th><th>Rot.</th></tr></thead>
@@ -136,8 +108,8 @@
 <tr><td>batch2</td><td><code>batch2_base_mu0700</code></td><td>0.200</td><td>0.7000</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>2.31%</td><td>4.87°</td></tr>
 <tr><td>batch2</td><td><code>batch2_h0225_mu0680</code></td><td>0.225</td><td>0.6800</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>111.28%</td><td>16.89°</td></tr>
 <tr><td>batch2</td><td><code>batch2_h0225_mu0720</code></td><td>0.225</td><td>0.7200</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>62.87%</td><td>13.39°</td></tr>
-<tr><td>piloto</td><td><code>prod_pilot_slope_check</code></td><td>0.200</td><td>0.6800</td><td>1:10</td><td><span class='pill stable'>ESTABLE</span></td><td>1.42%</td><td>7.43°</td></tr>
 <tr><td>piloto</td><td><code>prod_pilot_fail_low_mu</code></td><td>0.200</td><td>0.6000</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>42.38%</td><td>10.68°</td></tr>
+<tr><td>piloto</td><td><code>prod_pilot_slope_check</code></td><td>0.200</td><td>0.6800</td><td>1:10</td><td><span class='pill stable'>ESTABLE</span></td><td>1.42%</td><td>7.43°</td></tr>
 <tr><td>piloto</td><td><code>prod_pilot_frontier</code></td><td>0.200</td><td>0.6806</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>5.02%</td><td>5.08°</td></tr>
 <tr><td>piloto</td><td><code>prod_pilot_stable_high_mu</code></td><td>0.200</td><td>0.7500</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>1.23%</td><td>4.46°</td></tr>
 <tr><td>piloto</td><td><code>prod_pilot_stronger_hydraulic</code></td><td>0.250</td><td>0.3000</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>1341.54%</td><td>55.78°</td></tr></tbody>
@@ -146,20 +118,20 @@
   </section>
 
   <section>
-    <h2>8. Términos usados</h2>
+    <h2>7. Términos usados</h2>
     <dl class="terms">
-      <div><dt>dp</dt><dd>Espaciamiento inicial de partículas SPH. Menor <code>dp</code> implica más resolución y más costo.</dd></div>
-      <div><dt>μ</dt><dd>Coeficiente de fricción bloque-suelo.</dd></div>
+      <div><dt>dp</dt><dd>Espaciamiento inicial entre partículas SPH. Menor <code>dp</code> implica mayor resolución y mayor costo computacional.</dd></div>
+      <div><dt>Resolución SPH</dt><dd>Nivel de detalle espacial dado por el tamaño/separación de partículas, no por una malla fija.</dd></div>
+      <div><dt>μ</dt><dd>Coeficiente de fricción bloque-suelo usado para explorar el inicio de movimiento.</dd></div>
       <div><dt>d_eq</dt><dd>Diámetro equivalente del bloque, usado para normalizar desplazamientos.</dd></div>
-      <div><dt>displacement_only</dt><dd>Modo de clasificación donde solo el desplazamiento decide ESTABLE/FALLO.</dd></div>
-      <div><dt>Frontera práctica</dt><dd>Intervalo de transición observado para una configuración y resolución específicas.</dd></div>
-      <div><dt><code>conv_edge</code></dt><dd>Familia principal de corridas para ubicar la frontera en distintas mallas y fricciones.</dd></div>
-      <div><dt><code>conv_reassure</code></dt><dd>Corridas adicionales cerca del umbral para reforzar el acotamiento fino.</dd></div>
-      <div><dt><code>conv_repeat</code></dt><dd>Repeticiones de casos marginales para revisar consistencia operacional.</dd></div>
-      <div><dt><code>conv_probe</code></dt><dd>Caso fino suplementario usado para diagnosticar sensibilidad en <code>dp=0.002</code>.</dd></div>
+      <div><dt>Umbral de movimiento</dt><dd>Condición operacional <code>D_max &gt; 5% d_eq</code>.</dd></div>
+      <div><dt>Frontera</dt><dd>Intervalo de valores de <code>μ</code> donde cambia la respuesta estable/falla para una resolución y condición física dadas.</dd></div>
+      <div><dt>Rotación observada</dt><dd>Variable física que se reporta para interpretar el comportamiento del bloque; no decide sola la clase de movimiento.</dd></div>
+      <div><dt>Familias conv_*</dt><dd>Nombres de trazabilidad interna para corridas de exploración, refinamiento, repetición y prueba fina.</dd></div>
     </dl>
   </section>
 </main>
+
 <div id="lightbox" class="lightbox" aria-hidden="true">
   <button class="lightbox-close" type="button" aria-label="Cerrar">×</button>
   <img alt="">
@@ -201,5 +173,6 @@
     if (event.key === 'Escape') closeLightbox();
   });
 </script>
+
 </body>
 </html>

@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import io
-import subprocess
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -13,32 +11,34 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs" / "convergence_story_web"
 FIG = OUT / "figures"
 DATA = OUT / "data"
-REMOTE_REF = "origin/master"
+PROCESSED = ROOT / "data" / "processed"
+RESULTS = ROOT / "data" / "results"
 
+D_EQ = 0.100421
+REF_TIME = 0.5
 
-def git_text(path: str) -> str:
-    result = subprocess.run(
-        ["git", "show", f"{REMOTE_REF}:{path}"],
-        cwd=ROOT,
-        check=True,
-        capture_output=True,
-        text=True,
-        encoding="utf-8",
-        errors="replace",
-    )
-    return result.stdout
+GREEN = "#2f7d4f"
+RED = "#b73b3b"
+BLUE = "#2b6f9f"
+AMBER = "#b98524"
+GRAY = "#687385"
+INK = "#17202a"
 
-
-def read_csv(path: str) -> pd.DataFrame:
-    try:
-        return pd.read_csv(io.StringIO(git_text(path)))
-    except Exception:
-        return pd.read_csv(ROOT / path)
+TEMPORAL_CASES = {
+    0.006: "conv3_f05_full_dp0006",
+    0.005: "conv3_f05_full_dp0005",
+    0.004: "conv3_f05_full_dp0004",
+    0.003: "conv3_f05_full_dp0003",
+    0.002: "conv3_f05_full_dp0002",
+}
 
 
 def init() -> None:
     for path in [OUT, FIG, DATA]:
         path.mkdir(parents=True, exist_ok=True)
+    for old in FIG.glob("*"):
+        if old.suffix.lower() in {".png", ".svg"}:
+            old.unlink()
     plt.rcParams.update(
         {
             "figure.dpi": 150,
@@ -57,18 +57,76 @@ def init() -> None:
     )
 
 
-GREEN = "#2f7d4f"
-RED = "#b73b3b"
-BLUE = "#2b6f9f"
-GRAY = "#7d8794"
-AMBER = "#b98524"
-INK = "#1d2733"
-
-
 def save(name: str) -> None:
     for ext in ("png", "svg"):
         plt.savefig(FIG / f"{name}.{ext}", bbox_inches="tight", facecolor="white")
     plt.close()
+
+
+def read_csv(path: Path, **kwargs) -> pd.DataFrame:
+    return pd.read_csv(path, **kwargs)
+
+
+def speed(df: pd.DataFrame, prefix: str) -> pd.Series:
+    return np.sqrt(df[f"{prefix}.x [m/s]"] ** 2 + df[f"{prefix}.y [m/s]"] ** 2 + df[f"{prefix}.z [m/s]"] ** 2)
+
+
+def load_chrono(case_dir: str) -> pd.DataFrame:
+    df = read_csv(PROCESSED / case_dir / "ChronoExchange_mkbound_51.csv", sep=";")
+    t0 = df["time [s]"].iloc[0]
+    x0 = df["fcenter.x [m]"].iloc[0]
+    y0 = df["fcenter.y [m]"].iloc[0]
+    z0 = df["fcenter.z [m]"].iloc[0]
+    df["t_rel"] = df["time [s]"] - t0 + REF_TIME
+    df["disp_pct"] = (
+        np.sqrt(
+            (df["fcenter.x [m]"] - x0) ** 2
+            + (df["fcenter.y [m]"] - y0) ** 2
+            + (df["fcenter.z [m]"] - z0) ** 2
+        )
+        / D_EQ
+        * 100
+    )
+    df["block_speed"] = np.sqrt(df["fvel.x [m/s]"] ** 2 + df["fvel.y [m/s]"] ** 2 + df["fvel.z [m/s]"] ** 2)
+    omega = np.sqrt(
+        df["fomega.x [rad/s]"] ** 2
+        + df["fomega.y [rad/s]"] ** 2
+        + df["fomega.z [rad/s]"] ** 2
+    )
+    dt = df["time [s]"].diff().fillna(0)
+    df["rotation_deg"] = (omega * dt).cumsum() * 180 / np.pi
+    return df
+
+
+def load_gauge(case_dir: str, file_name: str) -> pd.DataFrame:
+    df = read_csv(PROCESSED / case_dir / file_name, sep=";")
+    if "zmax [m]" in df:
+        df.loc[df["zmax [m]"] < -1e20, "zmax [m]"] = np.nan
+    if {"velx [m/s]", "vely [m/s]", "velz [m/s]"}.issubset(df.columns):
+        df["vel_mag"] = np.sqrt(df["velx [m/s]"] ** 2 + df["vely [m/s]"] ** 2 + df["velz [m/s]"] ** 2)
+    return df
+
+
+def load_frontier() -> pd.DataFrame:
+    path = DATA / "master_convergence_frontier.csv"
+    if path.exists():
+        return read_csv(path)
+    raise FileNotFoundError("No existe master_convergence_frontier.csv")
+
+
+def load_productive() -> pd.DataFrame:
+    frames = []
+    pilot = DATA / "pilot_summary.csv"
+    batch2 = DATA / "batch2_summary.csv"
+    if pilot.exists():
+        p = read_csv(pilot)
+        p["lote"] = "piloto"
+        frames.append(p)
+    if batch2.exists():
+        b = read_csv(batch2)
+        b["lote"] = "batch2"
+        frames.append(b)
+    return pd.concat(frames, ignore_index=True, sort=False) if frames else pd.DataFrame()
 
 
 def cls_color(value: str) -> str:
@@ -79,314 +137,203 @@ def label_class(value: str) -> str:
     return "F" if str(value).upper() == "FALLO" else "E"
 
 
-def plot_01_convergence_decision(conv: pd.DataFrame) -> None:
-    df = conv[
-        (conv["dp"].round(3).isin([0.002, 0.003]))
-        & (conv["mu"].between(0.674, 0.686))
-        & (conv["evidence_scope"].isin(["principal_frontier", "frontier_refinement", "repeatability_check"]))
-    ].copy()
-    df = df.sort_values(["dp", "mu"])
+def plot_00_method_flow() -> None:
+    fig, ax = plt.subplots(figsize=(9.8, 2.4))
+    ax.axis("off")
+    boxes = [
+        ("1", "Convergencia de\nvariables continuas", "desplazamiento, velocidad,\naltura de agua, rotación"),
+        ("2", "Selección de\nresolución SPH", "balance entre similitud de\nrespuesta y costo"),
+        ("3", "Aplicación posterior:\nestabilidad", "frontera estable/fallo\ncon dp adoptado"),
+    ]
+    xs = [0.16, 0.50, 0.84]
+    for x, (num, title, body) in zip(xs, boxes):
+        ax.text(
+            x,
+            0.62,
+            f"{num}. {title}",
+            ha="center",
+            va="center",
+            fontsize=11,
+            fontweight="bold",
+            color=INK,
+            bbox=dict(boxstyle="round,pad=0.55", fc="#ffffff", ec="#cfd8e3", lw=1.1),
+        )
+        ax.text(x, 0.23, body, ha="center", va="center", fontsize=8.5, color=GRAY)
+    for x0, x1 in [(0.285, 0.375), (0.625, 0.715)]:
+        ax.annotate("", xy=(x1, 0.62), xytext=(x0, 0.62), arrowprops=dict(arrowstyle="->", lw=1.2, color=BLUE))
+    ax.set_title("Orden metodológico usado en la lectura final", fontsize=12, fontweight="bold", pad=8)
+    save("00_orden_metodologico")
 
-    fig, axes = plt.subplots(1, 2, figsize=(9.2, 3.8), sharey=True)
+
+def plot_01_block_displacement_time() -> None:
+    fig, ax = plt.subplots(figsize=(8.8, 4.5))
+    for dp, case_dir in TEMPORAL_CASES.items():
+        df = load_chrono(case_dir)
+        ax.plot(df["t_rel"], df["disp_pct"], lw=1.5, label=f"dp={dp:.3f} m")
+    ax.axhline(5, color=RED, ls="--", lw=1.1, label="umbral 5% d_eq")
+    ax.set_xlabel("Tiempo (s)")
+    ax.set_ylabel("Desplazamiento acumulado (% d_eq)")
+    ax.set_title("Variable continua: desplazamiento del bloque en el tiempo")
+    ax.legend(ncol=2, frameon=False)
+    save("01_desplazamiento_tiempo_dp")
+
+
+def plot_02_block_speed_rotation_time() -> None:
+    fig, axes = plt.subplots(1, 2, figsize=(10.2, 4.0), constrained_layout=True)
+    for dp, case_dir in TEMPORAL_CASES.items():
+        df = load_chrono(case_dir)
+        axes[0].plot(df["t_rel"], df["block_speed"], lw=1.35, label=f"dp={dp:.3f}")
+        axes[1].plot(df["t_rel"], df["rotation_deg"], lw=1.35, label=f"dp={dp:.3f}")
+    axes[0].set_title("Velocidad del bloque")
+    axes[0].set_xlabel("Tiempo (s)")
+    axes[0].set_ylabel("Velocidad (m/s)")
+    axes[1].set_title("Rotación acumulada observada")
+    axes[1].set_xlabel("Tiempo (s)")
+    axes[1].set_ylabel("Rotación (grados)")
+    axes[0].legend(frameon=False, fontsize=7)
+    fig.suptitle("Variables continuas del cuerpo rígido", fontsize=12, fontweight="bold")
+    save("02_velocidad_rotacion_tiempo_dp")
+
+
+def plot_03_hydraulic_gauges_time() -> None:
+    fig, axes = plt.subplots(1, 2, figsize=(10.2, 4.0), constrained_layout=True)
+    for dp, case_dir in TEMPORAL_CASES.items():
+        vel = load_gauge(case_dir, "GaugesVel_V05.csv")
+        hmax = load_gauge(case_dir, "GaugesMaxZ_hmax03.csv")
+        axes[0].plot(vel["time [s]"], vel["vel_mag"], lw=1.3, label=f"dp={dp:.3f}")
+        axes[1].plot(hmax["time [s]"], hmax["zmax [m]"], lw=1.3, label=f"dp={dp:.3f}")
+    axes[0].set_title("Velocidad del flujo en gauge V05")
+    axes[0].set_xlabel("Tiempo (s)")
+    axes[0].set_ylabel("|U| (m/s)")
+    axes[1].set_title("Altura/cota máxima en gauge hmax03")
+    axes[1].set_xlabel("Tiempo (s)")
+    axes[1].set_ylabel("zmax (m)")
+    axes[0].legend(frameon=False, fontsize=7)
+    fig.suptitle("Variables hidráulicas usadas para revisar convergencia", fontsize=12, fontweight="bold")
+    save("03_gauges_tiempo_dp")
+
+
+def plot_04_classic_summary_vs_dp(summary: pd.DataFrame) -> None:
+    df = summary.sort_values("dp")
+    fig, axes = plt.subplots(2, 2, figsize=(9.8, 7.2), constrained_layout=True)
+    specs = [
+        ("max_displacement_m", "Desplazamiento máximo (m)"),
+        ("max_velocity_ms", "Velocidad máx. bloque (m/s)"),
+        ("max_flow_velocity_ms", "Velocidad máx. gauge (m/s)"),
+        ("max_water_height_m", "Altura/cota máx. gauge (m)"),
+    ]
+    for ax, (col, title) in zip(axes.ravel(), specs):
+        ax.plot(df["dp"], df[col], marker="o", color=BLUE, lw=1.5)
+        ax.axvline(0.003, color=AMBER, ls=":", lw=1.2)
+        ax.invert_xaxis()
+        ax.set_xlabel("dp (m), menor hacia la derecha")
+        ax.set_title(title)
+    fig.suptitle("Resumen clásico: métricas continuas al refinar dp", fontsize=12, fontweight="bold")
+    save("04_metricas_continuas_vs_dp")
+
+
+def plot_05_cost_vs_dp(summary: pd.DataFrame) -> None:
+    df = summary.sort_values("dp")
+    fig, axes = plt.subplots(1, 3, figsize=(10.2, 3.5), constrained_layout=True)
+    specs = [
+        ("n_particles", "Partículas"),
+        ("mem_gpu_mb", "Memoria GPU (MB)"),
+        ("tiempo_min", "Tiempo (min)"),
+    ]
+    for ax, (col, title) in zip(axes, specs):
+        ax.plot(df["dp"], df[col], marker="o", color=AMBER, lw=1.5)
+        ax.axvline(0.003, color=BLUE, ls=":", lw=1.2)
+        ax.invert_xaxis()
+        ax.set_xlabel("dp (m)")
+        ax.set_title(title)
+    fig.suptitle("Costo computacional del refinamiento", fontsize=12, fontweight="bold")
+    save("05_costo_vs_dp")
+
+
+def plot_06_frontier_after_resolution(frontier: pd.DataFrame) -> None:
+    df = frontier[
+        (frontier["dp"].round(3) == 0.003)
+        & (frontier["mu"].between(0.674, 0.686))
+        & (frontier["evidence_scope"].isin(["principal_frontier", "frontier_refinement", "repeatability_check"]))
+    ].copy()
+    df = df.sort_values("mu")
+    fig, ax = plt.subplots(figsize=(7.4, 4.4))
+    for _, row in df.iterrows():
+        ax.scatter(row["mu"], row["disp_pct_deq"], s=58, color=cls_color(row["criterion_class"]), edgecolor="white", linewidth=0.8, zorder=3)
+        ax.text(row["mu"], row["disp_pct_deq"] + 0.24, label_class(row["criterion_class"]), ha="center", fontsize=8)
+    ax.axhline(5, color=RED, linestyle="--", linewidth=1.1, label="umbral 5% d_eq")
+    ax.axvspan(0.68050, 0.68075, color=AMBER, alpha=0.20, label="intervalo de transición")
+    ax.annotate(
+        "frontera práctica\nacotada",
+        xy=(0.680625, 9.2),
+        xytext=(0.6762, 8.4),
+        arrowprops=dict(arrowstyle="->", lw=0.9, color=AMBER),
+        fontsize=8,
+        color="#74510f",
+    )
+    ax.set_xlabel("Coeficiente de fricción bloque-suelo, μ")
+    ax.set_ylabel("Desplazamiento máximo (% d_eq)")
+    ax.set_title("Uso posterior del dp adoptado: frontera de estabilidad")
+    ax.set_xlim(0.674, 0.686)
+    ax.set_ylim(0, 10.6)
+    ax.legend(frameon=False, loc="lower right")
+    save("06_frontera_posterior_dp003")
+
+
+def plot_07_resolution_sensitivity(frontier: pd.DataFrame) -> None:
+    df = frontier[
+        (frontier["dp"].round(3).isin([0.002, 0.003]))
+        & (frontier["mu"].between(0.674, 0.686))
+        & (frontier["evidence_scope"].isin(["principal_frontier", "frontier_refinement", "repeatability_check"]))
+    ].copy()
+    fig, axes = plt.subplots(1, 2, figsize=(9.6, 4.0), sharey=True, constrained_layout=True)
     for ax, dp in zip(axes, [0.003, 0.002]):
-        part = df[df["dp"].round(3) == dp].copy()
+        part = df[df["dp"].round(3) == dp].sort_values("mu")
         for _, row in part.iterrows():
-            ax.scatter(
-                row["mu"],
-                row["disp_pct_deq"],
-                s=52,
-                color=cls_color(row["criterion_class"]),
-                edgecolor="white",
-                linewidth=0.8,
-                zorder=3,
-            )
-            ax.text(row["mu"], row["disp_pct_deq"] + 0.28, label_class(row["criterion_class"]), ha="center", fontsize=8, color=INK)
+            ax.scatter(row["mu"], row["disp_pct_deq"], s=52, color=cls_color(row["criterion_class"]), edgecolor="white", linewidth=0.8)
+            ax.text(row["mu"], row["disp_pct_deq"] + 0.28, label_class(row["criterion_class"]), ha="center", fontsize=8)
         ax.axhline(5, color=RED, linestyle="--", linewidth=1.1)
-        ax.set_title(f"dp = {dp:.3f} m")
+        ax.set_title(f"dp={dp:.3f} m")
         ax.set_xlabel("μ")
         ax.set_xlim(0.674, 0.686)
         ax.set_ylim(0, 10.6)
-    axes[0].set_ylabel("Desplazamiento máx. (% d_eq)")
+    axes[0].set_ylabel("Desplazamiento máximo (% d_eq)")
     axes[0].axvspan(0.68050, 0.68075, color=AMBER, alpha=0.18)
-    axes[0].annotate("frontera acotada\n0.68050-0.68075", xy=(0.680625, 9.15), xytext=(0.6762, 8.5),
-                     arrowprops=dict(arrowstyle="->", lw=0.8, color=AMBER), fontsize=8, color="#74510f")
-    axes[1].text(0.6744, 8.7, "en la malla fina\nlos casos quedan bajo 5%", fontsize=8, color=BLUE)
-    fig.suptitle("Comparación de la frontera entre dp=0.003 y dp=0.002", fontsize=12, fontweight="bold")
-    save("01_convergencia_decision")
+    axes[1].text(0.6744, 8.6, "en dp=0.002 los casos\ncercanos quedan bajo 5%", fontsize=8, color=BLUE)
+    fig.suptitle("Sensibilidad de la clasificación al cambiar resolución", fontsize=12, fontweight="bold")
+    save("07_sensibilidad_frontera_dp")
 
 
-def plot_00_process_overview(conv: pd.DataFrame) -> None:
-    counts = (
-        conv.groupby(["family", "evidence_scope"])
-        .size()
-        .reset_index(name="n")
-        .sort_values("family")
-    )
-    labels = {
-        "conv_edge": "1. Exploración\nprincipal",
-        "conv_reassure": "2. Refinamiento\ncerca del umbral",
-        "conv_repeat": "3. Repetición\n/ robustez",
-        "conv_probe": "4. Probe fino\ncomplementario",
-    }
-    notes = {
-        "conv_edge": "barre μ y dp",
-        "conv_reassure": "0.68050-0.68075",
-        "conv_repeat": "repite marginales",
-        "conv_probe": "dp=0.002, μ=0.6625",
-    }
-    colors = {
-        "conv_edge": BLUE,
-        "conv_reassure": AMBER,
-        "conv_repeat": GRAY,
-        "conv_probe": GREEN,
-    }
-    fig, ax = plt.subplots(figsize=(8.6, 3.6))
-    families = ["conv_edge", "conv_reassure", "conv_repeat", "conv_probe"]
-    y = np.arange(len(families))
-    nvals = [int(counts.loc[counts["family"] == f, "n"].sum()) for f in families]
-    ax.barh(y, nvals, color=[colors[f] for f in families], height=0.55)
-    ax.set_yticks(y)
-    ax.set_yticklabels([labels[f] for f in families])
-    ax.invert_yaxis()
-    ax.set_xlabel("número de casos en tabla consolidada")
-    ax.set_title("Estructura del estudio de convergencia")
-    for yi, f, n in zip(y, families, nvals):
-        ax.text(n + 0.25, yi, f"{n} casos · {notes[f]}", va="center", fontsize=8, color=INK)
-    ax.set_xlim(0, max(nvals) + 5)
-    save("00_proceso_convergencia")
-
-
-def plot_02_dp003_frontier(conv: pd.DataFrame) -> None:
-    df = conv[
-        (conv["dp"].round(3) == 0.003)
-        & (conv["mu"].between(0.6798, 0.6814))
-        & (conv["evidence_scope"].isin(["frontier_refinement", "repeatability_check", "principal_frontier"]))
-    ].copy().sort_values("mu")
-    fig, ax = plt.subplots(figsize=(7.0, 3.8))
-    for _, row in df.iterrows():
-        ax.scatter(row["mu"], row["disp_pct_deq"], s=58, color=cls_color(row["criterion_class"]), edgecolor="white", linewidth=0.8, zorder=3)
-        ax.text(row["mu"], row["disp_pct_deq"] + 0.22, label_class(row["criterion_class"]), ha="center", fontsize=8)
-    ax.axhline(5, color=RED, linestyle="--", linewidth=1.1)
-    ax.axvspan(0.68050, 0.68075, color=AMBER, alpha=0.22)
-    ax.set_title("Frontera práctica en dp=0.003 m")
-    ax.set_xlabel("μ")
-    ax.set_ylabel("Desplazamiento máx. (% d_eq)")
-    ax.set_xlim(0.6798, 0.6814)
-    ax.set_ylim(3.0, 10.3)
-    ax.text(0.68052, 9.45, "FALLO en 0.68050", color=RED, fontsize=8)
-    ax.text(0.68078, 3.45, "ESTABLE en 0.68075", color=GREEN, fontsize=8)
-    save("02_frontera_dp003")
-
-
-def plot_03_resolution_cost(conv: pd.DataFrame) -> None:
-    cost = conv.groupby("dp", as_index=False).agg(
-        tiempo_min=("tiempo_min", "median"),
-        n_particles=("n_particles", "median"),
-        mem_gpu_mb=("mem_gpu_mb", "median"),
-    ).sort_values("dp")
-    fig, axes = plt.subplots(1, 3, figsize=(9.4, 3.2))
-    items = [
-        ("tiempo_min", "tiempo mediano\n(min)", BLUE),
-        ("n_particles", "partículas\n(millones)", GREEN),
-        ("mem_gpu_mb", "memoria GPU\n(GB)", AMBER),
-    ]
-    for ax, (col, title, color) in zip(axes, items):
-        y = cost[col].copy()
-        if col == "n_particles":
-            y = y / 1e6
-        if col == "mem_gpu_mb":
-            y = y / 1024
-        ax.plot(cost["dp"], y, marker="o", color=color, linewidth=1.8)
-        ax.invert_xaxis()
-        ax.set_title(title)
-        ax.set_xlabel("dp (m)")
-        for xval, yval in zip(cost["dp"], y):
-            ax.text(xval, yval, f"{yval:.1f}" if yval < 100 else f"{yval:.0f}", ha="center", va="bottom", fontsize=7)
-    fig.suptitle("Costo computacional del refinamiento", fontsize=12, fontweight="bold")
-    save("03_costo_refinamiento")
-
-
-def plot_07_classic_convergence_metrics(conv: pd.DataFrame) -> None:
-    # Casos comparables de la familia principal. Se muestran como sensibilidad, no como prueba fuerte.
-    df = conv[(conv["family"] == "conv_edge") & (conv["mu"].isin([0.675, 0.68, 0.681, 0.685]))].copy()
-    metrics = [
-        ("disp_pct_deq", "Desplazamiento (% d_eq)"),
-        ("max_rotation_deg", "Rotación máx. (°)"),
-        ("max_velocity_ms", "Velocidad máx. (m/s)"),
-        ("max_sph_force_N", "Fuerza SPH máx. (N)"),
-    ]
-    colors = {0.675: "#2b6f9f", 0.68: "#b98524", 0.681: "#2f7d4f", 0.685: "#7d8794"}
-    fig, axes = plt.subplots(2, 2, figsize=(9.6, 7.0), constrained_layout=True)
-    for ax, (col, title) in zip(axes.flat, metrics):
-        for mu, part in df.groupby("mu"):
-            part = part.sort_values("dp")
-            ax.plot(part["dp"], part[col], marker="o", linewidth=1.5, color=colors.get(float(mu), GRAY), label=f"μ={mu:g}")
-        ax.invert_xaxis()
-        ax.set_title(title)
-        ax.set_xlabel("dp (m)")
-        ax.axvline(0.003, color="#111", linestyle=":", linewidth=1.0)
-        if col == "disp_pct_deq":
-            ax.axhline(5, color=RED, linestyle="--", linewidth=1.0)
-            ax.set_ylabel("valor")
-        else:
-            ax.set_ylabel("valor")
-    axes[0, 0].legend(frameon=False, ncol=2)
-    fig.suptitle("Gráficos clásicos: métrica continua vs resolución", fontsize=12, fontweight="bold")
-    save("07_metricas_clasicas_vs_dp")
-
-
-def plot_08_relative_changes(conv: pd.DataFrame) -> None:
-    df = conv[(conv["family"] == "conv_edge") & (conv["mu"].isin([0.675, 0.68, 0.681, 0.685]))].copy()
-    metric_map = {
-        "disp_pct_deq": "desplazamiento",
-        "max_rotation_deg": "rotación",
-        "max_velocity_ms": "velocidad",
-        "max_sph_force_N": "fuerza SPH",
-    }
-    rows = []
-    for mu, part in df.groupby("mu"):
-        part = part.sort_values("dp", ascending=False)
-        for col, label in metric_map.items():
-            vals = part[["dp", col]].dropna().sort_values("dp", ascending=False).reset_index(drop=True)
-            for i in range(len(vals) - 1):
-                coarse = vals.iloc[i]
-                fine = vals.iloc[i + 1]
-                if coarse[col] == 0:
-                    continue
-                rows.append(
-                    {
-                        "mu": mu,
-                        "metric": label,
-                        "step": f"{coarse['dp']:.3f}→{fine['dp']:.3f}",
-                        "rel_change_pct": 100 * (fine[col] - coarse[col]) / abs(coarse[col]),
-                    }
-                )
-    rel = pd.DataFrame(rows)
-    rel.to_csv(DATA / "relative_changes_convergence.csv", index=False)
-    focus = rel[rel["step"].isin(["0.004→0.003", "0.003→0.002"])].copy()
-    fig, ax = plt.subplots(figsize=(9.0, 4.3))
-    order = ["desplazamiento", "rotación", "velocidad", "fuerza SPH"]
-    x = np.arange(len(order))
-    width = 0.36
-    for j, step in enumerate(["0.004→0.003", "0.003→0.002"]):
-        vals = []
-        for metric in order:
-            sub = focus[(focus["step"] == step) & (focus["metric"] == metric)]
-            vals.append(sub["rel_change_pct"].median() if not sub.empty else np.nan)
-        ax.bar(x + (j - 0.5) * width, vals, width=width, label=step, color=BLUE if j == 0 else AMBER)
-    ax.axhline(0, color="#111", linewidth=0.8)
-    ax.axhspan(-5, 5, color=GREEN, alpha=0.08, label="±5% referencia visual")
-    ax.set_xticks(x)
-    ax.set_xticklabels(order)
-    ax.set_ylabel("Cambio relativo mediano (%)")
-    ax.set_title("Cambios relativos al refinar la malla")
-    ax.legend(frameon=False, ncol=3)
-    save("08_cambios_relativos_refinamiento")
-
-
-def plot_09_displacement_by_mu_classic(conv: pd.DataFrame) -> None:
-    df = conv[(conv["family"] == "conv_edge") & (conv["mu"].isin([0.675, 0.68, 0.681, 0.685]))].copy()
-    fig, ax = plt.subplots(figsize=(7.2, 3.8))
-    for mu, part in df.groupby("mu"):
-        part = part.sort_values("dp", ascending=False)
-        ax.plot(part["dp"], part["disp_pct_deq"], marker="o", linewidth=1.5, label=f"μ={mu:g}")
-    ax.invert_xaxis()
-    ax.axhline(5, color=RED, linestyle="--", linewidth=1.1, label="umbral 5%")
-    ax.axvline(0.003, color="#111", linestyle=":", linewidth=1.0, label="malla adoptada")
-    ax.set_xlabel("dp (m)")
-    ax.set_ylabel("Desplazamiento máx. (% d_eq)")
-    ax.set_title("Lectura clásica esperable: desplazamiento vs dp")
-    ax.legend(frameon=False, ncol=3)
-    save("09_desplazamiento_vs_dp_clasico")
-
-
-def combine_productive(pilot: pd.DataFrame, batch2: pd.DataFrame) -> pd.DataFrame:
-    cols = [
-        "case_id", "status", "dp", "dam_height", "boulder_mass", "boulder_rot_z",
-        "friction_coefficient", "slope_inv", "classification_mode", "reference_time_s",
-        "criterion_class", "moved", "rotated", "max_displacement_m", "disp_pct_deq",
-        "max_rotation_deg", "max_velocity_ms", "max_sph_force_N", "max_contact_force_N",
-        "max_flow_velocity_ms", "max_water_height_m", "tiempo_min", "n_particles", "mem_gpu_mb",
-        "quality_flags",
-    ]
-    for frame in [pilot, batch2]:
-        for col in cols:
-            if col not in frame.columns:
-                frame[col] = np.nan
-    p = pilot[cols].copy()
-    p["lote"] = "piloto"
-    b = batch2[cols].copy()
-    b["lote"] = "batch2"
-    return pd.concat([p, b], ignore_index=True)
-
-
-def plot_04_productive_base(prod: pd.DataFrame) -> None:
-    df = prod[(prod["dam_height"].round(3) == 0.2) & (prod["slope_inv"].round(0) == 20)].copy()
-    df = df.sort_values("friction_coefficient")
-    fig, ax = plt.subplots(figsize=(7.2, 3.8))
-    for _, row in df.iterrows():
-        ax.scatter(row["friction_coefficient"], row["disp_pct_deq"], s=58, color=cls_color(row["criterion_class"]), edgecolor="white", linewidth=0.8)
-        if row["disp_pct_deq"] > 12 or 4.5 <= row["disp_pct_deq"] <= 6.5:
-            ax.text(row["friction_coefficient"], row["disp_pct_deq"] + 0.7, f"{row['disp_pct_deq']:.1f}%", ha="center", fontsize=8)
-    ax.axhline(5, color=RED, linestyle="--", linewidth=1.1)
-    ax.axvspan(0.675, 0.685, color=AMBER, alpha=0.14)
-    ax.set_title("Producción: condición base H=0.20 m, pendiente 1:20")
-    ax.set_xlabel("μ")
-    ax.set_ylabel("Desplazamiento máx. (% d_eq)")
-    ax.set_ylim(0, 45)
-    ax.text(0.686, 37, "batch2 refuerza:\n0.675 falla\n0.685 estable", fontsize=8, color=INK)
-    save("04_produccion_base")
-
-
-def plot_05_hydraulic_and_slope(prod: pd.DataFrame) -> None:
-    hydro = prod[(prod["slope_inv"].round(0) == 20) & (prod["friction_coefficient"].between(0.679, 0.681))].copy()
-    slope = prod[prod["slope_inv"].round(0) == 10].copy()
-    fig, axes = plt.subplots(1, 2, figsize=(8.8, 3.7))
-
-    ax = axes[0]
-    for _, row in hydro.sort_values("dam_height").iterrows():
-        ax.scatter(row["dam_height"], row["disp_pct_deq"], s=58, color=cls_color(row["criterion_class"]), edgecolor="white", linewidth=0.8)
-        ax.text(row["dam_height"], row["disp_pct_deq"] + 3, f"{row['disp_pct_deq']:.1f}%", ha="center", fontsize=8)
-    ax.axhline(5, color=RED, linestyle="--", linewidth=1.1)
-    ax.set_title("Efecto de H con μ≈0.68")
-    ax.set_xlabel("H (m)")
-    ax.set_ylabel("Desplazamiento máx. (% d_eq)")
-    ax.set_ylim(0, 122)
-
-    ax = axes[1]
-    for _, row in slope.sort_values("friction_coefficient").iterrows():
-        ax.scatter(row["friction_coefficient"], row["disp_pct_deq"], s=58, color=cls_color(row["criterion_class"]), edgecolor="white", linewidth=0.8)
-        ax.text(row["friction_coefficient"], row["disp_pct_deq"] + 0.35, f"rot {row['max_rotation_deg']:.1f}°", ha="center", fontsize=8, color=GRAY)
-    ax.axhline(5, color=RED, linestyle="--", linewidth=1.1)
-    ax.set_title("Pendiente 1:10: estable por desplazamiento")
-    ax.set_xlabel("μ")
-    ax.set_ylabel("Desplazamiento máx. (% d_eq)")
-    ax.set_ylim(0, 10)
-    fig.suptitle("Lecturas físicas del batch2", fontsize=12, fontweight="bold")
-    save("05_hidraulica_pendiente")
-
-
-def plot_06_rotation(prod: pd.DataFrame) -> None:
-    df = prod.copy()
-    fig, ax = plt.subplots(figsize=(7.2, 3.8))
-    for _, row in df.iterrows():
-        x = min(row["disp_pct_deq"], 140)
-        ax.scatter(x, row["max_rotation_deg"], s=54, color=cls_color(row["criterion_class"]), edgecolor="white", linewidth=0.8)
-    ax.axvline(5, color=RED, linestyle="--", linewidth=1.1, label="umbral desplazamiento")
-    ax.axhline(5, color=AMBER, linestyle=":", linewidth=1.4, label="5° rotación")
-    ax.set_title("Rotación: variable diagnóstica")
-    ax.set_xlabel("Desplazamiento máx. (% d_eq), recortado en 140%")
-    ax.set_ylabel("Rotación máxima (°)")
-    ax.legend(frameon=False, loc="upper left")
-    ax.text(35, 2.2, "La clase se define por desplazamiento,\nno por rotación.", fontsize=8, color=INK)
-    save("06_rotacion_diagnostica")
+def plot_08_productive(prod: pd.DataFrame) -> None:
+    if prod.empty:
+        return
+    fig, axes = plt.subplots(1, 2, figsize=(10.2, 4.0), constrained_layout=True)
+    base = prod[(prod["dam_height"].round(3) == 0.2) & (prod["slope_inv"].round(0) == 20)].copy()
+    for _, row in base.sort_values("friction_coefficient").iterrows():
+        axes[0].scatter(row["friction_coefficient"], row["disp_pct_deq"], s=58, color=cls_color(row["criterion_class"]), edgecolor="white", linewidth=0.8)
+    axes[0].axhline(5, color=RED, linestyle="--", linewidth=1.1)
+    axes[0].set_title("Condición base posterior")
+    axes[0].set_xlabel("μ")
+    axes[0].set_ylabel("Desplazamiento máximo (% d_eq)")
+    hcases = prod[(prod["slope_inv"].round(0) == 20) & (prod["friction_coefficient"].between(0.67, 0.73))].copy()
+    for _, row in hcases.sort_values("dam_height").iterrows():
+        axes[1].scatter(row["dam_height"], row["disp_pct_deq"], s=58, color=cls_color(row["criterion_class"]), edgecolor="white", linewidth=0.8)
+        if row["disp_pct_deq"] > 10:
+            axes[1].text(row["dam_height"], row["disp_pct_deq"] + 4, f"{row['disp_pct_deq']:.0f}%", ha="center", fontsize=8)
+    axes[1].axhline(5, color=RED, linestyle="--", linewidth=1.1)
+    axes[1].set_title("Variación hidráulica posterior")
+    axes[1].set_xlabel("Altura inicial H (m)")
+    axes[1].set_ylabel("Desplazamiento máximo (% d_eq)")
+    fig.suptitle("Lotes posteriores con dp=0.003", fontsize=12, fontweight="bold")
+    save("08_lotes_posteriores")
 
 
 def productive_rows(prod: pd.DataFrame) -> str:
+    if prod.empty:
+        return ""
     rows = []
-    table = prod.copy().sort_values(["lote", "dam_height", "slope_inv", "friction_coefficient"])
-    for _, row in table.iterrows():
-        cls = "fail" if row["criterion_class"] == "FALLO" else "stable"
+    for _, row in prod.sort_values(["lote", "dam_height", "friction_coefficient", "slope_inv"]).iterrows():
+        cls = "fail" if str(row["criterion_class"]).upper() == "FALLO" else "stable"
         rows.append(
             f"<tr><td>{row['lote']}</td><td><code>{row['case_id']}</code></td>"
             f"<td>{row['dam_height']:.3f}</td><td>{row['friction_coefficient']:.4f}</td>"
@@ -396,159 +343,7 @@ def productive_rows(prod: pd.DataFrame) -> str:
     return "\n".join(rows)
 
 
-def write_page(prod: pd.DataFrame) -> None:
-    total = len(prod)
-    html_process = """
-    <ol class="process">
-      <li><strong>Se corrigió y congeló la geometría.</strong> El bloque quedó alineado con la pendiente, apoyado sobre la playa y tratado como cuerpo rígido acoplado con Chrono.</li>
-      <li><strong>Se definió el criterio de clase.</strong> La falla se mide por desplazamiento máximo mayor a 5% de <code>d_eq</code>. La rotación se conserva solo como diagnóstico.</li>
-      <li><strong>Se exploró la frontera con <code>conv_edge</code>.</strong> Para varios valores de <code>μ</code> y <code>dp</code>, se observó dónde el bloque pasa de estable a falla.</li>
-      <li><strong>Se refinó la zona crítica con <code>conv_reassure</code>.</strong> Se agregaron puntos cerca de <code>μ≈0.6805-0.68075</code> para acotar mejor la transición en <code>dp=0.003</code>.</li>
-      <li><strong>Se hicieron repeticiones con <code>conv_repeat</code>.</strong> Sirven para comprobar que los casos marginales no fueran un accidente operacional.</li>
-      <li><strong>Se agregó un caso fino <code>conv_probe</code>.</strong> En <code>dp=0.002</code> y <code>μ=0.6625</code>, el bloque siguió estable por desplazamiento. Eso muestra sensibilidad de resolución.</li>
-      <li><strong>Se tomó una decisión productiva.</strong> Usar <code>dp=0.003 m</code> como malla de trabajo y reportar la frontera como práctica, no como valor universal.</li>
-    </ol>
-    """
-    html = f"""<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Informe de convergencia y lotes productivos</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-<main class="page">
-  <header class="top">
-    <div>
-      <p class="meta">Tesis UCN · modelo SPH–Chrono</p>
-      <h1>Estudio de convergencia y decisión de malla</h1>
-      <p>Documento técnico para explicar cómo se planteó el estudio de resolución: qué se mantuvo fijo, qué se varió, cómo se ubicó la frontera de estabilidad y por qué se adoptó <code>dp=0.003 m</code> para las simulaciones productivas.</p>
-    </div>
-    <aside class="summary">
-      <dl>
-        <div><dt>Malla productiva</dt><dd>dp = 0.003 m</dd></div>
-        <div><dt>Criterio principal</dt><dd>desplazamiento &gt; 5% d_eq</dd></div>
-        <div><dt>Rotación</dt><dd>diagnóstico</dd></div>
-        <div><dt>Lotes posteriores</dt><dd>5/5 OK + 8/8 OK</dd></div>
-      </dl>
-    </aside>
-  </header>
-
-  <section>
-    <h2>1. Cómo se planteó el estudio</h2>
-    <p>La pregunta práctica no fue “cuál es el valor exacto final de una variable al refinar indefinidamente la malla”. La pregunta fue: <strong>qué resolución SPH permite estudiar de forma trazable el movimiento incipiente del bloque</strong>, sin convertir la tesis en una campaña de refinamiento interminable.</p>
-    <p>Por eso el análisis se planteó como un estudio de <strong>decisión de malla y sensibilidad de frontera</strong>. El fenómeno combina superficie libre, contacto bloque-suelo, fricción y un criterio de umbral. Cerca del límite, cambios pequeños en resolución pueden cambiar la clase ESTABLE/FALLO, aunque las magnitudes continuas sigan siendo físicamente interpretables.</p>
-    <p>La estrategia fue congelar el problema físico base y variar solo lo necesario para responder esa pregunta:</p>
-    <ul class="compact">
-      <li><code>dp</code>: controla la resolución SPH y el costo computacional.</li>
-      <li><code>μ</code>: se usa como variable de barrido para ubicar la frontera entre estabilidad y falla.</li>
-      <li><code>D_max/d_eq</code>: desplazamiento máximo normalizado, usado como respuesta principal.</li>
-      <li><code>5% d_eq</code>: umbral operativo para clasificar el caso como ESTABLE o FALLO.</li>
-    </ul>
-    <p>En términos simples: no se buscó demostrar una convergencia asintótica fuerte de toda la dinámica, sino decidir una malla operativa y dejar explícito cuánto se mueve la frontera al cambiar la resolución.</p>
-  </section>
-
-  <section>
-    <h2>2. Secuencia usada</h2>
-    <p>El estudio se organizó en familias de corridas. Los nombres internos se mantienen solo para trazabilidad; abajo se indica qué significa cada una.</p>
-    {html_process}
-    <figure>
-      <img src="figures/00_proceso_convergencia.png" alt="Estructura del estudio de convergencia">
-      <figcaption>La tabla consolidada reúne 27 casos comparables de convergencia/frontera. No todos tienen el mismo rol metodológico.</figcaption>
-    </figure>
-  </section>
-
-  <section>
-    <h2>3. Resultado de la comparación de mallas</h2>
-    <p>En <code>dp=0.003 m</code>, los casos alrededor de <code>μ≈0.68</code> cruzan el umbral de desplazamiento. En <code>dp=0.002 m</code>, los casos equivalentes quedan bajo el umbral. Por eso el resultado se interpreta como sensibilidad de resolución.</p>
-    <figure>
-      <img src="figures/01_convergencia_decision.png" alt="Convergencia tratada como sensibilidad de frontera">
-      <figcaption>E = estable, F = falla. En <code>dp=0.003</code> aparece una frontera práctica clara. En <code>dp=0.002</code>, los casos cercanos quedan bajo el umbral.</figcaption>
-    </figure>
-  </section>
-
-  <section>
-    <h2>4. Decisión de malla</h2>
-    <p>En <code>dp=0.003 m</code>, la transición de la condición base queda acotada entre <code>μ=0.68050</code> y <code>μ=0.68075</code>. Por eso se adopta <code>dp=0.003 m</code> como malla operativa para producción.</p>
-    <div class="grid">
-      <figure>
-        <img src="figures/02_frontera_dp003.png" alt="Frontera práctica en dp 0.003">
-        <figcaption>La frontera práctica se reporta como intervalo, no como valor universal exacto.</figcaption>
-      </figure>
-      <figure>
-        <img src="figures/03_costo_refinamiento.png" alt="Costo computacional del refinamiento">
-        <figcaption>El refinamiento a <code>dp=0.002</code> aumenta fuertemente partículas, memoria y tiempo.</figcaption>
-      </figure>
-    </div>
-    <p class="note"><strong>Interpretación:</strong> no se afirma convergencia asintótica fuerte. Se reporta una frontera práctica condicionada a la malla <code>dp=0.003 m</code>, porque el problema es de umbral y muestra sensibilidad de resolución. La malla fina <code>dp=0.002 m</code> se usa como evidencia de sensibilidad, no como nueva malla productiva.</p>
-  </section>
-
-  <section>
-    <h2>5. Gráficos clásicos de convergencia</h2>
-    <p>Además de la lectura por frontera, se pueden mostrar los gráficos típicos de convergencia: una métrica continua contra <code>dp</code>. Estos gráficos son útiles para responder a la expectativa metodológica clásica, pero deben leerse como <strong>sensibilidad de resolución</strong>.</p>
-    <p>La razón es que el caso está cerca de un umbral de movimiento: el desplazamiento puede cruzar o no el 5% de <code>d_eq</code> con cambios pequeños de resolución. Por eso no se espera necesariamente una curva monótona limpia.</p>
-    <figure>
-      <img src="figures/09_desplazamiento_vs_dp_clasico.png" alt="Desplazamiento máximo versus dp">
-      <figcaption>Este es el gráfico más parecido al esperado en una revisión clásica: desplazamiento máximo contra resolución. La línea vertical marca la malla adoptada.</figcaption>
-    </figure>
-    <div class="grid">
-      <figure>
-        <img src="figures/07_metricas_clasicas_vs_dp.png" alt="Métricas continuas versus dp">
-        <figcaption>Desplazamiento, rotación, velocidad y fuerza SPH como funciones de <code>dp</code>. No todas evolucionan de forma monótona.</figcaption>
-      </figure>
-      <figure>
-        <img src="figures/08_cambios_relativos_refinamiento.png" alt="Cambios relativos al refinar malla">
-        <figcaption>Los cambios relativos ayudan a cuantificar sensibilidad, pero no se usan como prueba automática de convergencia fuerte.</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section>
-    <h2>6. Qué se hizo después</h2>
-    <p>Después de cerrar la convergencia no se siguió refinando <code>dp</code>. Se pasó a producción controlada con <code>dp=0.003 m</code>. Primero se ejecutó un piloto productivo de 5 casos y luego un segundo lote dirigido de 8 casos. Ambos terminaron sin fallos numéricos.</p>
-    <p>Estos lotes no son todavía una campaña paramétrica completa. Su función fue verificar que el flujo productivo funciona y empezar a leer tendencias físicas bajo la malla ya fijada.</p>
-    <figure>
-      <img src="figures/04_produccion_base.png" alt="Producción en condición base">
-      <figcaption>La condición base posterior refuerza la zona de transición: <code>μ=0.675</code> falla, mientras <code>μ=0.685</code> y <code>μ=0.700</code> son estables.</figcaption>
-    </figure>
-    <div class="grid">
-      <figure>
-        <img src="figures/05_hidraulica_pendiente.png" alt="Efecto hidráulico y pendiente">
-        <figcaption>Con mayor altura hidráulica, la falla aparece con fricciones mayores. Los casos de pendiente 1:10 se mantienen estables por desplazamiento, aunque rotan.</figcaption>
-      </figure>
-      <figure>
-        <img src="figures/06_rotacion_diagnostica.png" alt="Rotación diagnóstica">
-        <figcaption>La rotación se conserva como salida diagnóstica; no cambia la clase bajo el criterio <code>displacement_only</code>.</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section>
-    <h2>7. Tabla resumida de lotes productivos</h2>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Lote</th><th>Caso</th><th>H (m)</th><th>μ</th><th>Pendiente</th><th>Clase</th><th>Despl.</th><th>Rot.</th></tr></thead>
-        <tbody>{productive_rows(prod)}</tbody>
-      </table>
-    </div>
-  </section>
-
-  <section>
-    <h2>8. Términos usados</h2>
-    <dl class="terms">
-      <div><dt>dp</dt><dd>Espaciamiento inicial de partículas SPH. Menor <code>dp</code> implica más resolución y más costo.</dd></div>
-      <div><dt>μ</dt><dd>Coeficiente de fricción bloque-suelo.</dd></div>
-      <div><dt>d_eq</dt><dd>Diámetro equivalente del bloque, usado para normalizar desplazamientos.</dd></div>
-      <div><dt>displacement_only</dt><dd>Modo de clasificación donde solo el desplazamiento decide ESTABLE/FALLO.</dd></div>
-      <div><dt>Frontera práctica</dt><dd>Intervalo de transición observado para una configuración y resolución específicas.</dd></div>
-      <div><dt><code>conv_edge</code></dt><dd>Familia principal de corridas para ubicar la frontera en distintas mallas y fricciones.</dd></div>
-      <div><dt><code>conv_reassure</code></dt><dd>Corridas adicionales cerca del umbral para reforzar el acotamiento fino.</dd></div>
-      <div><dt><code>conv_repeat</code></dt><dd>Repeticiones de casos marginales para revisar consistencia operacional.</dd></div>
-      <div><dt><code>conv_probe</code></dt><dd>Caso fino suplementario usado para diagnosticar sensibilidad en <code>dp=0.002</code>.</dd></div>
-    </dl>
-  </section>
-</main>
+LIGHTBOX = """
 <div id="lightbox" class="lightbox" aria-hidden="true">
   <button class="lightbox-close" type="button" aria-label="Cerrar">×</button>
   <img alt="">
@@ -558,38 +353,164 @@ def write_page(prod: pd.DataFrame) -> None:
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = lightbox.querySelector('img');
   const lightboxCaption = lightbox.querySelector('p');
-  const closeLightbox = () => {{
+  const closeLightbox = () => {
     lightbox.classList.remove('open');
     lightbox.setAttribute('aria-hidden', 'true');
     lightboxImg.removeAttribute('src');
-  }};
-  document.querySelectorAll('figure img').forEach((img) => {{
+  };
+  document.querySelectorAll('figure img').forEach((img) => {
     img.setAttribute('tabindex', '0');
     img.setAttribute('role', 'button');
     img.setAttribute('title', 'Clic para ampliar');
-    const open = () => {{
+    const open = () => {
       lightboxImg.src = img.src;
       lightboxImg.alt = img.alt || '';
       const caption = img.closest('figure')?.querySelector('figcaption')?.textContent || '';
       lightboxCaption.textContent = caption;
       lightbox.classList.add('open');
       lightbox.setAttribute('aria-hidden', 'false');
-    }};
+    };
     img.addEventListener('click', open);
-    img.addEventListener('keydown', (event) => {{
-      if (event.key === 'Enter' || event.key === ' ') {{
+    img.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
         open();
-      }}
-    }});
-  }});
-  lightbox.addEventListener('click', (event) => {{
+      }
+    });
+  });
+  lightbox.addEventListener('click', (event) => {
     if (event.target === lightbox || event.target.classList.contains('lightbox-close')) closeLightbox();
-  }});
-  document.addEventListener('keydown', (event) => {{
+  });
+  document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') closeLightbox();
-  }});
+  });
 </script>
+"""
+
+
+def write_page(prod: pd.DataFrame) -> None:
+    html = f"""<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Convergencia de resolución SPH</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="page">
+  <header class="top">
+    <div>
+      <p class="meta">Tesis UCN · modelo SPH-Chrono</p>
+      <h1>Convergencia de resolución SPH y uso posterior en estabilidad</h1>
+      <p>Esta página separa dos niveles de análisis: primero se revisa cómo cambian variables continuas al disminuir <code>dp</code>; después se usa la resolución adoptada para estudiar estabilidad del bloque.</p>
+    </div>
+    <aside class="summary">
+      <dl>
+        <div><dt>Resolución adoptada</dt><dd>dp = 0.003 m</dd></div>
+        <div><dt>Convergencia</dt><dd>variables temporales y máximos</dd></div>
+        <div><dt>Estabilidad</dt><dd>análisis posterior al dp elegido</dd></div>
+        <div><dt>Criterio de movimiento</dt><dd>D_max &gt; 5% d_eq</dd></div>
+      </dl>
+    </aside>
+  </header>
+
+  <section>
+    <h2>1. Enfoque del estudio</h2>
+    <p>SPH no usa una malla fija; usa partículas. Por eso aquí <code>dp</code> significa <strong>espaciamiento inicial entre partículas</strong> y se interpreta como resolución espacial del modelo.</p>
+    <p>El análisis se ordena así: primero se comparan variables continuas para distintos <code>dp</code>, como desplazamiento del bloque, velocidad del bloque, velocidad del flujo y altura de agua en gauges. Esa es la parte de convergencia o sensibilidad de resolución.</p>
+    <p>Luego, con una resolución seleccionada por equilibrio entre respuesta y costo, se analiza si el bloque inicia movimiento bajo un criterio operacional. Esa segunda parte es el estudio de estabilidad, no el reemplazo del análisis de convergencia.</p>
+    <figure>
+      <img src="figures/00_orden_metodologico.png" alt="Orden metodológico del análisis">
+      <figcaption>La lectura final separa convergencia de variables, selección de resolución y análisis posterior de estabilidad.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>2. Variables temporales comparadas al refinar dp</h2>
+    <p>La primera revisión mira curvas en el tiempo. Esto responde directamente a la pregunta clásica de convergencia: si se disminuye <code>dp</code>, las variables relevantes deberían tender a una respuesta similar o al menos mostrar una sensibilidad interpretable.</p>
+    <figure>
+      <img src="figures/01_desplazamiento_tiempo_dp.png" alt="Desplazamiento temporal del bloque para varios dp">
+      <figcaption>Desplazamiento acumulado del bloque para varias resoluciones. La línea de 5% se muestra como referencia del criterio de movimiento, pero la lectura principal aquí es la forma temporal de la variable.</figcaption>
+    </figure>
+    <div class="grid">
+      <figure>
+        <img src="figures/02_velocidad_rotacion_tiempo_dp.png" alt="Velocidad y rotación del bloque para varios dp">
+        <figcaption>Velocidad del bloque y rotación acumulada observada. La rotación se reporta como variable física adicional, no como criterio único de movimiento.</figcaption>
+      </figure>
+      <figure>
+        <img src="figures/03_gauges_tiempo_dp.png" alt="Variables hidráulicas de gauges para varios dp">
+        <figcaption>Velocidad del flujo y altura/cota máxima en gauges cercanos. Estas variables ayudan a revisar si el forzante hidráulico cambia fuertemente con la resolución.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>3. Resumen clásico por resolución</h2>
+    <p>Además de las curvas temporales, se comparan máximos de variables continuas contra <code>dp</code>. Esta vista resume la sensibilidad de la respuesta al refinar la resolución.</p>
+    <div class="grid">
+      <figure>
+        <img src="figures/04_metricas_continuas_vs_dp.png" alt="Métricas continuas contra dp">
+        <figcaption>Máximos de desplazamiento, velocidad del bloque, velocidad del flujo y altura/cota de agua. No todas las variables evolucionan de forma perfectamente monótona.</figcaption>
+      </figure>
+      <figure>
+        <img src="figures/05_costo_vs_dp.png" alt="Costo computacional contra dp">
+        <figcaption>El refinamiento reduce <code>dp</code>, pero aumenta fuertemente partículas, memoria y tiempo. Esto pesa en la selección de resolución productiva.</figcaption>
+      </figure>
+    </div>
+    <p class="note"><strong>Lectura:</strong> <code>dp=0.003 m</code> se adopta como resolución operativa porque permite ejecutar lotes productivos con costo manejable y mantiene una respuesta comparable con el refinamiento fino en varias variables, aunque no autoriza afirmar convergencia asintótica fuerte de toda la dinámica.</p>
+  </section>
+
+  <section>
+    <h2>4. Uso posterior: estabilidad y frontera</h2>
+    <p>Una vez fijado <code>dp=0.003 m</code>, se puede estudiar estabilidad. Aquí <strong>frontera</strong> significa el intervalo de fricción <code>μ</code> donde, bajo la misma geometría y forzante, el bloque cambia entre no superar y superar el umbral de movimiento.</p>
+    <p>El umbral usado es <code>D_max &gt; 5% d_eq</code>, donde <code>D_max</code> es el desplazamiento máximo del bloque y <code>d_eq</code> su diámetro equivalente. La rotación se informa aparte como variable observada.</p>
+    <div class="grid">
+      <figure>
+        <img src="figures/06_frontera_posterior_dp003.png" alt="Frontera posterior con dp 0.003">
+        <figcaption>Con <code>dp=0.003 m</code>, la condición base queda acotada entre <code>μ=0.68050</code> y <code>μ=0.68075</code>.</figcaption>
+      </figure>
+      <figure>
+        <img src="figures/07_sensibilidad_frontera_dp.png" alt="Sensibilidad de la frontera al cambiar dp">
+        <figcaption>Al refinar a <code>dp=0.002 m</code>, los casos cercanos quedan bajo el umbral. Esto se reporta como sensibilidad de resolución de la frontera.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>5. Qué se lanzó después</h2>
+    <p>Después de adoptar <code>dp=0.003 m</code>, se ejecutaron lotes controlados. Su objetivo no fue seguir demostrando convergencia, sino verificar el flujo productivo y comenzar a leer tendencias de estabilidad bajo la resolución seleccionada.</p>
+    <figure>
+      <img src="figures/08_lotes_posteriores.png" alt="Resultados de lotes posteriores">
+      <figcaption>El piloto y batch2 muestran casos estables y de falla bajo la resolución adoptada. Estos resultados pertenecen a la etapa de aplicación, no a la prueba de convergencia.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>6. Tabla resumida de lotes posteriores</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Lote</th><th>Caso</th><th>H (m)</th><th>μ</th><th>Pendiente</th><th>Clase</th><th>Despl.</th><th>Rot.</th></tr></thead>
+        <tbody>{productive_rows(prod)}</tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>7. Términos usados</h2>
+    <dl class="terms">
+      <div><dt>dp</dt><dd>Espaciamiento inicial entre partículas SPH. Menor <code>dp</code> implica mayor resolución y mayor costo computacional.</dd></div>
+      <div><dt>Resolución SPH</dt><dd>Nivel de detalle espacial dado por el tamaño/separación de partículas, no por una malla fija.</dd></div>
+      <div><dt>μ</dt><dd>Coeficiente de fricción bloque-suelo usado para explorar el inicio de movimiento.</dd></div>
+      <div><dt>d_eq</dt><dd>Diámetro equivalente del bloque, usado para normalizar desplazamientos.</dd></div>
+      <div><dt>Umbral de movimiento</dt><dd>Condición operacional <code>D_max &gt; 5% d_eq</code>.</dd></div>
+      <div><dt>Frontera</dt><dd>Intervalo de valores de <code>μ</code> donde cambia la respuesta estable/falla para una resolución y condición física dadas.</dd></div>
+      <div><dt>Rotación observada</dt><dd>Variable física que se reporta para interpretar el comportamiento del bloque; no decide sola la clase de movimiento.</dd></div>
+      <div><dt>Familias conv_*</dt><dd>Nombres de trazabilidad interna para corridas de exploración, refinamiento, repetición y prueba fina.</dd></div>
+    </dl>
+  </section>
+</main>
+{LIGHTBOX}
 </body>
 </html>
 """
@@ -638,7 +559,7 @@ body {
 }
 h1 {
   margin: 0 0 10px;
-  font-size: clamp(28px, 4vw, 42px);
+  font-size: clamp(28px, 4vw, 40px);
   line-height: 1.08;
 }
 h2 {
@@ -662,20 +583,13 @@ section {
 .summary dl { margin: 0; }
 .summary div {
   display: grid;
-  grid-template-columns: 1fr;
   gap: 2px;
   border-bottom: 1px solid var(--line);
   padding: 8px 0;
 }
 .summary div:last-child { border-bottom: 0; }
-dt {
-  font-weight: 700;
-  color: var(--ink);
-}
-dd {
-  margin: 0;
-  color: var(--muted);
-}
+dt { font-weight: 700; color: var(--ink); }
+dd { margin: 0; color: var(--muted); }
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -705,17 +619,7 @@ figcaption {
   padding: 10px 12px;
   margin-top: 14px;
 }
-.compact {
-  margin: 8px 0 14px 18px;
-  padding: 0;
-}
-.compact li {
-  margin: 5px 0;
-}
-.table-wrap {
-  overflow-x: auto;
-  border: 1px solid var(--line);
-}
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); }
 table {
   width: 100%;
   border-collapse: collapse;
@@ -726,9 +630,7 @@ th, td {
   padding: 8px 9px;
   text-align: left;
 }
-th {
-  background: #eef2f6;
-}
+th { background: #eef2f6; }
 .pill {
   display: inline-block;
   border-radius: 3px;
@@ -748,6 +650,11 @@ th {
   border-top: 1px solid var(--line);
   padding-top: 10px;
 }
+code {
+  background: #eef2f6;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
 .lightbox {
   position: fixed;
   inset: 0;
@@ -758,10 +665,7 @@ th {
   z-index: 1000;
   padding: 24px;
 }
-.lightbox.open {
-  display: flex;
-  flex-direction: column;
-}
+.lightbox.open { display: flex; flex-direction: column; }
 .lightbox img {
   max-width: min(96vw, 1500px);
   max-height: 86vh;
@@ -789,48 +693,36 @@ th {
   line-height: 1;
   cursor: pointer;
 }
-.process {
-  margin: 12px 0 16px;
-  padding-left: 22px;
-}
-.process li {
-  margin: 8px 0;
-}
-code {
-  background: #eef2f6;
-  padding: 1px 4px;
-  border-radius: 3px;
-}
 @media (max-width: 860px) {
   .top, .grid, .terms { grid-template-columns: 1fr; }
   section { padding: 16px; }
 }
 """
-    (OUT / "styles.css").write_text(css.strip() + "\n", encoding="utf-8")
+    (OUT / "styles.css").write_text(css, encoding="utf-8")
+
+
+def write_data(summary: pd.DataFrame, frontier: pd.DataFrame, prod: pd.DataFrame) -> None:
+    summary.to_csv(DATA / "continuous_convergence_summary.csv", index=False)
+    frontier.to_csv(DATA / "master_convergence_frontier.csv", index=False)
+    if not prod.empty:
+        prod.to_csv(DATA / "productive_lots_combined.csv", index=False)
 
 
 def main() -> None:
     init()
-    conv = read_csv("data/figures/derived_convergence_graphics/master_convergence_frontier.csv")
-    pilot = read_csv("exports/pilot_productivo_20260501/pilot_summary.csv")
-    batch2 = read_csv("exports/batch2_productivo_20260505/batch2_summary.csv")
-    prod = combine_productive(pilot, batch2)
-
-    conv.to_csv(DATA / "master_convergence_frontier.csv", index=False)
-    pilot.to_csv(DATA / "pilot_summary.csv", index=False)
-    batch2.to_csv(DATA / "batch2_summary.csv", index=False)
-    prod.to_csv(DATA / "productive_lots_combined.csv", index=False)
-
-    plot_00_process_overview(conv)
-    plot_01_convergence_decision(conv)
-    plot_02_dp003_frontier(conv)
-    plot_03_resolution_cost(conv)
-    plot_04_productive_base(prod)
-    plot_05_hydraulic_and_slope(prod)
-    plot_06_rotation(prod)
-    plot_07_classic_convergence_metrics(conv)
-    plot_08_relative_changes(conv)
-    plot_09_displacement_by_mu_classic(conv)
+    summary = read_csv(RESULTS / "conv3_f05_full.csv", sep=";")
+    frontier = load_frontier()
+    prod = load_productive()
+    plot_00_method_flow()
+    plot_01_block_displacement_time()
+    plot_02_block_speed_rotation_time()
+    plot_03_hydraulic_gauges_time()
+    plot_04_classic_summary_vs_dp(summary)
+    plot_05_cost_vs_dp(summary)
+    plot_06_frontier_after_resolution(frontier)
+    plot_07_resolution_sensitivity(frontier)
+    plot_08_productive(prod)
+    write_data(summary, frontier, prod)
     write_css()
     write_page(prod)
     print(f"Web generated: {OUT / 'index.html'}")
