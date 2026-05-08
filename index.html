@@ -108,7 +108,27 @@
   </section>
 
   <section>
-    <h2>6. Tabla resumida de lotes posteriores</h2>
+    <h2>6. Verificaciones complementarias antes de produccion</h2>
+    <p>Estas pruebas no son parte del analisis de convergencia. Se agregan para cubrir tres preguntas distintas antes de seguir con la campana productiva: si el solver reproduce un caso hidraulico conocido, si el bloque no se mueve por una condicion inicial defectuosa y si las respuestas SPH son coherentes con un balance analitico de primer orden.</p>
+    <div class="grid">
+      <figure>
+        <img src="figures/09_benchmark_hidraulico.png" alt="Benchmark hidraulico DualSPHysics contra referencia experimental">
+        <figcaption><strong>Benchmark hidraulico:</strong> caso oficial <code>CaseDambreakVal2D</code>. RMSE del frente: 0.257 m; error relativo final: 3.42%. Valida instalacion, GenCase, DualSPHysics, GPU y postproceso de gauges; no valida el bloque.</figcaption>
+      </figure>
+      <figure>
+        <img src="figures/10_contact_sanity.png" alt="Sanity de contacto bloque suelo sin impacto hidraulico">
+        <figcaption><strong>Sanity de contacto:</strong> columna minima de 1 cm, sin flujo local sobre el bloque. El desplazamiento queda en 1.23% de <code>d_eq</code>, bajo el umbral de 5%, con fuerza SPH local igual a cero.</figcaption>
+      </figure>
+      <figure>
+        <img src="figures/11_comparacion_analitica.png" alt="Comparacion analitica preliminar entre movilidad y desplazamiento">
+        <figcaption><strong>Comparacion analitica:</strong> indice <code>Psi = F_motriz / F_resistente</code> aplicado a piloto y batch2. No hay contradicciones fuertes entre banda analitica y clase SPH en los casos con datos hidraulicos utiles.</figcaption>
+      </figure>
+    </div>
+    <p class="note"><strong>Lectura:</strong> estas verificaciones aumentan la defensibilidad del pipeline sin afirmar validacion experimental del bloque. Son controles independientes: hidraulica base, contacto inicial y coherencia fisica de orden de magnitud.</p>
+  </section>
+
+  <section>
+    <h2>7. Tabla resumida de lotes posteriores</h2>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Lote</th><th>Caso</th><th>H (m)</th><th>μ</th><th>Pendiente</th><th>Clase</th><th>Despl.</th><th>Rot.</th></tr></thead>
@@ -130,7 +150,7 @@
   </section>
 
   <section>
-    <h2>7. Verificación externa y literatura</h2>
+    <h2>8. Verificación externa y literatura</h2>
     <p>Sin un experimento físico propio del bloque, la tesis no debe afirmar validación experimental directa. La defensa metodológica se apoya en un paquete por capas: verificación de resolución, benchmark hidráulico externo, sanity de contacto bloque-suelo y comparación analítica de orden de magnitud.</p>
     <div class="source-grid">
       <article>
@@ -154,7 +174,7 @@
   </section>
 
   <section>
-    <h2>8. Términos usados</h2>
+    <h2>9. Términos usados</h2>
     <dl class="terms">
       <div><dt>dp</dt><dd>Espaciamiento inicial entre partículas SPH. Menor <code>dp</code> implica mayor resolución y mayor costo computacional.</dd></div>
       <div><dt>Resolución SPH</dt><dd>Nivel de detalle espacial dado por el tamaño/separación de partículas, no por una malla fija.</dd></div>
