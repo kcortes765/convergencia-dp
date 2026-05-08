@@ -99,6 +99,18 @@ figcaption {
   padding: 10px 12px;
   margin-top: 14px;
 }
+.read-guide {
+  margin-top: 10px;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.read-guide ul {
+  margin: 6px 0 0 18px;
+  padding: 0;
+}
+.read-guide li { margin: 4px 0; }
 .table-wrap { overflow-x: auto; border: 1px solid var(--line); }
 table {
   width: 100%;

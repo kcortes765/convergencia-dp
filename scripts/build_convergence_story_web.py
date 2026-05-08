@@ -269,7 +269,7 @@ def plot_01_defensible_variables(diff: pd.DataFrame, errors: pd.DataFrame) -> No
         for label in labels
     ]
 
-    fig, axes = plt.subplots(1, 2, figsize=(10.4, 4.2), constrained_layout=True)
+    fig, axes = plt.subplots(1, 2, figsize=(12.2, 5.0))
     axes[0].axvspan(-5, 5, color=GREEN, alpha=0.12, label="±5%")
     axes[0].axvspan(-7, 7, color=AMBER, alpha=0.10, label="zona cercana ±7%")
     axes[0].axvline(0, color=INK, lw=0.8)
@@ -277,8 +277,18 @@ def plot_01_defensible_variables(diff: pd.DataFrame, errors: pd.DataFrame) -> No
     for yi, val in zip(y, max_vals):
         axes[0].text(val + (0.35 if val >= 0 else -0.35), yi, f"{val:+.1f}%", va="center", ha="left" if val >= 0 else "right", fontsize=9)
     axes[0].set_yticks(y, labels)
-    axes[0].set_xlabel("Cambio del máximo vs dp=0.002 (%)")
-    axes[0].set_title("Máximos en dp=0.003")
+    axes[0].set_xlabel("Diferencia del valor máximo respecto a dp=0.002 (%)\n0% = igual al caso fino; negativo = menor que el caso fino")
+    axes[0].set_title("A. Máximos: cuánto cambia cada variable")
+    axes[0].text(
+        0.02,
+        0.98,
+        "Verde: dentro de ±5%\nAmarillo: cercano (±5 a ±7%)",
+        transform=axes[0].transAxes,
+        va="top",
+        fontsize=8,
+        color=GRAY,
+        bbox=dict(fc="white", ec="#d8dee8", alpha=0.86, pad=4),
+    )
 
     axes[1].axvspan(0, 5, color=GREEN, alpha=0.12, label="≤5%")
     axes[1].axvspan(5, 7, color=AMBER, alpha=0.10, label="cercano")
@@ -286,9 +296,20 @@ def plot_01_defensible_variables(diff: pd.DataFrame, errors: pd.DataFrame) -> No
     for yi, val in zip(y, err_vals):
         axes[1].text(val + 0.18, yi, f"{val:.1f}%", va="center", fontsize=9)
     axes[1].set_yticks(y, [""] * len(labels))
-    axes[1].set_xlabel("RMSE temporal relativo vs dp=0.002 (%)")
-    axes[1].set_title("Forma temporal en dp=0.003")
-    fig.suptitle("Variables que sostienen la selección de dp=0.003", fontsize=12, fontweight="bold")
+    axes[1].set_xlabel("Error relativo de la curva completa (RMSE, %)\nmenor = curva temporal más parecida a dp=0.002")
+    axes[1].set_title("B. Forma temporal: cuánto se parece la curva")
+    axes[1].text(
+        0.02,
+        0.98,
+        "Verde: error ≤5%\nAmarillo: cercano (5 a 7%)",
+        transform=axes[1].transAxes,
+        va="top",
+        fontsize=8,
+        color=GRAY,
+        bbox=dict(fc="white", ec="#d8dee8", alpha=0.86, pad=4),
+    )
+    fig.suptitle("Comparación de dp=0.003 contra la referencia fina dp=0.002", fontsize=13, fontweight="bold")
+    fig.subplots_adjust(left=0.18, right=0.98, top=0.80, bottom=0.17, wspace=0.30)
     save("01_variables_defendibles_dp003")
 
 
@@ -556,6 +577,14 @@ def write_page(prod: pd.DataFrame) -> None:
     <figure>
       <img src="figures/01_variables_defendibles_dp003.png" alt="Variables principales que sostienen dp 0.003">
       <figcaption>Variables principales en <code>dp=0.003 m</code> comparadas con <code>dp=0.002 m</code>. La evidencia más fuerte está en altura/cota de agua y velocidad del bloque; el desplazamiento queda cercano, aunque no exactamente dentro de ±5%.</figcaption>
+      <div class="read-guide">
+        <strong>Cómo leer esta figura:</strong>
+        <ul>
+          <li><strong>Panel A:</strong> compara solo el valor máximo. Cero significa igual al caso fino <code>dp=0.002 m</code>.</li>
+          <li><strong>Panel B:</strong> compara la forma completa de la curva temporal. Menor porcentaje significa curva más parecida al caso fino.</li>
+          <li><strong>Conclusión:</strong> el agua y la velocidad del bloque son las evidencias más limpias; el desplazamiento queda cercano y se acepta con cautela.</li>
+        </ul>
+      </div>
     </figure>
     <div class="grid">
       <figure>
@@ -742,6 +771,18 @@ figcaption {
   padding: 10px 12px;
   margin-top: 14px;
 }
+.read-guide {
+  margin-top: 10px;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.read-guide ul {
+  margin: 6px 0 0 18px;
+  padding: 0;
+}
+.read-guide li { margin: 4px 0; }
 .table-wrap { overflow-x: auto; border: 1px solid var(--line); }
 table {
   width: 100%;
