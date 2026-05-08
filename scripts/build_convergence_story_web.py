@@ -252,85 +252,107 @@ def plot_00_method_flow() -> None:
     save("00_orden_metodologico")
 
 
-def plot_01_max_difference_vs_fine(diff: pd.DataFrame) -> None:
-    labels = [
-        "Desplazamiento máximo",
-        "Velocidad bloque máx.",
-        "Velocidad flujo máx.",
-        "Altura/cota agua máx.",
-        "Rotación máxima",
+def plot_01_defensible_variables(diff: pd.DataFrame, errors: pd.DataFrame) -> None:
+    labels = ["Altura/cota agua máx.", "Velocidad bloque máx.", "Desplazamiento máximo"]
+    y = np.arange(len(labels))
+    max_vals = [
+        float(diff[(diff["label"] == label) & np.isclose(diff["dp"], 0.003)]["delta_vs_fine_pct"].iloc[0])
+        for label in labels
     ]
-    fig, axes = plt.subplots(2, 3, figsize=(11.2, 6.8), constrained_layout=True)
-    for ax, label in zip(axes.ravel(), labels):
-        part = diff[diff["label"] == label].sort_values("dp")
-        ax.axhspan(-5, 5, color=GREEN, alpha=0.10, label="±5%")
-        ax.axhline(0, color=INK, lw=0.8)
-        ax.plot(part["dp"], part["delta_vs_fine_pct"], marker="o", color=BLUE, lw=1.5)
-        ax.scatter([0.003], part.loc[np.isclose(part["dp"], 0.003), "delta_vs_fine_pct"], color=AMBER, zorder=4)
-        ax.invert_xaxis()
-        ax.set_title(label)
-        ax.set_xlabel("dp (m), menor hacia la derecha")
-        ax.set_ylabel("Cambio vs dp=0.002 (%)")
-    axes.ravel()[-1].axis("off")
-    fig.suptitle("¿Convergen los máximos? Diferencia porcentual respecto a dp=0.002", fontsize=12, fontweight="bold")
-    save("01_cambio_maximos_vs_fino")
+    err_label_map = {
+        "Altura/cota agua máx.": "Altura/cota agua",
+        "Velocidad bloque máx.": "Velocidad bloque",
+        "Desplazamiento máximo": "Desplazamiento",
+    }
+    err_vals = [
+        float(errors[(errors["label"] == err_label_map[label]) & np.isclose(errors["dp"], 0.003)]["temporal_rmse_pct"].iloc[0])
+        for label in labels
+    ]
+
+    fig, axes = plt.subplots(1, 2, figsize=(10.4, 4.2), constrained_layout=True)
+    axes[0].axvspan(-5, 5, color=GREEN, alpha=0.12, label="±5%")
+    axes[0].axvspan(-7, 7, color=AMBER, alpha=0.10, label="zona cercana ±7%")
+    axes[0].axvline(0, color=INK, lw=0.8)
+    axes[0].barh(y, max_vals, color=[GREEN, GREEN, AMBER], alpha=0.9)
+    for yi, val in zip(y, max_vals):
+        axes[0].text(val + (0.35 if val >= 0 else -0.35), yi, f"{val:+.1f}%", va="center", ha="left" if val >= 0 else "right", fontsize=9)
+    axes[0].set_yticks(y, labels)
+    axes[0].set_xlabel("Cambio del máximo vs dp=0.002 (%)")
+    axes[0].set_title("Máximos en dp=0.003")
+
+    axes[1].axvspan(0, 5, color=GREEN, alpha=0.12, label="≤5%")
+    axes[1].axvspan(5, 7, color=AMBER, alpha=0.10, label="cercano")
+    axes[1].barh(y, err_vals, color=[GREEN, AMBER, AMBER], alpha=0.9)
+    for yi, val in zip(y, err_vals):
+        axes[1].text(val + 0.18, yi, f"{val:.1f}%", va="center", fontsize=9)
+    axes[1].set_yticks(y, [""] * len(labels))
+    axes[1].set_xlabel("RMSE temporal relativo vs dp=0.002 (%)")
+    axes[1].set_title("Forma temporal en dp=0.003")
+    fig.suptitle("Variables que sostienen la selección de dp=0.003", fontsize=12, fontweight="bold")
+    save("01_variables_defendibles_dp003")
 
 
-def plot_02_temporal_error_vs_fine(errors: pd.DataFrame) -> None:
-    fig, ax = plt.subplots(figsize=(8.8, 4.6))
-    for label, part in errors.groupby("label"):
-        part = part.sort_values("dp")
-        ax.plot(part["dp"], part["temporal_rmse_pct"], marker="o", lw=1.5, label=label)
-    ax.axhline(5, color=GREEN, linestyle=":", linewidth=1.2, label="referencia 5%")
+def plot_02_principal_trends(diff: pd.DataFrame) -> None:
+    labels = ["Desplazamiento máximo", "Velocidad bloque máx.", "Altura/cota agua máx."]
+    fig, ax = plt.subplots(figsize=(8.6, 4.6))
+    for label in labels:
+        part = diff[(diff["label"] == label) & (diff["dp"] <= 0.006)].sort_values("dp")
+        ax.plot(part["dp"], 100 + part["delta_vs_fine_pct"], marker="o", lw=1.6, label=label)
+    ax.axhspan(95, 105, color=GREEN, alpha=0.12, label="±5% del caso fino")
+    ax.axhspan(93, 107, color=AMBER, alpha=0.08, label="zona cercana")
+    ax.axhline(100, color=INK, lw=0.8)
+    ax.axvline(0.003, color=BLUE, ls=":", lw=1.2)
     ax.invert_xaxis()
     ax.set_xlabel("dp (m), menor hacia la derecha")
-    ax.set_ylabel("RMSE temporal relativo vs dp=0.002 (%)")
-    ax.set_title("¿Convergen las curvas temporales? Error relativo contra el caso fino")
+    ax.set_ylabel("Valor relativo a dp=0.002 (%)")
+    ax.set_ylim(84, 146)
+    ax.set_title("Tendencia de variables principales en el rango fino")
     ax.legend(frameon=False, ncol=2)
-    save("02_error_temporal_vs_fino")
+    save("02_tendencia_variables_principales")
 
 
 def plot_03_temporal_curves_fine_set() -> None:
-    dps = [0.005, 0.004, 0.003, 0.002]
-    fig, axes = plt.subplots(2, 2, figsize=(11.2, 7.2), constrained_layout=True)
+    dps = [0.004, 0.003, 0.002]
+    fig, axes = plt.subplots(1, 3, figsize=(12.0, 4.0), constrained_layout=True)
     for dp in dps:
         case_dir = TEMPORAL_CASES[dp]
         chrono = load_chrono(case_dir)
-        vel = load_gauge(case_dir, "GaugesVel_V05.csv")
         hmax = load_gauge(case_dir, "GaugesMaxZ_hmax03.csv")
         label = f"dp={dp:.3f}"
-        axes[0, 0].plot(chrono["t_rel"], chrono["disp_pct"], lw=1.35, label=label)
-        axes[0, 1].plot(chrono["t_rel"], chrono["block_speed"], lw=1.25, label=label)
-        axes[1, 0].plot(vel["time [s]"], vel["vel_mag"], lw=1.1, label=label)
-        axes[1, 1].plot(hmax["time [s]"], hmax["zmax [m]"], lw=1.25, label=label)
-    axes[0, 0].axhline(5, color=RED, ls="--", lw=1.0)
-    axes[0, 0].set_title("Desplazamiento del bloque")
-    axes[0, 0].set_ylabel("% d_eq")
-    axes[0, 1].set_title("Velocidad del bloque")
-    axes[0, 1].set_ylabel("m/s")
-    axes[1, 0].set_title("Velocidad de flujo en V05")
-    axes[1, 0].set_ylabel("m/s")
-    axes[1, 1].set_title("Altura/cota en hmax03")
-    axes[1, 1].set_ylabel("m")
-    for ax in axes.ravel():
+        axes[0].plot(chrono["t_rel"], chrono["disp_pct"], lw=1.35, label=label)
+        axes[1].plot(chrono["t_rel"], chrono["block_speed"], lw=1.25, label=label)
+        axes[2].plot(hmax["time [s]"], hmax["zmax [m]"], lw=1.25, label=label)
+    axes[0].axhline(5, color=RED, ls="--", lw=1.0)
+    axes[0].set_title("Desplazamiento")
+    axes[0].set_ylabel("% d_eq")
+    axes[1].set_title("Velocidad del bloque")
+    axes[1].set_ylabel("m/s")
+    axes[2].set_title("Altura/cota de agua")
+    axes[2].set_ylabel("m")
+    for ax in axes:
         ax.set_xlabel("Tiempo (s)")
-    axes[0, 1].legend(frameon=False, fontsize=7)
-    fig.suptitle("Curvas temporales para las resoluciones finas", fontsize=12, fontweight="bold")
+    axes[1].legend(frameon=False, fontsize=7)
+    fig.suptitle("Curvas temporales del rango fino usadas para defender la resolución operativa", fontsize=12, fontweight="bold")
     save("03_curvas_temporales_finas")
 
 
-def plot_04_rotation_diagnostic(diff: pd.DataFrame) -> None:
-    part = diff[diff["label"] == "Rotación máxima"].sort_values("dp")
-    fig, ax = plt.subplots(figsize=(7.8, 4.4))
-    ax.axhspan(-5, 5, color=GREEN, alpha=0.10)
-    ax.axhline(0, color=INK, lw=0.8)
-    ax.plot(part["dp"], part["delta_vs_fine_pct"], marker="o", color=AMBER, lw=1.6)
-    ax.scatter([0.003], part.loc[np.isclose(part["dp"], 0.003), "delta_vs_fine_pct"], color=BLUE, zorder=4)
-    ax.invert_xaxis()
-    ax.set_xlabel("dp (m), menor hacia la derecha")
-    ax.set_ylabel("Cambio vs dp=0.002 (%)")
-    ax.set_title("Rotación: variable observada con mayor sensibilidad")
-    save("04_rotacion_sensibilidad")
+def plot_04_sensitive_outputs(diff: pd.DataFrame, errors: pd.DataFrame) -> None:
+    fig, axes = plt.subplots(1, 2, figsize=(10.0, 4.0), constrained_layout=True)
+    for ax, label, color in [
+        (axes[0], "Velocidad flujo máx.", BLUE),
+        (axes[1], "Rotación máxima", AMBER),
+    ]:
+        part = diff[diff["label"] == label].sort_values("dp")
+        ax.axhspan(-5, 5, color=GREEN, alpha=0.10)
+        ax.axhline(0, color=INK, lw=0.8)
+        ax.plot(part["dp"], part["delta_vs_fine_pct"], marker="o", color=color, lw=1.6)
+        ax.scatter([0.003], part.loc[np.isclose(part["dp"], 0.003), "delta_vs_fine_pct"], color=RED, zorder=4)
+        ax.invert_xaxis()
+        ax.set_xlabel("dp (m)")
+        ax.set_ylabel("Cambio vs dp=0.002 (%)")
+        ax.set_title(label)
+    fig.suptitle("Salidas sensibles: se reportan, pero no sostienen solas la decisión", fontsize=12, fontweight="bold")
+    save("04_salidas_sensibles")
 
 
 def plot_05_cost_vs_dp(summary: pd.DataFrame) -> None:
@@ -511,7 +533,7 @@ def write_page(prod: pd.DataFrame) -> None:
         <div><dt>Resolución adoptada</dt><dd>dp = 0.003 m</dd></div>
         <div><dt>Convergencia</dt><dd>variables temporales y máximos</dd></div>
         <div><dt>Estabilidad</dt><dd>análisis posterior al dp elegido</dd></div>
-        <div><dt>Criterio de movimiento</dt><dd>D_max &gt; 5% d_eq</dd></div>
+        <div><dt>Uso posterior</dt><dd>movimiento si D_max &gt; 5% d_eq</dd></div>
       </dl>
     </aside>
   </header>
@@ -528,38 +550,39 @@ def write_page(prod: pd.DataFrame) -> None:
   </section>
 
   <section>
-    <h2>2. Lectura directa de convergencia</h2>
-    <p>La pregunta central es: al disminuir <code>dp</code>, ¿las variables se acercan al resultado fino? Para hacerlo explícito, se toma <code>dp=0.002 m</code> como referencia de comparación y se calcula el cambio porcentual de cada máximo.</p>
+    <h2>2. Variables que sostienen la resolución adoptada</h2>
+    <p>La lectura de convergencia se concentró en variables continuas, antes de clasificar estabilidad. Para defender <code>dp=0.003 m</code> no se usan todas las salidas con el mismo peso: se priorizan las que describen el movimiento principal del bloque y el forzante hidráulico.</p>
+    <p>El caso <code>dp=0.002 m</code> se usa como referencia fina. En <code>dp=0.003 m</code>, la altura/cota de agua y la velocidad máxima del bloque quedan dentro o muy cerca de una banda de 5%; el desplazamiento máximo queda levemente fuera, pero cercano. Esa lectura permite defender una resolución operativa, no una convergencia perfecta de todo el sistema.</p>
     <figure>
-      <img src="figures/01_cambio_maximos_vs_fino.png" alt="Cambio porcentual de máximos contra dp fino">
-      <figcaption>El área verde marca una referencia de ±5% respecto a <code>dp=0.002 m</code>. Se ve qué variables se acercan razonablemente al caso fino y cuáles siguen siendo sensibles.</figcaption>
+      <img src="figures/01_variables_defendibles_dp003.png" alt="Variables principales que sostienen dp 0.003">
+      <figcaption>Variables principales en <code>dp=0.003 m</code> comparadas con <code>dp=0.002 m</code>. La evidencia más fuerte está en altura/cota de agua y velocidad del bloque; el desplazamiento queda cercano, aunque no exactamente dentro de ±5%.</figcaption>
     </figure>
     <div class="grid">
       <figure>
-        <img src="figures/02_error_temporal_vs_fino.png" alt="Error temporal relativo contra dp fino">
-        <figcaption>El RMSE temporal compara la forma completa de la curva, no solo el valor máximo. Mientras más bajo, más parecida es la respuesta al caso fino.</figcaption>
+        <img src="figures/02_tendencia_variables_principales.png" alt="Tendencia de variables principales hacia el caso fino">
+        <figcaption>En el rango fino, las variables principales se acercan al caso <code>dp=0.002 m</code>. El punto <code>dp=0.003 m</code> queda suficientemente cerca para una resolución productiva defendible.</figcaption>
       </figure>
       <figure>
-        <img src="figures/03_curvas_temporales_finas.png" alt="Curvas temporales para resoluciones finas">
-        <figcaption>Curvas temporales de las resoluciones finas. Sirven para ver si la respuesta completa mantiene una forma similar al refinar.</figcaption>
+        <img src="figures/03_curvas_temporales_finas.png" alt="Curvas temporales de desplazamiento, velocidad del bloque y altura de agua">
+        <figcaption>Curvas temporales del rango fino. La comparación revisa la forma de la respuesta, no solo el máximo, y se centra en desplazamiento, velocidad del bloque y altura/cota de agua.</figcaption>
       </figure>
     </div>
   </section>
 
   <section>
-    <h2>3. Qué converge mejor y qué queda sensible</h2>
-    <p>La lectura no es binaria. Algunas variables se acercan razonablemente al caso fino cerca de <code>dp=0.003 m</code>; otras siguen mostrando sensibilidad. Por eso la conclusión debe ser conservadora.</p>
+    <h2>3. Salidas sensibles y límite de la conclusión</h2>
+    <p>No todas las salidas tienen el mismo nivel de cierre. La velocidad de flujo puntual en un gauge y la rotación acumulada del bloque son más sensibles al refinamiento. Por eso se muestran como límite del análisis, pero no se usan como base principal para fijar <code>dp</code> ni para clasificar el movimiento.</p>
     <div class="grid">
       <figure>
-        <img src="figures/04_rotacion_sensibilidad.png" alt="Sensibilidad de la rotación al refinar dp">
-        <figcaption>La rotación es la variable más sensible al refinamiento; se reporta como observación física, pero no se usa sola para decidir movimiento.</figcaption>
+        <img src="figures/04_salidas_sensibles.png" alt="Salidas sensibles al refinamiento de dp">
+        <figcaption>La velocidad de flujo puntual y la rotación muestran mayor sensibilidad. Esto se declara explícitamente para no presentar una convergencia más fuerte que la observada.</figcaption>
       </figure>
       <figure>
         <img src="figures/05_costo_vs_dp.png" alt="Costo computacional contra dp">
-        <figcaption>El refinamiento reduce <code>dp</code>, pero aumenta fuertemente partículas, memoria y tiempo. Esto pesa en la selección de resolución productiva.</figcaption>
+        <figcaption>El refinamiento reduce <code>dp</code>, pero aumenta fuertemente partículas, memoria y tiempo. El caso <code>dp=0.002 m</code> es útil como referencia fina, pero costoso como resolución productiva.</figcaption>
       </figure>
     </div>
-    <p class="note"><strong>Lectura:</strong> <code>dp=0.003 m</code> no se presenta como convergencia fuerte de todas las variables. Se adopta como resolución operativa porque varias respuestas principales quedan cercanas al caso fino, mientras el costo de <code>dp=0.002 m</code> crece mucho. La rotación y la frontera estable/falla quedan explícitamente como aspectos sensibles.</p>
+    <p class="note"><strong>Lectura defendible:</strong> <code>dp=0.003 m</code> se adopta porque las variables principales quedan cerca del caso fino y el costo de <code>dp=0.002 m</code> crece mucho. La conclusión no es “todo converge perfectamente”, sino “la resolución es suficiente para continuar con un análisis productivo conservador”.</p>
   </section>
 
   <section>
@@ -607,7 +630,6 @@ def write_page(prod: pd.DataFrame) -> None:
       <div><dt>Umbral de movimiento</dt><dd>Condición operacional <code>D_max &gt; 5% d_eq</code>.</dd></div>
       <div><dt>Frontera</dt><dd>Intervalo de valores de <code>μ</code> donde cambia la respuesta estable/falla para una resolución y condición física dadas.</dd></div>
       <div><dt>Rotación observada</dt><dd>Variable física que se reporta para interpretar el comportamiento del bloque; no decide sola la clase de movimiento.</dd></div>
-      <div><dt>Familias conv_*</dt><dd>Nombres de trazabilidad interna para corridas de exploración, refinamiento, repetición y prueba fina.</dd></div>
     </dl>
   </section>
 </main>
@@ -825,10 +847,10 @@ def main() -> None:
     max_diff = max_difference_table(summary)
     temporal_errors = temporal_error_table()
     plot_00_method_flow()
-    plot_01_max_difference_vs_fine(max_diff)
-    plot_02_temporal_error_vs_fine(temporal_errors)
+    plot_01_defensible_variables(max_diff, temporal_errors)
+    plot_02_principal_trends(max_diff)
     plot_03_temporal_curves_fine_set()
-    plot_04_rotation_diagnostic(max_diff)
+    plot_04_sensitive_outputs(max_diff, temporal_errors)
     plot_05_cost_vs_dp(summary)
     plot_06_frontier_after_resolution(frontier)
     plot_07_resolution_sensitivity(frontier)
