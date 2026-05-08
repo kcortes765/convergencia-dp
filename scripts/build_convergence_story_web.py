@@ -280,10 +280,11 @@ def plot_01_defensible_variables(diff: pd.DataFrame, errors: pd.DataFrame) -> No
     axes[0].set_xlabel("Diferencia del valor máximo respecto a dp=0.002 (%)\n0% = igual al caso fino; negativo = menor que el caso fino")
     axes[0].set_title("A. Máximos: cuánto cambia cada variable")
     axes[0].text(
-        0.02,
+        0.98,
         0.98,
         "Verde: dentro de ±5%\nAmarillo: cercano (±5 a ±7%)",
         transform=axes[0].transAxes,
+        ha="right",
         va="top",
         fontsize=8,
         color=GRAY,
@@ -299,10 +300,11 @@ def plot_01_defensible_variables(diff: pd.DataFrame, errors: pd.DataFrame) -> No
     axes[1].set_xlabel("Error relativo de la curva completa (RMSE, %)\nmenor = curva temporal más parecida a dp=0.002")
     axes[1].set_title("B. Forma temporal: cuánto se parece la curva")
     axes[1].text(
-        0.02,
+        0.98,
         0.98,
         "Verde: error ≤5%\nAmarillo: cercano (5 a 7%)",
         transform=axes[1].transAxes,
+        ha="right",
         va="top",
         fontsize=8,
         color=GRAY,
@@ -600,7 +602,7 @@ def write_page(prod: pd.DataFrame) -> None:
         </ul>
       </div>
     </figure>
-    <div class="grid">
+    <div class="figure-stack">
       <figure>
         <img src="figures/02_tendencia_variables_principales.png" alt="Tendencia de variables principales hacia el caso fino">
         <figcaption>En el rango fino, las variables principales se acercan al caso <code>dp=0.002 m</code>. El punto <code>dp=0.003 m</code> queda suficientemente cerca para una resolución productiva defendible.</figcaption>
@@ -632,7 +634,7 @@ def write_page(prod: pd.DataFrame) -> None:
     <h2>4. Uso posterior: estabilidad y frontera</h2>
     <p>Una vez fijado <code>dp=0.003 m</code>, se puede estudiar estabilidad. Aquí <strong>frontera</strong> significa el intervalo de fricción <code>μ</code> donde, bajo la misma geometría y forzante, el bloque cambia entre no superar y superar el umbral de movimiento.</p>
     <p>El umbral usado es <code>D_max &gt; 5% d_eq</code>, donde <code>D_max</code> es el desplazamiento máximo del bloque y <code>d_eq</code> su diámetro equivalente. La rotación se informa aparte como variable observada.</p>
-    <div class="grid">
+    <div class="figure-stack">
       <figure>
         <img src="figures/06_frontera_posterior_dp003.png" alt="Frontera posterior con dp 0.003">
         <figcaption>Con <code>dp=0.003 m</code>, la condición base queda acotada entre <code>μ=0.68050</code> y <code>μ=0.68075</code>.</figcaption>
@@ -760,6 +762,15 @@ dd { margin: 0; color: var(--muted); }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 18px;
+}
+.figure-stack {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  justify-items: center;
+}
+.figure-stack figure {
+  width: min(1040px, 100%);
 }
 figure {
   margin: 16px 0 6px;
