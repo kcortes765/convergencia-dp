@@ -452,10 +452,24 @@ def plot_08_productive(prod: pd.DataFrame) -> None:
     if prod.empty:
         return
     fig, axes = plt.subplots(1, 2, figsize=(10.2, 4.0), constrained_layout=True)
+    def mark_threshold(ax) -> None:
+        ax.axhline(5, color=RED, linestyle="--", linewidth=1.1)
+        ax.text(
+            0.98,
+            5,
+            "umbral de movimiento: 5% d_eq",
+            transform=ax.get_yaxis_transform(),
+            ha="right",
+            va="bottom",
+            fontsize=8,
+            color=RED,
+            bbox=dict(fc="white", ec="none", alpha=0.78, pad=2),
+        )
+
     base = prod[(prod["dam_height"].round(3) == 0.2) & (prod["slope_inv"].round(0) == 20)].copy()
     for _, row in base.sort_values("friction_coefficient").iterrows():
         axes[0].scatter(row["friction_coefficient"], row["disp_pct_deq"], s=58, color=cls_color(row["criterion_class"]), edgecolor="white", linewidth=0.8)
-    axes[0].axhline(5, color=RED, linestyle="--", linewidth=1.1)
+    mark_threshold(axes[0])
     axes[0].set_title("Condición base posterior")
     axes[0].set_xlabel("μ")
     axes[0].set_ylabel("Desplazamiento máximo (% d_eq)")
@@ -464,7 +478,7 @@ def plot_08_productive(prod: pd.DataFrame) -> None:
         axes[1].scatter(row["dam_height"], row["disp_pct_deq"], s=58, color=cls_color(row["criterion_class"]), edgecolor="white", linewidth=0.8)
         if row["disp_pct_deq"] > 10:
             axes[1].text(row["dam_height"], row["disp_pct_deq"] + 4, f"{row['disp_pct_deq']:.0f}%", ha="center", fontsize=8)
-    axes[1].axhline(5, color=RED, linestyle="--", linewidth=1.1)
+    mark_threshold(axes[1])
     axes[1].set_title("Variación hidráulica posterior")
     axes[1].set_xlabel("Altura inicial H (m)")
     axes[1].set_ylabel("Desplazamiento máximo (% d_eq)")
@@ -635,7 +649,7 @@ def write_page(prod: pd.DataFrame) -> None:
     <p>Después de adoptar <code>dp=0.003 m</code>, se ejecutaron lotes controlados. Su objetivo no fue seguir demostrando convergencia, sino verificar el flujo productivo y comenzar a leer tendencias de estabilidad bajo la resolución seleccionada.</p>
     <figure>
       <img src="figures/08_lotes_posteriores.png" alt="Resultados de lotes posteriores">
-      <figcaption>El piloto y batch2 muestran casos estables y de falla bajo la resolución adoptada. Estos resultados pertenecen a la etapa de aplicación, no a la prueba de convergencia.</figcaption>
+      <figcaption>El piloto y batch2 muestran casos estables y de falla bajo la resolución adoptada. La línea roja punteada marca el umbral operacional de movimiento: <code>D_max = 5% d_eq</code>. Estos resultados pertenecen a la etapa de aplicación, no a la prueba de convergencia.</figcaption>
     </figure>
   </section>
 
