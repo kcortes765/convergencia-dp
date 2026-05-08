@@ -117,11 +117,11 @@
       </figure>
       <figure>
         <img src="figures/10_contact_sanity.png" alt="Sanity de contacto bloque suelo sin impacto hidraulico">
-        <figcaption><strong>Sanity de contacto:</strong> columna minima de 1 cm, sin flujo local sobre el bloque. El desplazamiento queda en 1.23% de <code>d_eq</code>, bajo el umbral de 5%, con fuerza SPH local igual a cero.</figcaption>
+        <figcaption><strong>Sanity de contacto:</strong> la zona sombreada es el acomodo inicial de Chrono/contacto. Después de ese transiente, la velocidad cae prácticamente a cero y el desplazamiento sostenido queda en 0.78% de <code>d_eq</code>, bajo el umbral de 5%, sin fuerza SPH local.</figcaption>
       </figure>
       <figure>
         <img src="figures/11_comparacion_analitica.png" alt="Comparacion analitica preliminar entre movilidad y desplazamiento">
-        <figcaption><strong>Comparacion analitica:</strong> indice <code>Psi = F_motriz / F_resistente</code> aplicado a piloto y batch2. No hay contradicciones fuertes entre banda analitica y clase SPH en los casos con datos hidraulicos utiles.</figcaption>
+        <figcaption><strong>Comparacion analitica:</strong> indice <code>Psi = F_motriz / F_resistente</code> aplicado a piloto y batch2. La escala log evita que los casos de desplazamiento extremo oculten los cercanos al umbral. No hay contradicciones fuertes entre banda analitica y clase SPH en los casos con datos hidraulicos utiles.</figcaption>
       </figure>
     </div>
     <p class="note"><strong>Lectura:</strong> estas verificaciones aumentan la defensibilidad del pipeline sin afirmar validacion experimental del bloque. Son controles independientes: hidraulica base, contacto inicial y coherencia fisica de orden de magnitud.</p>
