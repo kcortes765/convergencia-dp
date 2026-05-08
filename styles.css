@@ -52,28 +52,27 @@ section {
   padding: 20px;
   margin: 18px 0;
 }
-.summary {
+.key-strip {
   background: #fbfcfe;
   border: 1px solid var(--line);
   padding: 10px 14px;
   border-radius: 4px;
-  margin-top: 14px;
+  margin: 0 0 16px;
 }
-.summary dl {
-  margin: 0;
+.key-strip {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0;
 }
-.summary div {
+.key-strip div {
   display: grid;
   gap: 2px;
   border-bottom: 0;
   border-right: 1px solid var(--line);
   padding: 2px 14px;
 }
-.summary div:first-child { padding-left: 0; }
-.summary div:last-child { border-right: 0; padding-right: 0; }
+.key-strip div:first-child { padding-left: 0; }
+.key-strip div:last-child { border-right: 0; padding-right: 0; }
 dt { font-weight: 700; color: var(--ink); }
 dd { margin: 0; color: var(--muted); }
 .grid {
@@ -215,12 +214,12 @@ code {
   cursor: pointer;
 }
 @media (max-width: 860px) {
-  .grid, .terms, .summary dl { grid-template-columns: 1fr; }
-  .summary div {
+  .grid, .terms, .key-strip { grid-template-columns: 1fr; }
+  .key-strip div {
     border-right: 0;
     border-bottom: 1px solid var(--line);
     padding: 8px 0;
   }
-  .summary div:last-child { border-bottom: 0; }
+  .key-strip div:last-child { border-bottom: 0; }
   section { padding: 16px; }
 }
