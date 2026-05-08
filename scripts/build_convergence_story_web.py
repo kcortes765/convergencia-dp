@@ -225,7 +225,7 @@ def label_class(value: str) -> str:
 
 
 def plot_00_method_flow() -> None:
-    fig, ax = plt.subplots(figsize=(9.8, 2.4))
+    fig, ax = plt.subplots(figsize=(10.6, 2.8))
     ax.axis("off")
     boxes = [
         ("1", "Convergencia de\nvariables continuas", "desplazamiento, velocidad,\naltura de agua, rotación"),
@@ -246,8 +246,16 @@ def plot_00_method_flow() -> None:
             bbox=dict(boxstyle="round,pad=0.55", fc="#ffffff", ec="#cfd8e3", lw=1.1),
         )
         ax.text(x, 0.23, body, ha="center", va="center", fontsize=8.5, color=GRAY)
-    for x0, x1 in [(0.285, 0.375), (0.625, 0.715)]:
-        ax.annotate("", xy=(x1, 0.62), xytext=(x0, 0.62), arrowprops=dict(arrowstyle="->", lw=1.2, color=BLUE))
+    arrow_y = 0.62
+    for x0, x1 in [(0.29, 0.37), (0.61, 0.71)]:
+        ax.annotate(
+            "",
+            xy=(x1, arrow_y),
+            xytext=(x0, arrow_y),
+            arrowprops=dict(arrowstyle="->", lw=1.35, color=BLUE, shrinkA=0, shrinkB=0),
+        )
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
     ax.set_title("Orden metodológico usado en la lectura final", fontsize=12, fontweight="bold", pad=8)
     save("00_orden_metodologico")
 
