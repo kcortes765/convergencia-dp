@@ -130,7 +130,31 @@
   </section>
 
   <section>
-    <h2>7. Términos usados</h2>
+    <h2>7. Verificación externa y literatura</h2>
+    <p>Sin un experimento físico propio del bloque, la tesis no debe afirmar validación experimental directa. La defensa metodológica se apoya en un paquete por capas: verificación de resolución, benchmark hidráulico externo, sanity de contacto bloque-suelo y comparación analítica de orden de magnitud.</p>
+    <div class="source-grid">
+      <article>
+        <h3>Benchmark SPH/DualSPHysics</h3>
+        <p>El caso oficial <a href="https://github.com/DualSPHysics/DualSPHysics/wiki/7.-Testcases">DualSPHysics 01_DamBreak</a> incluye un dam-break 2D con datos de Koshizuka y Oka para comparar la posición del frente de agua. Esto verifica instalación, solver, gauges y postproceso hidráulico, no la fricción del bloque.</p>
+      </article>
+      <article>
+        <h3>Convergencia y GCI</h3>
+        <p>El marco clásico de refinamiento se toma de Richardson/Roache-GCI, resumido por el tutorial de <a href="https://www.grc.nasa.gov/www/wind/valid/tutorial/spatconv.html?force_isolation=true">NASA WIND</a>. En SPH se adapta usando <code>dp</code> como escala de resolución y se aplica a variables continuas, no a la clase estable/fallo como si fuera suave.</p>
+      </article>
+      <article>
+        <h3>Contacto bloque-suelo</h3>
+        <p>DualSPHysics documenta la <a href="https://github.com/DualSPHysics/DualSPHysics/wiki/3.-SPH-formulation">integración con Project Chrono</a> para cuerpos rígidos, colisiones y fricción. El sanity correcto es un caso sin impacto hidráulico relevante: el bloque no debe superar el umbral solo por apoyo, penetración o contacto numérico.</p>
+      </article>
+      <article>
+        <h3>Comparación analítica</h3>
+        <p>Las ecuaciones de Nott/Nandasena para transporte de bloques costeros usan balances de arrastre, sustentación, peso y fricción; revisiones recientes advierten sus límites. Aquí se usan como coherencia de orden de magnitud, no como sustituto de SPH-Chrono.</p>
+      </article>
+    </div>
+    <p class="note"><strong>Frase defendible:</strong> el modelo fue verificado numéricamente y contrastado con benchmarks y balances analíticos, pero no validado experimentalmente para este bloque específico. La rotación se reporta como diagnóstico; la clase primaria sigue siendo <code>displacement_only</code>.</p>
+  </section>
+
+  <section>
+    <h2>8. Términos usados</h2>
     <dl class="terms">
       <div><dt>dp</dt><dd>Espaciamiento inicial entre partículas SPH. Menor <code>dp</code> implica mayor resolución y mayor costo computacional.</dd></div>
       <div><dt>Resolución SPH</dt><dd>Nivel de detalle espacial dado por el tamaño/separación de partículas, no por una malla fija.</dd></div>
