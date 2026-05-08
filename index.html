@@ -150,27 +150,38 @@
   </section>
 
   <section>
-    <h2>8. Verificación externa y literatura</h2>
-    <p>Sin un experimento físico propio del bloque, la tesis no debe afirmar validación experimental directa. La defensa metodológica se apoya en un paquete por capas: verificación de resolución, benchmark hidráulico externo, sanity de contacto bloque-suelo y comparación analítica de orden de magnitud.</p>
+    <h2>8. Analisis final y literatura usada</h2>
+    <p>Sin un experimento fisico propio del bloque, la tesis no debe afirmar validacion experimental directa del caso completo. La defensa se arma por capas: sensibilidad de resolucion, benchmark hidraulico externo, sanity de contacto bloque-suelo y comparacion analitica de orden de magnitud. Cada capa responde una pregunta distinta.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Capa</th><th>Que permite afirmar</th><th>Que no permite afirmar</th><th>Base de literatura</th></tr></thead>
+        <tbody>
+          <tr><td>Convergencia/sensibilidad de <code>dp</code></td><td>Las variables continuas principales se estabilizan en el rango fino y <code>dp=0.003 m</code> es una resolucion operativa defendible.</td><td>No demuestra convergencia asintotica fuerte de la clase estable/fallo.</td><td>Richardson/Roache-GCI y tutorial NASA WIND sobre refinamiento espacial.</td></tr>
+          <tr><td>Benchmark hidraulico</td><td>La instalacion local de GenCase/DualSPHysics/GPU/postproceso reproduce un dam-break conocido.</td><td>No valida contacto, friccion ni movimiento del bloque irregular.</td><td>Testcases oficiales DualSPHysics y benchmarks SPHERIC de dam-break.</td></tr>
+          <tr><td>Sanity de contacto</td><td>El bloque no supera el umbral por apoyo inicial, penetracion o contacto numerico sin impacto hidraulico local.</td><td>No valida el movimiento bajo tsunami ni coeficientes de friccion reales.</td><td>Acoplamiento DualSPHysics-Chrono y documentacion de contacto/cuerpos rigidos.</td></tr>
+          <tr><td>Comparacion analitica</td><td>Los casos SPH no contradicen un balance fisico de arrastre, peso, pendiente y friccion a nivel de orden de magnitud.</td><td>No reemplaza SPH-Chrono ni predice exactamente desplazamiento/rotacion.</td><td>Nott/Nandasena para bloques costeros, experimentos de Bressan, datos moved/unmoved de Iwai & Goto y advertencias de Cox et al.</td></tr>
+        </tbody>
+      </table>
+    </div>
     <div class="source-grid">
       <article>
-        <h3>Benchmark SPH/DualSPHysics</h3>
-        <p>El caso oficial <a href="https://github.com/DualSPHysics/DualSPHysics/wiki/7.-Testcases">DualSPHysics 01_DamBreak</a> incluye un dam-break 2D con datos de Koshizuka y Oka para comparar la posición del frente de agua. Esto verifica instalación, solver, gauges y postproceso hidráulico, no la fricción del bloque.</p>
+        <h3>SPH y benchmark hidraulico</h3>
+        <p>Los <a href="https://github.com/DualSPHysics/DualSPHysics/wiki/7.-Testcases">testcases oficiales de DualSPHysics</a> y los <a href="https://www.spheric-sph.org/validation-tests">benchmarks SPHERIC</a> justifican usar casos dam-break como verificacion hidraulica del solver y del postproceso. En esta pagina se usa para validar el entorno, no el bloque.</p>
       </article>
       <article>
-        <h3>Convergencia y GCI</h3>
-        <p>El marco clásico de refinamiento se toma de Richardson/Roache-GCI, resumido por el tutorial de <a href="https://www.grc.nasa.gov/www/wind/valid/tutorial/spatconv.html?force_isolation=true">NASA WIND</a>. En SPH se adapta usando <code>dp</code> como escala de resolución y se aplica a variables continuas, no a la clase estable/fallo como si fuera suave.</p>
+        <h3>Convergencia numerica</h3>
+        <p>El marco clasico de refinamiento se toma de Richardson/Roache-GCI, resumido por el tutorial de <a href="https://www.grc.nasa.gov/www/wind/valid/tutorial/spatconv.html?force_isolation=true">NASA WIND</a>. En SPH se adapta usando <code>dp</code> como escala de resolucion y evaluando variables continuas antes de hablar de estabilidad.</p>
       </article>
       <article>
-        <h3>Contacto bloque-suelo</h3>
-        <p>DualSPHysics documenta la <a href="https://github.com/DualSPHysics/DualSPHysics/wiki/3.-SPH-formulation">integración con Project Chrono</a> para cuerpos rígidos, colisiones y fricción. El sanity correcto es un caso sin impacto hidráulico relevante: el bloque no debe superar el umbral solo por apoyo, penetración o contacto numérico.</p>
+        <h3>Contacto y cuerpo rigido</h3>
+        <p>DualSPHysics documenta la <a href="https://github.com/DualSPHysics/DualSPHysics/wiki/3.-SPH-formulation">integracion con Project Chrono</a> para cuerpos rigidos y contacto. Por eso el chequeo correcto no es otro dam-break, sino comprobar que el bloque no se desplaza por una condicion inicial defectuosa.</p>
       </article>
       <article>
-        <h3>Comparación analítica</h3>
-        <p>Las ecuaciones de Nott/Nandasena para transporte de bloques costeros usan balances de arrastre, sustentación, peso y fricción; revisiones recientes advierten sus límites. Aquí se usan como coherencia de orden de magnitud, no como sustituto de SPH-Chrono.</p>
+        <h3>Bloques costeros</h3>
+        <p><a href="https://research.uaeu.ac.ae/en/publications/reassessment-of-hydrodynamic-equations-minimum-flow-velocity-to-i/">Nandasena, Paris & Tanaka</a> plantean balances de fuerzas para inicio de movimiento; <a href="https://pearl.plymouth.ac.uk/secam-research/1746">Bressan et al.</a> muestran experimentalmente la influencia de profundidad, velocidad, peso, forma y orientacion; <a href="https://www.nature.com/articles/s41598-021-92917-2">Iwai & Goto</a> refuerzan la importancia de casos movidos/no movidos; <a href="https://www.frontiersin.org/articles/10.3389/fmars.2020.00004/full">Cox et al.</a> advierten que esos balances no deben venderse como validacion absoluta. Por eso aqui se usan como coherencia fisica, no como prueba final.</p>
       </article>
     </div>
-    <p class="note"><strong>Frase defendible:</strong> el modelo fue verificado numéricamente y contrastado con benchmarks y balances analíticos, pero no validado experimentalmente para este bloque específico. La rotación se reporta como diagnóstico; la clase primaria sigue siendo <code>displacement_only</code>.</p>
+    <p class="note"><strong>Frase defendible:</strong> el modelo fue verificado numericamente por resolucion, contrastado con un benchmark hidraulico externo, revisado con un sanity de contacto y comparado con balances analiticos. No queda validado experimentalmente para este bloque especifico; la frontera final debe reportarse condicionada a <code>dp=0.003 m</code>, geometria fija, criterio <code>displacement_only</code> y parametros de contacto usados.</p>
   </section>
 
   <section>
