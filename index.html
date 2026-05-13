@@ -34,28 +34,22 @@
       </div>
       <h3>Escenario inicial usado en la convergencia</h3>
       <p>La convergencia se corrió repitiendo el mismo problema físico y cambiando solo la resolución <code>dp</code>. Esto permite atribuir las diferencias observadas al refinamiento de partículas, no a cambios de geometría, forzante o contacto.</p>
-      <div class="grid">
-        <figure>
-          <img src="figures/00b_escenario_convergencia.png" alt="Escenario base usado para la convergencia de resolución SPH">
-          <figcaption>Esquema sin escala del caso base: columna inicial de agua, canal con pendiente, bloque irregular y gauges de lectura.</figcaption>
-        </figure>
-        <div class="table-wrap compact">
-          <table>
-            <thead><tr><th>Característica</th><th>Valor usado</th></tr></thead>
-            <tbody>
-              <tr><td>Tipo de flujo</td><td>Dam-break / flujo transitorio tipo tsunami</td></tr>
-              <tr><td>Altura inicial de agua</td><td><code>H = 0,20 m</code></td></tr>
-              <tr><td>Bloque</td><td><code>BLIR3.stl</code>, escala 0,04</td></tr>
-              <tr><td>Diámetro equivalente</td><td><code>d_eq ≈ 0,1004 m</code></td></tr>
-              <tr><td>Masa</td><td><code>m = 1,0 kg</code></td></tr>
-              <tr><td>Fricción bloque-suelo</td><td><code>μ = 0,50</code></td></tr>
-              <tr><td>Pendiente del canal</td><td><code>1:20</code></td></tr>
-              <tr><td>Orientación del bloque</td><td><code>rot_z = 0°</code></td></tr>
-              <tr><td>Tiempo simulado</td><td>≈ 10 s</td></tr>
-              <tr><td>Resoluciones comparadas</td><td><code>dp = 0,010</code> a <code>0,002 m</code></td></tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>Característica</th><th>Valor usado</th></tr></thead>
+          <tbody>
+            <tr><td>Tipo de flujo</td><td>Dam-break / flujo transitorio tipo tsunami</td></tr>
+            <tr><td>Altura inicial de agua</td><td><code>H = 0,20 m</code></td></tr>
+            <tr><td>Bloque</td><td><code>BLIR3.stl</code>, escala 0,04</td></tr>
+            <tr><td>Diámetro equivalente</td><td><code>d_eq ≈ 0,1004 m</code></td></tr>
+            <tr><td>Masa</td><td><code>m = 1,0 kg</code></td></tr>
+            <tr><td>Fricción bloque-suelo</td><td><code>μ = 0,50</code></td></tr>
+            <tr><td>Pendiente del canal</td><td><code>1:20</code></td></tr>
+            <tr><td>Orientación del bloque</td><td><code>rot_z = 0°</code></td></tr>
+            <tr><td>Tiempo simulado</td><td>≈ 10 s</td></tr>
+            <tr><td>Resoluciones comparadas</td><td><code>dp = 0,010</code> a <code>0,002 m</code></td></tr>
+          </tbody>
+        </table>
       </div>
       <figure>
         <img src="figures/00_orden_metodologico.png" alt="Orden metodológico del análisis">
