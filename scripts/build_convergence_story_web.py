@@ -570,15 +570,15 @@ def write_page(prod: pd.DataFrame) -> None:
   <header class="top">
     <div>
       <p class="meta">Tesis UCN · modelo SPH-Chrono</p>
-      <h1>Convergencia de resolución SPH y uso posterior en estabilidad</h1>
-      <p>Esta página separa dos niveles de análisis: primero se revisa cómo cambian variables continuas al disminuir <code>dp</code>; después se usa la resolución adoptada para estudiar estabilidad del bloque.</p>
+      <h1>Convergencia de resolución SPH para seleccionar <code>dp</code> operativo</h1>
+      <p>Esta página documenta cómo se selecciona la resolución productiva del modelo SPH-Chrono. La lectura principal compara variables continuas al disminuir <code>dp</code>, usando <code>dp=0.002 m</code> como referencia fina y evaluando qué tan cerca queda <code>dp=0.003 m</code>.</p>
     </div>
     <aside class="summary">
       <dl>
         <div><dt>Resolución adoptada</dt><dd>dp = 0.003 m</dd></div>
-        <div><dt>Convergencia</dt><dd>variables temporales y máximos</dd></div>
-        <div><dt>Estabilidad</dt><dd>análisis posterior al dp elegido</dd></div>
-        <div><dt>Uso posterior</dt><dd>movimiento si D_max &gt; 5% d_eq</dd></div>
+        <div><dt>Referencia fina</dt><dd>dp = 0.002 m</dd></div>
+        <div><dt>Comparación</dt><dd>máximos y curvas temporales</dd></div>
+        <div><dt>Uso posterior</dt><dd>campañas con dp seleccionado</dd></div>
       </dl>
     </aside>
   </header>
@@ -586,8 +586,8 @@ def write_page(prod: pd.DataFrame) -> None:
   <section>
     <h2>1. Enfoque del estudio</h2>
     <p>SPH no usa una malla fija; usa partículas. Por eso aquí <code>dp</code> significa <strong>espaciamiento inicial entre partículas</strong> y se interpreta como resolución espacial del modelo.</p>
-    <p>El análisis se ordena así: primero se comparan variables continuas para distintos <code>dp</code>, como desplazamiento del bloque, velocidad del bloque, velocidad del flujo y altura de agua en gauges. Esa es la parte de convergencia o sensibilidad de resolución.</p>
-    <p>Luego, con una resolución seleccionada por equilibrio entre respuesta y costo, se analiza si el bloque inicia movimiento bajo un criterio operacional. Esa segunda parte es el estudio de estabilidad, no el reemplazo del análisis de convergencia.</p>
+    <p>La comparación se concentra en variables continuas: desplazamiento del bloque, velocidad del bloque, altura/cota de agua, velocidad del flujo puntual y rotación. Para tomar la decisión se priorizan las variables que representan mejor la respuesta global del bloque y del forzante hidráulico.</p>
+    <p>La decisión final combina dos criterios: cercanía al caso fino y costo computacional. <code>dp=0.003 m</code> se adopta como resolución operativa porque queda cerca de <code>dp=0.002 m</code> en las variables principales y permite ejecutar campañas productivas de forma viable.</p>
     <figure>
       <img src="figures/00_orden_metodologico.png" alt="Orden metodológico del análisis">
       <figcaption>La lectura final separa convergencia de variables, selección de resolución y análisis posterior de estabilidad.</figcaption>
@@ -595,9 +595,21 @@ def write_page(prod: pd.DataFrame) -> None:
   </section>
 
   <section>
-    <h2>2. Variables que sostienen la resolución adoptada</h2>
-    <p>La lectura de convergencia se concentró en variables continuas, antes de clasificar estabilidad. Para defender <code>dp=0.003 m</code> no se usan todas las salidas con el mismo peso: se priorizan las que describen el movimiento principal del bloque y el forzante hidráulico.</p>
-    <p>El caso <code>dp=0.002 m</code> se usa como referencia fina. En <code>dp=0.003 m</code>, la altura/cota de agua y la velocidad máxima del bloque quedan dentro o muy cerca de una banda de 5%; el desplazamiento máximo queda levemente fuera, pero cercano. Esa lectura permite defender una resolución operativa, no una convergencia perfecta de todo el sistema.</p>
+    <h2>2. Resultados de convergencia de variables principales</h2>
+    <p>La lectura principal usa <code>dp=0.002 m</code> como referencia fina. Para cada variable se revisan dos cosas: cuánto cambia el valor máximo y cuánto cambia la forma temporal completa de la curva.</p>
+    <p>La banda de <strong>±5%</strong> en esta sección mide diferencia entre resoluciones. Es una banda práctica para leer convergencia de variables, distinta del umbral de movimiento del bloque usado después.</p>
+    <div class="table-wrap compact">
+      <table>
+        <thead><tr><th>Variable</th><th>Máximo vs dp=0.002</th><th>Curva temporal vs dp=0.002</th><th>Lectura para decidir dp=0.003</th></tr></thead>
+        <tbody>
+          <tr><td>Altura/cota de agua</td><td>-4.1%</td><td>4.6%</td><td>Dentro de la banda práctica. Es la evidencia hidráulica más limpia.</td></tr>
+          <tr><td>Velocidad máxima del bloque</td><td>-3.8%</td><td>5.6%</td><td>Máximo dentro de ±5%; forma temporal apenas sobre la banda, pero cercana.</td></tr>
+          <tr><td>Desplazamiento máximo</td><td>-6.2%</td><td>5.2%</td><td>Cercano, aunque levemente fuera. Se acepta con cautela porque acumula contacto e historia temporal.</td></tr>
+          <tr><td>Velocidad de flujo puntual</td><td>Más sensible</td><td>Más variable</td><td>Se reporta como salida sensible, no como base principal de la decisión.</td></tr>
+          <tr><td>Rotación acumulada</td><td>Más sensible</td><td>No monótona</td><td>Se reporta como variable observada; no define por sí sola la resolución productiva.</td></tr>
+        </tbody>
+      </table>
+    </div>
     <figure>
       <img src="figures/01_variables_defendibles_dp003.png" alt="Variables principales que sostienen dp 0.003">
       <figcaption>Variables principales en <code>dp=0.003 m</code> comparadas con <code>dp=0.002 m</code>. La evidencia más fuerte está en altura/cota de agua y velocidad del bloque; el desplazamiento queda cercano, aunque no exactamente dentro de ±5%.</figcaption>
@@ -613,7 +625,7 @@ def write_page(prod: pd.DataFrame) -> None:
     <div class="figure-stack">
       <figure>
         <img src="figures/02_tendencia_variables_principales.png" alt="Tendencia de variables principales hacia el caso fino">
-        <figcaption>En el rango fino, las variables principales se acercan al caso <code>dp=0.002 m</code>. El punto <code>dp=0.003 m</code> queda suficientemente cerca para una resolución productiva defendible.</figcaption>
+        <figcaption>En el rango fino, las variables principales se aproximan al caso <code>dp=0.002 m</code>. La estabilización es práctica: no todas las curvas son monótonas, pero <code>dp=0.003 m</code> queda cerca de la referencia fina en las variables usadas para decidir.</figcaption>
       </figure>
       <figure>
         <img src="figures/03_curvas_temporales_finas.png" alt="Curvas temporales de desplazamiento, velocidad del bloque y altura de agua">
@@ -635,13 +647,13 @@ def write_page(prod: pd.DataFrame) -> None:
         <figcaption>El refinamiento reduce <code>dp</code>, pero aumenta fuertemente partículas, memoria y tiempo. El caso <code>dp=0.002 m</code> es útil como referencia fina, pero costoso como resolución productiva.</figcaption>
       </figure>
     </div>
-    <p class="note"><strong>Lectura defendible:</strong> <code>dp=0.003 m</code> se adopta porque las variables principales quedan cerca del caso fino y el costo de <code>dp=0.002 m</code> crece mucho. La conclusión no es “todo converge perfectamente”, sino “la resolución es suficiente para continuar con un análisis productivo conservador”.</p>
+    <p class="note"><strong>Lectura defendible:</strong> <code>dp=0.003 m</code> se adopta como resolución operativa porque las variables principales quedan dentro o cerca de la banda de comparación respecto de <code>dp=0.002 m</code>, mientras el costo de <code>dp=0.002 m</code> aumenta de forma importante. La campaña productiva mantiene controles puntuales a <code>dp=0.002 m</code> en casos críticos.</p>
   </section>
 
   <section>
     <h2>4. Uso posterior: estabilidad y frontera</h2>
     <p>Una vez fijado <code>dp=0.003 m</code>, se puede estudiar estabilidad. Aquí <strong>frontera</strong> significa el intervalo de fricción <code>μ</code> donde, bajo la misma geometría y forzante, el bloque cambia entre no superar y superar el umbral de movimiento.</p>
-    <p>El umbral usado es <code>D_max &gt; 5% d_eq</code>, donde <code>D_max</code> es el desplazamiento máximo del bloque y <code>d_eq</code> su diámetro equivalente. La rotación se informa aparte como variable observada.</p>
+    <p>El umbral usado para movimiento es <code>D_max &gt; 5% d_eq</code>, donde <code>D_max</code> es el desplazamiento máximo del bloque y <code>d_eq</code> su diámetro equivalente. Este 5% corresponde al criterio físico-operacional de movimiento; la banda ±5% de la sección 2 corresponde a comparación entre resoluciones. La rotación se informa aparte como variable observada.</p>
     <div class="figure-stack">
       <figure>
         <img src="figures/06_frontera_posterior_dp003.png" alt="Frontera posterior con dp 0.003">
@@ -656,7 +668,8 @@ def write_page(prod: pd.DataFrame) -> None:
 
   <section>
     <h2>5. Qué se lanzó después</h2>
-    <p>Después de adoptar <code>dp=0.003 m</code>, se ejecutaron lotes controlados. Su objetivo no fue seguir demostrando convergencia, sino verificar el flujo productivo y comenzar a leer tendencias de estabilidad bajo la resolución seleccionada.</p>
+    <p>Después de adoptar <code>dp=0.003 m</code>, se ejecutaron lotes controlados para aplicar la resolución seleccionada al estudio de estabilidad. Estos lotes sirven para construir el mapa de respuesta del bloque y alimentar la campaña posterior de simulaciones.</p>
+    <p>La campaña productiva prevista trabaja con altura hidráulica <code>H</code>, fricción bloque-suelo <code>μ</code> y masa relativa <code>m*</code>. Esa etapa usa <code>dp=0.003 m</code> como resolución de trabajo y reserva casos finos <code>dp=0.002 m</code> para verificaciones puntuales cerca de condiciones críticas.</p>
     <figure>
       <img src="figures/08_lotes_posteriores.png" alt="Resultados de lotes posteriores">
       <figcaption>El piloto y batch2 muestran casos estables y de falla bajo la resolución adoptada. La línea roja punteada marca el umbral operacional de movimiento: <code>D_max = 5% d_eq</code>. Estos resultados pertenecen a la etapa de aplicación, no a la prueba de convergencia.</figcaption>

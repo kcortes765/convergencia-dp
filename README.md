@@ -4,11 +4,11 @@ Página estática para revisar el proceso de convergencia/resolución usado en l
 
 El contenido resume:
 
-- cómo se compararon variables continuas al disminuir `dp`;
-- cómo se usaron curvas temporales de desplazamiento, velocidad, rotación y gauges hidráulicos;
+- cómo se comparan variables continuas al disminuir `dp`;
+- cómo se usan máximos y curvas temporales de desplazamiento, velocidad del bloque y altura/cota de agua;
 - por qué se adoptó `dp = 0.003 m` como resolución operativa;
-- cómo se separó el análisis de convergencia del análisis posterior de estabilidad/frontera;
-- qué se lanzó después en los lotes productivos piloto y batch2.
+- cómo se distinguen la banda de comparación de resolución y el umbral de movimiento `D_max > 5% d_eq`;
+- cómo se usa después la resolución seleccionada en lotes productivos.
 
 Abrir localmente:
 
