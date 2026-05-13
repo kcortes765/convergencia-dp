@@ -32,6 +32,31 @@
         <p>En un análisis CFD clásico, al refinar la discretización las variables tienden a converger hacia un valor asintótico, lo que permite estimar orden de convergencia, extrapolación de Richardson y una banda tipo GCI.</p>
         <p>En este modelo SPH se reporta una evaluación práctica de sensibilidad: cuánto cambian los máximos y las curvas temporales al aproximarse al caso de referencia. La clasificación estable/fallo se usa posteriormente, como aplicación del modelo a la condición de inicio de movimiento del bloque.</p>
       </div>
+      <h3>Escenario inicial usado en la convergencia</h3>
+      <p>La convergencia se corrió repitiendo el mismo problema físico y cambiando solo la resolución <code>dp</code>. Esto permite atribuir las diferencias observadas al refinamiento de partículas, no a cambios de geometría, forzante o contacto.</p>
+      <div class="grid">
+        <figure>
+          <img src="figures/00b_escenario_convergencia.png" alt="Escenario base usado para la convergencia de resolución SPH">
+          <figcaption>Esquema sin escala del caso base: columna inicial de agua, canal con pendiente, bloque irregular y gauges de lectura.</figcaption>
+        </figure>
+        <div class="table-wrap compact">
+          <table>
+            <thead><tr><th>Característica</th><th>Valor usado</th></tr></thead>
+            <tbody>
+              <tr><td>Tipo de flujo</td><td>Dam-break / flujo transitorio tipo tsunami</td></tr>
+              <tr><td>Altura inicial de agua</td><td><code>H = 0,20 m</code></td></tr>
+              <tr><td>Bloque</td><td><code>BLIR3.stl</code>, escala 0,04</td></tr>
+              <tr><td>Diámetro equivalente</td><td><code>d_eq ≈ 0,1004 m</code></td></tr>
+              <tr><td>Masa</td><td><code>m = 1,0 kg</code></td></tr>
+              <tr><td>Fricción bloque-suelo</td><td><code>μ = 0,50</code></td></tr>
+              <tr><td>Pendiente del canal</td><td><code>1:20</code></td></tr>
+              <tr><td>Orientación del bloque</td><td><code>rot_z = 0°</code></td></tr>
+              <tr><td>Tiempo simulado</td><td>≈ 10 s</td></tr>
+              <tr><td>Resoluciones comparadas</td><td><code>dp = 0,010</code> a <code>0,002 m</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
       <figure>
         <img src="figures/00_orden_metodologico.png" alt="Orden metodológico del análisis">
         <figcaption>La lectura final separa convergencia de variables, selección de resolución y análisis posterior de estabilidad.</figcaption>
@@ -41,19 +66,23 @@
   <section>
     <h2>2. Resultados de convergencia en las variables principales</h2>
     <p>El análisis toma <code>dp = 0,002 m</code> como referencia. Para cada variable se revisan dos aspectos: la diferencia en el valor máximo y el parecido de la forma temporal completa con el caso fino.</p>
-    <p>La banda de <strong>±5%</strong> en esta sección mide distancia entre resoluciones; no debe confundirse con el umbral de movimiento del bloque que se define más adelante.</p>
+    <p>La banda de <strong>±5%</strong> en esta sección mide distancia entre resoluciones; no debe confundirse con el umbral de movimiento del bloque que se define más adelante. Los porcentajes normalizan variables con unidades distintas, pero se reportan también diferencias absolutas para ver la magnitud física del cambio.</p>
     <div class="table-wrap compact">
       <table>
-        <thead><tr><th>Variable</th><th>Máximo vs dp = 0,002</th><th>Curva temporal vs dp = 0,002</th><th>Lectura</th></tr></thead>
+        <thead><tr><th>Variable</th><th>Máximo en dp = 0,003 vs dp = 0,002</th><th>Curva temporal vs dp = 0,002</th><th>Lectura</th></tr></thead>
         <tbody>
-          <tr><td>Altura / cota de agua</td><td>-4,1%</td><td>4,6%</td><td>Dentro de la banda. Es la evidencia hidráulica más limpia.</td></tr>
-          <tr><td>Velocidad máxima del bloque</td><td>-3,8%</td><td>5,6%</td><td>Máximo dentro de ±5%; forma temporal apenas sobre la banda, pero cercana.</td></tr>
-          <tr><td>Desplazamiento máximo</td><td>-6,2%</td><td>5,2%</td><td>Levemente fuera. Se acepta con cautela porque acumula contacto e historia temporal.</td></tr>
-          <tr><td>Velocidad de flujo puntual</td><td>Más sensible</td><td>Más variable</td><td>Se reporta como salida sensible; no es base principal de la decisión.</td></tr>
-          <tr><td>Rotación acumulada</td><td>Más sensible</td><td>No monótona</td><td>Variable observada; no define por sí sola la resolución de trabajo.</td></tr>
+          <tr><td>Altura / cota de agua</td><td>−5,54 mm (−4,1%)</td><td>4,6%</td><td>Dentro de la banda. Es la evidencia hidráulica más limpia.</td></tr>
+          <tr><td>Velocidad máxima del bloque</td><td>−0,0056 m/s (−3,8%)</td><td>5,6%</td><td>Máximo dentro de ±5%; forma temporal apenas sobre la banda, pero cercana.</td></tr>
+          <tr><td>Desplazamiento máximo</td><td>−7,96 mm (−6,2%; −7,93% de <code>d_eq</code>)</td><td>5,2%</td><td>Levemente fuera. Se acepta con cautela porque acumula contacto e historia temporal.</td></tr>
+          <tr><td>Velocidad de flujo puntual</td><td>−0,102 m/s (−6,2%)</td><td>10,0%</td><td>Se reporta como salida sensible; no es base principal de la decisión.</td></tr>
+          <tr><td>Rotación acumulada</td><td>−7,55° (−31,4%)</td><td>23,6%</td><td>Variable observada; no define por sí sola la resolución de trabajo.</td></tr>
         </tbody>
       </table>
     </div>
+    <figure>
+      <img src="figures/01b_diferencias_absolutas_dp003.png" alt="Diferencias absolutas entre dp 0.003 y dp 0.002">
+      <figcaption>La diferencia se calcula como <code>valor(dp=0,003) - valor(dp=0,002)</code>. El signo negativo indica que el máximo con <code>dp=0,003</code> fue menor que el caso fino.</figcaption>
+    </figure>
     <figure>
       <img src="figures/01_variables_defendibles_dp003.png" alt="Variables principales que sostienen dp 0.003">
       <figcaption>Comparación de máximos y curvas temporales respecto de <code>dp = 0,002 m</code>. Panel A: diferencia en el valor máximo. Panel B: diferencia en la forma de la curva temporal.</figcaption>
