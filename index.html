@@ -12,7 +12,7 @@
     <div>
       <p class="meta">Tesis UCN · modelo SPH-Chrono</p>
       <h1>Convergencia de resolución SPH para seleccionar <code>dp</code> operativo</h1>
-      <p>Esta página documenta cómo se selecciona la resolución productiva del modelo SPH-Chrono. La lectura principal compara variables continuas al disminuir <code>dp</code>, usando <code>dp=0.002 m</code> como referencia fina y evaluando qué tan cerca queda <code>dp=0.003 m</code>.</p>
+      <p>Esta página documenta el proceso de selección de la resolución de trabajo del modelo SPH-Chrono. El análisis compara variables continuas al reducir <code>dp</code>, tomando <code>dp = 0,002 m</code> como referencia fina y evaluando qué tan cerca se comporta <code>dp = 0,003 m</code>.</p>
     </div>
   </header>
 
@@ -24,13 +24,13 @@
         <div><dt>Comparación</dt><dd>máximos y curvas temporales</dd></div>
         <div><dt>Uso posterior</dt><dd>campañas con dp seleccionado</dd></div>
       </dl>
-      <p>SPH no usa una malla fija; usa partículas. Por eso aquí <code>dp</code> significa <strong>espaciamiento inicial entre partículas</strong> y se interpreta como resolución espacial del modelo.</p>
-      <p>La comparación se concentra en variables continuas: desplazamiento del bloque, velocidad del bloque, altura/cota de agua, velocidad del flujo puntual y rotación. Para tomar la decisión se priorizan las variables que representan mejor la respuesta global del bloque y del forzante hidráulico.</p>
-      <p>La decisión final combina dos criterios: cercanía al caso fino y costo computacional. <code>dp=0.003 m</code> se adopta como resolución operativa porque queda cerca de <code>dp=0.002 m</code> en las variables principales y permite ejecutar campañas productivas de forma viable.</p>
+      <p>SPH no trabaja con malla fija: usa partículas. El parámetro <code>dp</code> es el espaciamiento inicial entre ellas y opera como indicador directo de resolución espacial.</p>
+      <p>La comparación se concentra en variables continuas: desplazamiento del bloque, velocidad del bloque, altura o cota de agua, velocidad puntual del flujo y rotación. La decisión prioriza las variables que mejor representan la respuesta global del sistema.</p>
+      <p>La decisión final combina dos criterios: cercanía al caso fino y viabilidad computacional. <code>dp = 0,003 m</code> se adopta como resolución operativa porque se mantiene suficientemente cerca de <code>dp = 0,002 m</code> en las variables principales y permite ejecutar campañas de simulación a un costo razonable.</p>
       <div class="callout">
         <h3>Marco de lectura</h3>
-        <p>En un estudio CFD clásico, al refinar la discretización las variables tienden a acercarse a un valor asintótico. Con suficientes niveles de refinamiento se puede estimar orden de convergencia, extrapolación de Richardson y una banda tipo GCI.</p>
-        <p>En este modelo SPH se usa <code>dp</code> como escala de resolución y se reporta una evaluación práctica de sensibilidad: cuánto cambian máximos y curvas temporales al acercarse al caso fino. La clase estable/fallo se usa después, como aplicación del modelo a la estabilidad del bloque.</p>
+        <p>En un análisis CFD clásico, al refinar la discretización las variables tienden a converger hacia un valor asintótico, lo que permite estimar orden de convergencia, extrapolación de Richardson y una banda tipo GCI.</p>
+        <p>En este modelo SPH se reporta una evaluación práctica de sensibilidad: cuánto cambian los máximos y las curvas temporales al aproximarse al caso de referencia. La clasificación estable/fallo se usa posteriormente, como aplicación del modelo a la condición de inicio de movimiento del bloque.</p>
       </div>
       <figure>
         <img src="figures/00_orden_metodologico.png" alt="Orden metodológico del análisis">
@@ -39,65 +39,65 @@
     </section>
 
   <section>
-    <h2>2. Resultados de convergencia de variables principales</h2>
-    <p>La lectura principal usa <code>dp=0.002 m</code> como referencia fina. Para cada variable se revisan dos cosas: cuánto cambia el valor máximo y cuánto cambia la forma temporal completa de la curva.</p>
-    <p>La banda de <strong>±5%</strong> en esta sección mide diferencia entre resoluciones. Es una banda práctica para leer convergencia de variables, distinta del umbral de movimiento del bloque usado después.</p>
+    <h2>2. Resultados de convergencia en las variables principales</h2>
+    <p>El análisis toma <code>dp = 0,002 m</code> como referencia. Para cada variable se revisan dos aspectos: la diferencia en el valor máximo y el parecido de la forma temporal completa con el caso fino.</p>
+    <p>La banda de <strong>±5%</strong> en esta sección mide distancia entre resoluciones; no debe confundirse con el umbral de movimiento del bloque que se define más adelante.</p>
     <div class="table-wrap compact">
       <table>
-        <thead><tr><th>Variable</th><th>Máximo vs dp=0.002</th><th>Curva temporal vs dp=0.002</th><th>Lectura para decidir dp=0.003</th></tr></thead>
+        <thead><tr><th>Variable</th><th>Máximo vs dp = 0,002</th><th>Curva temporal vs dp = 0,002</th><th>Lectura</th></tr></thead>
         <tbody>
-          <tr><td>Altura/cota de agua</td><td>-4.1%</td><td>4.6%</td><td>Dentro de la banda práctica. Es la evidencia hidráulica más limpia.</td></tr>
-          <tr><td>Velocidad máxima del bloque</td><td>-3.8%</td><td>5.6%</td><td>Máximo dentro de ±5%; forma temporal apenas sobre la banda, pero cercana.</td></tr>
-          <tr><td>Desplazamiento máximo</td><td>-6.2%</td><td>5.2%</td><td>Cercano, aunque levemente fuera. Se acepta con cautela porque acumula contacto e historia temporal.</td></tr>
-          <tr><td>Velocidad de flujo puntual</td><td>Más sensible</td><td>Más variable</td><td>Se reporta como salida sensible, no como base principal de la decisión.</td></tr>
-          <tr><td>Rotación acumulada</td><td>Más sensible</td><td>No monótona</td><td>Se reporta como variable observada; no define por sí sola la resolución productiva.</td></tr>
+          <tr><td>Altura / cota de agua</td><td>-4,1%</td><td>4,6%</td><td>Dentro de la banda. Es la evidencia hidráulica más limpia.</td></tr>
+          <tr><td>Velocidad máxima del bloque</td><td>-3,8%</td><td>5,6%</td><td>Máximo dentro de ±5%; forma temporal apenas sobre la banda, pero cercana.</td></tr>
+          <tr><td>Desplazamiento máximo</td><td>-6,2%</td><td>5,2%</td><td>Levemente fuera. Se acepta con cautela porque acumula contacto e historia temporal.</td></tr>
+          <tr><td>Velocidad de flujo puntual</td><td>Más sensible</td><td>Más variable</td><td>Se reporta como salida sensible; no es base principal de la decisión.</td></tr>
+          <tr><td>Rotación acumulada</td><td>Más sensible</td><td>No monótona</td><td>Variable observada; no define por sí sola la resolución de trabajo.</td></tr>
         </tbody>
       </table>
     </div>
     <figure>
       <img src="figures/01_variables_defendibles_dp003.png" alt="Variables principales que sostienen dp 0.003">
-      <figcaption>Variables principales en <code>dp=0.003 m</code> comparadas con <code>dp=0.002 m</code>. La altura/cota de agua queda dentro de ±5%; la velocidad del bloque queda dentro o muy cerca; el desplazamiento queda cercano, alrededor de 6% respecto del caso fino.</figcaption>
+      <figcaption>Comparación de máximos y curvas temporales respecto de <code>dp = 0,002 m</code>. Panel A: diferencia en el valor máximo. Panel B: diferencia en la forma de la curva temporal.</figcaption>
       <div class="read-guide">
         <strong>Cómo leer esta figura:</strong>
         <ul>
-          <li><strong>Panel A:</strong> compara solo el valor máximo. Cero significa igual al caso fino <code>dp=0.002 m</code>.</li>
+          <li><strong>Panel A:</strong> compara solo el valor máximo. Cero significa igual al caso fino <code>dp = 0,002 m</code>.</li>
           <li><strong>Panel B:</strong> compara la forma completa de la curva temporal. Menor porcentaje significa curva más parecida al caso fino.</li>
-          <li><strong>Conclusión:</strong> <code>dp=0.003 m</code> queda suficientemente cerca del caso fino para producción, con cautela explícita en desplazamiento y controles finos posteriores.</li>
+          <li><strong>Conclusión:</strong> altura y velocidad del bloque quedan dentro o muy cerca de la banda; el desplazamiento queda en torno a un 6% del caso fino.</li>
         </ul>
       </div>
     </figure>
     <div class="figure-stack">
       <figure>
         <img src="figures/02_tendencia_variables_principales.png" alt="Tendencia de variables principales hacia el caso fino">
-        <figcaption>En el rango fino, las variables principales se aproximan al caso <code>dp=0.002 m</code>. La estabilización es práctica: no todas las curvas son monótonas, pero <code>dp=0.003 m</code> queda cerca de la referencia fina en las variables usadas para decidir.</figcaption>
+        <figcaption>En el rango fino, las variables principales se acercan a <code>dp = 0,002 m</code>. La estabilización es práctica: no todas las curvas son monótonas, pero la aproximación es clara en las variables de decisión.</figcaption>
       </figure>
       <figure>
         <img src="figures/03_curvas_temporales_finas.png" alt="Curvas temporales de desplazamiento, velocidad del bloque y altura de agua">
-        <figcaption>Curvas temporales del rango fino. La comparación revisa la forma de la respuesta, no solo el máximo, y se centra en desplazamiento, velocidad del bloque y altura/cota de agua.</figcaption>
+        <figcaption>La comparación revisa la forma de la respuesta completa, no solo el máximo.</figcaption>
       </figure>
     </div>
   </section>
 
   <section>
     <h2>3. Salidas sensibles y límite de la conclusión</h2>
-    <p>No todas las salidas tienen el mismo nivel de cierre. La velocidad de flujo puntual en un gauge y la rotación acumulada del bloque son más sensibles al refinamiento. Por eso se muestran como límite del análisis, pero no se usan como base principal para fijar <code>dp</code> ni para clasificar el movimiento.</p>
+    <p>No todas las salidas cierran igual. La velocidad de flujo en un gauge puntual y la rotación acumulada del bloque muestran mayor sensibilidad al refinamiento. Se muestran explícitamente como límite del análisis, no como base para fijar <code>dp</code> ni para clasificar el movimiento.</p>
     <div class="grid">
       <figure>
         <img src="figures/04_salidas_sensibles.png" alt="Salidas sensibles al refinamiento de dp">
-        <figcaption>La velocidad de flujo puntual y la rotación muestran mayor sensibilidad. Esto se declara explícitamente para no presentar una convergencia más fuerte que la observada.</figcaption>
+        <figcaption>Velocidad puntual y rotación presentan mayor variabilidad. Se declara expresamente para no sostener una convergencia más fuerte que la observada.</figcaption>
       </figure>
       <figure>
         <img src="figures/05_costo_vs_dp.png" alt="Costo computacional contra dp">
-        <figcaption>El refinamiento reduce <code>dp</code>, pero aumenta fuertemente partículas, memoria y tiempo. El caso <code>dp=0.002 m</code> es útil como referencia fina, pero costoso como resolución productiva.</figcaption>
+        <figcaption>El paso de <code>dp = 0,003</code> a <code>dp = 0,002 m</code> aumenta notablemente el número de partículas, la memoria requerida y el tiempo de cómputo. <code>dp = 0,002 m</code> es útil como referencia de verificación, no como resolución de campaña.</figcaption>
       </figure>
     </div>
-    <p class="note"><strong>Lectura defendible:</strong> <code>dp=0.003 m</code> se adopta como resolución operativa porque las variables principales quedan dentro o cerca de la banda de comparación respecto de <code>dp=0.002 m</code>, mientras el costo de <code>dp=0.002 m</code> aumenta de forma importante. La campaña productiva mantiene controles puntuales a <code>dp=0.002 m</code> en casos críticos.</p>
+    <p class="note"><strong>Lectura defendible:</strong> <code>dp = 0,003 m</code> se adopta porque las variables principales quedan dentro o cerca de la banda respecto del caso fino, mientras que <code>dp = 0,002 m</code> implica un costo que hace inviable una campaña completa. Los casos críticos se verifican puntualmente con la resolución fina.</p>
   </section>
 
   <section>
     <h2>4. Uso posterior: estabilidad y frontera</h2>
-    <p>Con <code>dp=0.003 m</code> se estudia estabilidad. Aquí <strong>frontera</strong> significa el intervalo de fricción <code>μ</code> donde, bajo la misma geometría y forzante, el bloque cambia entre no superar y superar el umbral de movimiento.</p>
-    <p>El umbral usado para movimiento es <code>D_max &gt; 5% d_eq</code>, donde <code>D_max</code> es el desplazamiento máximo del bloque y <code>d_eq</code> su diámetro equivalente. Este 5% corresponde al criterio físico-operacional de movimiento; la banda ±5% de la sección 2 corresponde a comparación entre resoluciones. La rotación se informa aparte como variable observada.</p>
+    <p>Con <code>dp = 0,003 m</code> se estudia la estabilidad del bloque. El término <em>frontera</em> designa el intervalo de fricción <code>μ</code> en el que, bajo la misma geometría y el mismo forzante, el bloque pasa de no superar a superar el umbral de movimiento.</p>
+    <p>El umbral operacional de movimiento es <code>D_max &gt; 5% d_eq</code>, donde <code>D_max</code> es el desplazamiento máximo del bloque y <code>d_eq</code> su diámetro equivalente. Este 5% es el criterio físico del análisis de estabilidad; la banda ±5% de la sección anterior es solo una referencia de comparación entre resoluciones. La rotación se informa aparte como variable observada.</p>
     <div class="figure-stack">
       <figure>
         <img src="figures/06_frontera_posterior_dp003.png" alt="Frontera posterior con dp 0.003">
@@ -105,43 +105,42 @@
       </figure>
       <figure>
         <img src="figures/07_sensibilidad_frontera_dp.png" alt="Sensibilidad de la frontera al cambiar dp">
-        <figcaption>Al refinar a <code>dp=0.002 m</code>, los casos cercanos quedan bajo el umbral. Esto se reporta como sensibilidad de resolución de la frontera.</figcaption>
+        <figcaption>Al refinar a <code>dp = 0,002 m</code>, los casos cercanos al umbral cambian de clase. Esto se reporta como sensibilidad de la frontera a la resolución.</figcaption>
       </figure>
     </div>
   </section>
 
   <section>
-    <h2>5. Qué se lanzó después</h2>
-    <p>Después de adoptar <code>dp=0.003 m</code>, se ejecutaron lotes controlados para aplicar la resolución seleccionada al estudio de estabilidad. Estos lotes sirven para construir el mapa de respuesta del bloque y alimentar la campaña posterior de simulaciones.</p>
-    <p>La campaña productiva prevista trabaja con altura hidráulica <code>H</code>, fricción bloque-suelo <code>μ</code> y masa relativa <code>m*</code>. Esa etapa usa <code>dp=0.003 m</code> como resolución de trabajo y reserva casos finos <code>dp=0.002 m</code> para verificaciones puntuales cerca de condiciones críticas.</p>
+    <h2>5. Lotes posteriores a la selección de resolución</h2>
+    <p>Adoptado <code>dp = 0,003 m</code>, se ejecutaron lotes de simulación para aplicar la resolución a la campaña de estabilidad. Estos lotes construyen el mapa de respuesta del bloque y alimentan la etapa paramétrica con <code>H</code>, <code>μ</code> y <code>m*</code> como variables de entrada. Los casos cercanos a condiciones críticas se verifican puntualmente con <code>dp = 0,002 m</code>.</p>
     <figure>
       <img src="figures/08_lotes_posteriores.png" alt="Resultados de lotes posteriores">
-      <figcaption>El piloto y batch2 muestran casos estables y de falla bajo la resolución adoptada. La línea roja punteada marca el umbral operacional de movimiento: <code>D_max = 5% d_eq</code>.</figcaption>
+      <figcaption>La línea roja punteada marca el umbral operacional <code>D_max = 5% d_eq</code>. Los casos aparecen clasificados como estables o de fallo.</figcaption>
     </figure>
   </section>
 
   <section>
     <h2>6. Verificaciones complementarias antes de producción</h2>
-    <p>Las verificaciones complementarias cubren tres preguntas necesarias para usar el modelo con mayor confianza: si el solver reproduce un caso hidráulico conocido, si el bloque permanece estable bajo una condición inicial sin impacto relevante y si las respuestas SPH son coherentes con un balance analítico de primer orden.</p>
+    <p>Antes de abrir la campaña productiva se realizaron tres verificaciones independientes: reproducción de un caso hidráulico conocido, sanity del contacto bloque-suelo sin forzante hidráulico relevante y comparación con un balance analítico de primer orden.</p>
     <div class="grid">
       <figure>
         <img src="figures/09_benchmark_hidraulico.png" alt="Benchmark hidraulico DualSPHysics contra referencia experimental">
-        <figcaption><strong>Benchmark hidráulico:</strong> caso oficial <code>CaseDambreakVal2D</code>. RMSE del frente: 0.257 m; error relativo final: 3.42%. Su alcance es hidráulico: instalación, GenCase, DualSPHysics, GPU y postproceso de gauges.</figcaption>
+        <figcaption><strong>Benchmark hidráulico:</strong> caso oficial <code>CaseDambreakVal2D</code>. RMSE del frente: 0,257 m; error relativo final: 3,42%. El alcance es estrictamente hidráulico: instalación, GenCase, DualSPHysics, GPU y postproceso de gauges.</figcaption>
       </figure>
       <figure>
         <img src="figures/10_contact_sanity.png" alt="Sanity de contacto bloque suelo sin impacto hidraulico">
-        <figcaption><strong>Sanity de contacto:</strong> la zona sombreada es el acomodo inicial de Chrono/contacto. Después de ese transiente, la velocidad cae prácticamente a cero y el desplazamiento sostenido queda en 0.78% de <code>d_eq</code>, bajo el umbral de 5%, sin fuerza SPH local.</figcaption>
+        <figcaption><strong>Sanity de contacto:</strong> la zona sombreada corresponde al acomodo inicial de Chrono. Pasado ese transitorio, la velocidad cae prácticamente a cero y el desplazamiento sostenido queda en 0,78% de <code>d_eq</code>, bien bajo el umbral del 5%, sin fuerza SPH local relevante.</figcaption>
       </figure>
       <figure>
         <img src="figures/11_comparacion_analitica.png" alt="Comparacion analitica preliminar entre movilidad y desplazamiento">
-        <figcaption><strong>Comparacion analitica:</strong> indice <code>Psi = F_motriz / F_resistente</code> aplicado a piloto y batch2. La escala log evita que los casos de desplazamiento extremo oculten los cercanos al umbral. No hay contradicciones fuertes entre banda analitica y clase SPH en los casos con datos hidraulicos utiles.</figcaption>
+        <figcaption><strong>Comparación analítica:</strong> índice <code>Ψ = F_motriz / F_resistente</code> aplicado a piloto y batch2. Escala logarítmica para evitar que los casos de desplazamiento extremo oculten los cercanos al umbral. No hay contradicciones fuertes entre la banda analítica y la clase SPH en los casos con datos hidráulicos útiles.</figcaption>
       </figure>
     </div>
-    <p class="note"><strong>Lectura:</strong> estas verificaciones aumentan la defensibilidad del pipeline sin afirmar validacion experimental del bloque. Son controles independientes: hidraulica base, contacto inicial y coherencia fisica de orden de magnitud.</p>
+    <p class="note">Estas tres verificaciones apuntalan la defensibilidad del pipeline sin reclamar validación experimental del bloque: son controles independientes que responden preguntas distintas —hidráulica base, contacto inicial y coherencia física de orden de magnitud.</p>
   </section>
 
   <section>
-    <h2>7. Tabla resumida de lotes posteriores</h2>
+    <h2>7. Tabla de lotes posteriores</h2>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Lote</th><th>Caso</th><th>H (m)</th><th>μ</th><th>Pendiente</th><th>Clase</th><th>Despl.</th><th>Rot.</th></tr></thead>
@@ -163,16 +162,16 @@
   </section>
 
   <section>
-    <h2>8. Análisis final y literatura usada</h2>
-    <p>Sin un experimento físico propio del bloque, la tesis se formula como verificación numérica por capas: sensibilidad de resolución, benchmark hidráulico externo, sanity de contacto bloque-suelo y comparación analítica de orden de magnitud. Cada capa responde una pregunta distinta y acota el alcance de la interpretación.</p>
+    <h2>8. Análisis final y referencias</h2>
+    <p>Sin un experimento físico propio del bloque, la tesis se plantea como verificación numérica por capas: sensibilidad de resolución, benchmark hidráulico externo, sanity de contacto y comparación analítica de orden de magnitud. Cada capa responde una pregunta concreta y delimita el alcance de la interpretación.</p>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Capa</th><th>Qué permite afirmar</th><th>Límite de interpretación</th><th>Base de literatura</th></tr></thead>
         <tbody>
-          <tr><td>Convergencia/sensibilidad de <code>dp</code></td><td>Las variables continuas principales se estabilizan en el rango fino y <code>dp=0.003 m</code> es una resolución operativa defendible.</td><td>La clase estable/fallo se interpreta con sensibilidad posterior, especialmente cerca del umbral.</td><td>Richardson/Roache-GCI y tutorial NASA WIND sobre refinamiento espacial.</td></tr>
-          <tr><td>Benchmark hidráulico</td><td>La instalación local de GenCase/DualSPHysics/GPU/postproceso reproduce un dam-break conocido.</td><td>El contacto, la fricción y el movimiento del bloque se revisan con capas adicionales.</td><td>Testcases oficiales DualSPHysics y benchmarks SPHERIC de dam-break.</td></tr>
-          <tr><td>Sanity de contacto</td><td>El bloque queda bajo el umbral durante el acomodo inicial y sin impacto hidráulico local relevante.</td><td>El movimiento bajo flujo tipo tsunami se estudia en los lotes productivos.</td><td>Acoplamiento DualSPHysics-Chrono y documentación de contacto/cuerpos rígidos.</td></tr>
-          <tr><td>Comparación analítica</td><td>Los casos SPH son coherentes con un balance físico de arrastre, peso, pendiente y fricción a nivel de orden de magnitud.</td><td>El balance analítico se usa como contraste físico, mientras SPH-Chrono entrega la respuesta dinámica detallada.</td><td>Nott/Nandasena para bloques costeros, experimentos de Bressan, datos moved/unmoved de Iwai & Goto y advertencias de Cox et al.</td></tr>
+          <tr><td>Convergencia / sensibilidad de <code>dp</code></td><td>Las variables continuas principales se estabilizan en el rango fino; <code>dp = 0,003 m</code> es una resolución operativa defendible.</td><td>La clasificación estable/fallo se interpreta con cautela en zonas cercanas al umbral.</td><td>Richardson/Roache-GCI; tutorial NASA WIND sobre refinamiento espacial.</td></tr>
+          <tr><td>Benchmark hidráulico</td><td>La instalación local de GenCase/DualSPHysics/GPU/postproceso reproduce un dam-break de referencia.</td><td>El contacto, la fricción y el movimiento del bloque requieren capas adicionales.</td><td>Testcases oficiales DualSPHysics; benchmarks SPHERIC de dam-break.</td></tr>
+          <tr><td>Sanity de contacto</td><td>El bloque queda bajo el umbral durante el acomodo inicial sin forzante hidráulico relevante.</td><td>El movimiento bajo flujo tipo tsunami se estudia en los lotes productivos.</td><td>Acoplamiento DualSPHysics-Chrono; documentación de cuerpos rígidos y contacto.</td></tr>
+          <tr><td>Comparación analítica</td><td>Los casos SPH son coherentes con un balance de arrastre, peso, pendiente y fricción en orden de magnitud.</td><td>El balance analítico opera como contraste físico; la respuesta dinámica detallada la entrega SPH-Chrono.</td><td>Nott/Nandasena para bloques costeros; Bressan; Iwai & Goto; advertencias de Cox et al.</td></tr>
         </tbody>
       </table>
     </div>
@@ -194,11 +193,11 @@
         <p><a href="https://research.uaeu.ac.ae/en/publications/reassessment-of-hydrodynamic-equations-minimum-flow-velocity-to-i/">Nandasena, Paris & Tanaka</a> plantean balances de fuerzas para inicio de movimiento; <a href="https://pearl.plymouth.ac.uk/secam-research/1746">Bressan et al.</a> muestran experimentalmente la influencia de profundidad, velocidad, peso, forma y orientación; <a href="https://www.nature.com/articles/s41598-021-92917-2">Iwai & Goto</a> refuerzan la importancia de casos movidos/no movidos; <a href="https://www.frontiersin.org/articles/10.3389/fmars.2020.00004/full">Cox et al.</a> advierten que esos balances deben usarse con límites claros. Aquí se usan como coherencia física.</p>
       </article>
     </div>
-    <p class="note"><strong>Frase defendible:</strong> el modelo se verifica numéricamente por resolución, se contrasta con un benchmark hidráulico externo, se revisa con un sanity de contacto y se compara con balances analíticos. La frontera final se reporta condicionada a <code>dp=0.003 m</code>, geometría fija, criterio <code>displacement_only</code> y parámetros de contacto usados.</p>
+    <p class="note"><strong>Conclusión defendible:</strong> el modelo se verifica numéricamente por resolución, se contrasta con un benchmark hidráulico externo, se revisa con un sanity de contacto y se compara con balances analíticos. La frontera reportada está condicionada a <code>dp = 0,003 m</code>, geometría fija, criterio de desplazamiento y parámetros de contacto utilizados.</p>
   </section>
 
   <section>
-    <h2>9. Términos usados</h2>
+    <h2>9. Glosario</h2>
     <dl class="terms">
       <div><dt>dp</dt><dd>Espaciamiento inicial entre partículas SPH. Menor <code>dp</code> implica mayor resolución y mayor costo computacional.</dd></div>
       <div><dt>Resolución SPH</dt><dd>Nivel de detalle espacial dado por el tamaño/separación de partículas, no por una malla fija.</dd></div>

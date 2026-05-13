@@ -595,7 +595,7 @@ def write_page(prod: pd.DataFrame) -> None:
   </section>
 
   <section>
-    <h2>2. Resultados de convergencia de variables principales</h2>
+    <h2>2. Resultados de convergencia en las variables principales</h2>
     <p>La lectura principal usa <code>dp=0.002 m</code> como referencia fina. Para cada variable se revisan dos cosas: cuánto cambia el valor máximo y cuánto cambia la forma temporal completa de la curva.</p>
     <p>La banda de <strong>±5%</strong> en esta sección mide diferencia entre resoluciones. Es una banda práctica para leer convergencia de variables, distinta del umbral de movimiento del bloque usado después.</p>
     <div class="table-wrap compact">
