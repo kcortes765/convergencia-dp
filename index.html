@@ -28,6 +28,29 @@
         <img src="figures/00_setup_planta_elevacion.png" alt="Planta y elevacion del setup SPH">
         <figcaption>Setup fisico usado en la lectura: canal, playa 1:20 y bloque irregular apoyado sobre la playa. La planta mantiene escala horizontal; la elevacion realza z para legibilidad.</figcaption>
       </figure>
+    <h3>Ficha del caso físico usado para la convergencia</h3>
+    <p>Todos los valores de la tabla por resolución corresponden a este mismo caso físico; lo único que cambia entre filas es <code>dp</code>.</p>
+    <div class="table-wrap compact-table">
+      <table>
+        <tbody><tr><th>Fuente auditada</th><td>data/logs/conv3_f05_full.log</td></tr>
+<tr><th>Serie</th><td>conv3_f05_full</td></tr>
+<tr><th>Altura de presa / columna inicial</th><td>0.20 m</td></tr>
+<tr><th>Masa del bloque</th><td>1.00 kg</td></tr>
+<tr><th>Coeficiente de fricción bloque-playa</th><td>mu = 0.50</td></tr>
+<tr><th>Pendiente de playa</th><td>1:20</td></tr>
+<tr><th>Rotación adicional del bloque</th><td>rot_z = 0.0 deg</td></tr>
+<tr><th>Rotación STL registrada</th><td>(0.0, 0.0, 0.0) deg</td></tr>
+<tr><th>Posición inicial nominal</th><td>(x, y, z) = (6.5, 0.5, 0.025) m</td></tr>
+<tr><th>Bloque</th><td>BLIR3.stl, escala = 0.04</td></tr>
+<tr><th>Volumen / densidad</th><td>0.00053023 m3 / 1886.0 kg/m3</td></tr>
+<tr><th>Diámetro equivalente</th><td>d_eq = 0.100421 m</td></tr>
+<tr><th>Bbox bloque</th><td>0.1710 x 0.2100 x 0.0399 m</td></tr>
+<tr><th>Canal</th><td>L_flat=6.0 m, L_ramp=9.0 m, L_end=15.0 m, W=1.0 m, H=1.5 m</td></tr>
+<tr><th>Gauges</th><td>12 velocity + 8 maxZ, reubicados según posición del bloque</td></tr>
+<tr><th>Resoluciones barridas</th><td>dp = 0.010, 0.008, 0.006, 0.005, 0.004, 0.003, 0.002 m</td></tr></tbody>
+      </table>
+    </div>
+    <p class="note">Ficha reconstruida desde <code>data/logs/conv3_f05_full.log</code>. Esta es la condición específica usada para la convergencia continua; no representa todos los casos productivos posteriores.</p>
       <p>SPH no usa una malla fija; usa partículas. Por eso aquí <code>dp</code> significa <strong>espaciamiento inicial entre partículas</strong> y se interpreta como resolución espacial del modelo.</p>
       <p>El análisis se ordena así: primero se comparan variables continuas para distintos <code>dp</code>, como desplazamiento del bloque, velocidad del bloque, velocidad del flujo y altura de agua en gauges. Esa es la parte de convergencia o sensibilidad de resolución.</p>
       <p>Luego, con una resolución seleccionada por equilibrio entre respuesta y costo, se analiza si el bloque inicia movimiento bajo un criterio operacional. Esa segunda parte es el estudio de estabilidad, no el reemplazo del análisis de convergencia.</p>
@@ -58,29 +81,6 @@
         </ul>
       </div>
     </figure>
-    <h3>Ficha del caso físico usado para la convergencia</h3>
-    <p>Todos los valores de la tabla por resolución corresponden a este mismo caso físico; lo único que cambia entre filas es <code>dp</code>.</p>
-    <div class="table-wrap compact-table">
-      <table>
-        <tbody><tr><th>Fuente auditada</th><td>data/logs/conv3_f05_full.log</td></tr>
-<tr><th>Serie</th><td>conv3_f05_full</td></tr>
-<tr><th>Altura de presa / columna inicial</th><td>0.20 m</td></tr>
-<tr><th>Masa del bloque</th><td>1.00 kg</td></tr>
-<tr><th>Coeficiente de fricción bloque-playa</th><td>mu = 0.50</td></tr>
-<tr><th>Pendiente de playa</th><td>1:20</td></tr>
-<tr><th>Rotación adicional del bloque</th><td>rot_z = 0.0 deg</td></tr>
-<tr><th>Rotación STL registrada</th><td>(0.0, 0.0, 0.0) deg</td></tr>
-<tr><th>Posición inicial nominal</th><td>(x, y, z) = (6.5, 0.5, 0.025) m</td></tr>
-<tr><th>Bloque</th><td>BLIR3.stl, escala = 0.04</td></tr>
-<tr><th>Volumen / densidad</th><td>0.00053023 m3 / 1886.0 kg/m3</td></tr>
-<tr><th>Diámetro equivalente</th><td>d_eq = 0.100421 m</td></tr>
-<tr><th>Bbox bloque</th><td>0.1710 x 0.2100 x 0.0399 m</td></tr>
-<tr><th>Canal</th><td>L_flat=6.0 m, L_ramp=9.0 m, L_end=15.0 m, W=1.0 m, H=1.5 m</td></tr>
-<tr><th>Gauges</th><td>12 velocity + 8 maxZ, reubicados según posición del bloque</td></tr>
-<tr><th>Resoluciones barridas</th><td>dp = 0.010, 0.008, 0.006, 0.005, 0.004, 0.003, 0.002 m</td></tr></tbody>
-      </table>
-    </div>
-    <p class="note">Ficha reconstruida desde <code>data/logs/conv3_f05_full.log</code>. Esta es la condición específica usada para la convergencia continua; no representa todos los casos productivos posteriores.</p>
     <h3>Resultados por resolución</h3>
     <div class="table-wrap">
       <table>
