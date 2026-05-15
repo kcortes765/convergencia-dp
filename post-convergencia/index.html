@@ -53,32 +53,53 @@
   <section>
     <h2>2. Figuras principales</h2>
     <div class="figure-stack">
-      <figure>
-        <img src="figures/01_response_map_h_mu_by_mass.png" alt="Mapa H-mu-masa">
+      <figure class="zoomable-figure">
+        <button class="figure-open" type="button" data-zoom-src="figures/01_response_map_h_mu_by_mass.svg" data-zoom-title="Mapa H-mu-masa" aria-label="Ampliar grafico: Mapa H-mu-masa">
+          <img src="figures/01_response_map_h_mu_by_mass.png" alt="Mapa H-mu-masa">
+          <span class="zoom-chip">Ampliar grafico</span>
+        </button>
         <figcaption><strong>Mapa H-mu-masa.</strong> Mapa operacional por masa relativa. Verde = estable; rojo = fallo; gris = parcial.</figcaption>
       </figure>
-<figure>
-        <img src="figures/02_margin_vs_mu_by_mass_and_h.png" alt="Margen al umbral">
+<figure class="zoomable-figure">
+        <button class="figure-open" type="button" data-zoom-src="figures/02_margin_vs_mu_by_mass_and_h.svg" data-zoom-title="Margen al umbral" aria-label="Ampliar grafico: Margen al umbral">
+          <img src="figures/02_margin_vs_mu_by_mass_and_h.png" alt="Margen al umbral">
+          <span class="zoom-chip">Ampliar grafico</span>
+        </button>
         <figcaption><strong>Margen al umbral.</strong> Margen continuo respecto de 5% de d_eq, con lectura absoluta en mm.</figcaption>
       </figure>
-<figure>
-        <img src="figures/03_batch_story_margin_strip.png" alt="Historia de lotes">
+<figure class="zoomable-figure">
+        <button class="figure-open" type="button" data-zoom-src="figures/03_batch_story_margin_strip.svg" data-zoom-title="Historia de lotes" aria-label="Ampliar grafico: Historia de lotes">
+          <img src="figures/03_batch_story_margin_strip.png" alt="Historia de lotes">
+          <span class="zoom-chip">Ampliar grafico</span>
+        </button>
         <figcaption><strong>Historia de lotes.</strong> Secuencia compacta desde piloto hasta AL1, separando exploracion y cierre de brackets.</figcaption>
       </figure>
-<figure>
-        <img src="figures/04_local_hydraulics_vs_displacement.png" alt="Hidraulica local">
+<figure class="zoomable-figure">
+        <button class="figure-open" type="button" data-zoom-src="figures/04_local_hydraulics_vs_displacement.svg" data-zoom-title="Hidraulica local" aria-label="Ampliar grafico: Hidraulica local">
+          <img src="figures/04_local_hydraulics_vs_displacement.png" alt="Hidraulica local">
+          <span class="zoom-chip">Ampliar grafico</span>
+        </button>
         <figcaption><strong>Hidraulica local.</strong> Relacion entre hmax/Umax locales y desplazamiento del bloque.</figcaption>
       </figure>
-<figure>
-        <img src="figures/05_forces_vs_displacement.png" alt="Fuerzas diagnosticas">
+<figure class="zoomable-figure">
+        <button class="figure-open" type="button" data-zoom-src="figures/05_forces_vs_displacement.svg" data-zoom-title="Fuerzas diagnosticas" aria-label="Ampliar grafico: Fuerzas diagnosticas">
+          <img src="figures/05_forces_vs_displacement.png" alt="Fuerzas diagnosticas">
+          <span class="zoom-chip">Ampliar grafico</span>
+        </button>
         <figcaption><strong>Fuerzas diagnosticas.</strong> Fuerzas SPH y contacto contra desplazamiento primario.</figcaption>
       </figure>
-<figure>
-        <img src="figures/06_rotation_diagnostic_vs_displacement.png" alt="Rotacion diagnostica">
+<figure class="zoomable-figure">
+        <button class="figure-open" type="button" data-zoom-src="figures/06_rotation_diagnostic_vs_displacement.svg" data-zoom-title="Rotacion diagnostica" aria-label="Ampliar grafico: Rotacion diagnostica">
+          <img src="figures/06_rotation_diagnostic_vs_displacement.png" alt="Rotacion diagnostica">
+          <span class="zoom-chip">Ampliar grafico</span>
+        </button>
         <figcaption><strong>Rotacion diagnostica.</strong> Rotacion acumulada frente al criterio displacement_only.</figcaption>
       </figure>
-<figure>
-        <img src="figures/08_mass_effect_displacement_summary.png" alt="Efecto de masa">
+<figure class="zoomable-figure">
+        <button class="figure-open" type="button" data-zoom-src="figures/08_mass_effect_displacement_summary.svg" data-zoom-title="Efecto de masa" aria-label="Ampliar grafico: Efecto de masa">
+          <img src="figures/08_mass_effect_displacement_summary.png" alt="Efecto de masa">
+          <span class="zoom-chip">Ampliar grafico</span>
+        </button>
         <figcaption><strong>Efecto de masa.</strong> Resumen del desplazamiento por masa relativa.</figcaption>
       </figure>
     </div>
@@ -105,5 +126,137 @@
     <p>Convencion visual: verde = <span class="inline-stable">ESTABLE</span>, rojo = <span class="inline-fail">FALLO</span>, gris = parcial/no oficial.</p>
   </section>
 </main>
+
+<div class="zoom-modal" id="figureZoom" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Grafico ampliado">
+  <div class="zoom-modal__panel">
+    <div class="zoom-modal__bar">
+      <p id="figureZoomTitle">Grafico ampliado</p>
+      <div class="zoom-controls" aria-label="Controles de zoom">
+        <button type="button" data-zoom-action="out" aria-label="Alejar">-</button>
+        <button type="button" data-zoom-action="reset" aria-label="Restablecer zoom">100%</button>
+        <button type="button" data-zoom-action="in" aria-label="Acercar">+</button>
+        <button type="button" data-zoom-action="close" aria-label="Cerrar visor">Cerrar</button>
+      </div>
+    </div>
+    <div class="zoom-modal__stage">
+      <img id="figureZoomImage" alt="">
+    </div>
+    <p class="zoom-help">Rueda/trackpad para zoom, arrastrar para mover, doble clic para acercar, Esc para cerrar.</p>
+  </div>
+</div>
+
+
+<script>
+(() => {
+  const modal = document.getElementById("figureZoom");
+  const img = document.getElementById("figureZoomImage");
+  const title = document.getElementById("figureZoomTitle");
+  if (!modal || !img || !title) return;
+
+  let scale = 1;
+  let panX = 0;
+  let panY = 0;
+  let dragging = false;
+  let startX = 0;
+  let startY = 0;
+  let originX = 0;
+  let originY = 0;
+
+  const clampScale = (value) => Math.min(6, Math.max(0.75, value));
+  const applyTransform = () => {
+    img.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+    modal.dataset.zoomed = scale > 1.01 ? "true" : "false";
+  };
+  const resetZoom = () => {
+    scale = 1;
+    panX = 0;
+    panY = 0;
+    applyTransform();
+  };
+  const zoomBy = (factor) => {
+    scale = clampScale(scale * factor);
+    if (scale <= 1.01) {
+      panX = 0;
+      panY = 0;
+    }
+    applyTransform();
+  };
+  const openZoom = (button) => {
+    const src = button.dataset.zoomSrc || button.querySelector("img")?.src;
+    const label = button.dataset.zoomTitle || button.querySelector("img")?.alt || "Grafico ampliado";
+    if (!src) return;
+    img.src = src;
+    img.alt = label;
+    title.textContent = label;
+    resetZoom();
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+    modal.querySelector('[data-zoom-action="close"]')?.focus();
+  };
+  const closeZoom = () => {
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+    img.removeAttribute("src");
+  };
+
+  document.querySelectorAll(".figure-open").forEach((button) => {
+    button.addEventListener("click", () => openZoom(button));
+  });
+
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) closeZoom();
+  });
+
+  modal.querySelectorAll("[data-zoom-action]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const action = button.dataset.zoomAction;
+      if (action === "in") zoomBy(1.25);
+      if (action === "out") zoomBy(0.8);
+      if (action === "reset") resetZoom();
+      if (action === "close") closeZoom();
+    });
+  });
+
+  modal.addEventListener("wheel", (event) => {
+    if (!modal.classList.contains("is-open")) return;
+    event.preventDefault();
+    zoomBy(event.deltaY < 0 ? 1.12 : 0.9);
+  }, { passive: false });
+
+  img.addEventListener("dblclick", () => {
+    if (scale < 1.5) zoomBy(2);
+    else resetZoom();
+  });
+
+  img.addEventListener("pointerdown", (event) => {
+    if (scale <= 1.01) return;
+    dragging = true;
+    startX = event.clientX;
+    startY = event.clientY;
+    originX = panX;
+    originY = panY;
+    img.setPointerCapture(event.pointerId);
+  });
+  img.addEventListener("pointermove", (event) => {
+    if (!dragging) return;
+    panX = originX + event.clientX - startX;
+    panY = originY + event.clientY - startY;
+    applyTransform();
+  });
+  img.addEventListener("pointerup", () => { dragging = false; });
+  img.addEventListener("pointercancel", () => { dragging = false; });
+
+  window.addEventListener("keydown", (event) => {
+    if (!modal.classList.contains("is-open")) return;
+    if (event.key === "Escape") closeZoom();
+    if (event.key === "+" || event.key === "=") zoomBy(1.25);
+    if (event.key === "-" || event.key === "_") zoomBy(0.8);
+    if (event.key === "0") resetZoom();
+  });
+})();
+</script>
+
 </body>
 </html>
