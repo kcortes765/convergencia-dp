@@ -11,8 +11,8 @@
   <header class="top">
     <div>
       <p class="meta">Tesis UCN · modelo SPH-Chrono</p>
-      <h1>Convergencia de resolución SPH y uso posterior en estabilidad</h1>
-      <p>Esta página separa dos niveles de análisis: primero se revisa cómo cambian variables continuas al disminuir <code>dp</code>; después se usa la resolución adoptada para estudiar estabilidad del bloque.</p>
+      <h1>Convergencia de resolución SPH</h1>
+      <p>Esta pagina resume por que se adopta <code>dp=0.003 m</code> como resolucion operativa. La produccion dirigida y active learning quedan en una pagina separada.</p>
     </div>
   </header>
 
@@ -22,8 +22,12 @@
         <div><dt>Resolución adoptada</dt><dd>dp = 0.003 m</dd></div>
         <div><dt>Convergencia</dt><dd>variables temporales y máximos</dd></div>
         <div><dt>Estabilidad</dt><dd>análisis posterior al dp elegido</dd></div>
-        <div><dt>Uso posterior</dt><dd>movimiento si D_max &gt; 5% d_eq</dd></div>
+        <div><dt>Post-convergencia</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/post-convergencia/">pagina dedicada</a></dd></div>
       </dl>
+      <figure>
+        <img src="figures/00_setup_planta_elevacion.png" alt="Planta y elevacion del setup SPH">
+        <figcaption>Setup fisico usado en la lectura: canal, playa 1:20 y bloque irregular apoyado sobre la playa. La planta mantiene escala horizontal; la elevacion realza z para legibilidad.</figcaption>
+      </figure>
       <p>SPH no usa una malla fija; usa partículas. Por eso aquí <code>dp</code> significa <strong>espaciamiento inicial entre partículas</strong> y se interpreta como resolución espacial del modelo.</p>
       <p>El análisis se ordena así: primero se comparan variables continuas para distintos <code>dp</code>, como desplazamiento del bloque, velocidad del bloque, velocidad del flujo y altura de agua en gauges. Esa es la parte de convergencia o sensibilidad de resolución.</p>
       <p>Luego, con una resolución seleccionada por equilibrio entre respuesta y costo, se analiza si el bloque inicia movimiento bajo un criterio operacional. Esa segunda parte es el estudio de estabilidad, no el reemplazo del análisis de convergencia.</p>
@@ -99,124 +103,13 @@
   </section>
 
   <section>
-    <h2>5. Qué se lanzó después</h2>
-    <p>Después de adoptar <code>dp=0.003 m</code>, se ejecutaron lotes controlados. Su objetivo no fue seguir demostrando convergencia, sino verificar el flujo productivo y comenzar a leer tendencias de estabilidad bajo la resolución seleccionada.</p>
-    <figure>
-      <img src="figures/08_lotes_posteriores.png" alt="Resultados de lotes posteriores">
-      <figcaption>El piloto y batch2 muestran casos estables y de falla bajo la resolución adoptada. La línea roja punteada marca el umbral operacional de movimiento: <code>D_max = 5% d_eq</code>. Estos resultados pertenecen a la etapa de aplicación, no a la prueba de convergencia.</figcaption>
-    </figure>
+    <h2>5. Post-convergencia separado</h2>
+    <p>Los lotes productivos, el efecto de masa, la hidraulica local, las fuerzas, la rotacion diagnostica y active learning se movieron a una pagina dedicada para no mezclar la seleccion de <code>dp</code> con el analisis posterior.</p>
+    <p><a class="button-link" href="https://kcortes765.github.io/convergencia-dp/post-convergencia/">Abrir pagina post-convergencia</a></p>
   </section>
 
   <section>
-    <h2>6. Produccion dirigida y active learning</h2>
-    <p>La pagina ahora incorpora los datos oficiales cerrados hasta AL1. AL2 esta corriendo en la WS y no se incluye hasta tener export liviano y postproceso oficial.</p>
-    <p>En esta etapa cada grafico con desplazamiento porcentual tambien muestra desplazamiento absoluto en mm. La rotacion queda como diagnostico, y las fuerzas se usan para explicar fisica local, no como criterio primario.</p>
-    <div class="figure-stack">
-      <figure>
-        <img src="figures/12_mapa_productivo_h_mu_masa.png" alt="Mapa productivo H mu por masa">
-        <figcaption>Mapa <code>H-mu</code> separado por masa relativa. Cada etiqueta muestra <code>Dmax</code> en porcentaje y mm; la clase se lee con el umbral operacional de 5% de <code>d_eq</code>.</figcaption>
-      </figure>
-      <figure>
-        <img src="figures/13_margen_productivo_por_masa.png" alt="Margen productivo por masa e hidraulica">
-        <figcaption>Margen al umbral, con distancia fisica en mm. Valores bajo cero superan el umbral; valores sobre cero quedan estables por desplazamiento.</figcaption>
-      </figure>
-      <figure>
-        <img src="figures/14_historia_lotes_al.png" alt="Historia de lotes productivos y active learning">
-        <figcaption>Historia de lotes: piloto, batch2, batch3, batch4 y AL1. El objetivo visual es mostrar como la exploracion pasa de pruebas operativas a cierre de brackets, sin ocultar casos parciales.</figcaption>
-      </figure>
-      <figure>
-        <img src="figures/15_hidraulica_local_vs_desplazamiento.png" alt="Hidraulica local contra desplazamiento">
-        <figcaption>Relacion entre hidraulica local y desplazamiento. Ayuda a explicar por que <code>H</code> por si sola no basta para leer la demanda sobre el bloque.</figcaption>
-      </figure>
-      <figure>
-        <img src="figures/16_fuerzas_vs_desplazamiento.png" alt="Fuerzas contra desplazamiento">
-        <figcaption>Fuerzas SPH y de contacto frente a desplazamiento. La fuerza de contacto se reporta como diagnostico, no como criterio de clasificacion.</figcaption>
-      </figure>
-      <figure>
-        <img src="figures/17_rotacion_diagnostica_vs_desplazamiento.png" alt="Rotacion diagnostica contra desplazamiento">
-        <figcaption>La rotacion puede ser alta aun en casos estables por desplazamiento. Por eso se conserva como diagnostico y no como criterio primario.</figcaption>
-      </figure>
-      <figure>
-        <img src="figures/18_efecto_masa_resumen.png" alt="Resumen del efecto de la masa">
-        <figcaption>Resumen visual del efecto de <code>m*</code>: la masa baja abre una zona critica, mientras masas mayores estabilizan parte importante del dominio explorado.</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section>
-    <h2>7. Verificaciones complementarias antes de produccion</h2>
-    <p>Estas pruebas no son parte del analisis de convergencia. Se agregan para cubrir tres preguntas distintas antes de seguir con la campana productiva: si el solver reproduce un caso hidraulico conocido, si el bloque no se mueve por una condicion inicial defectuosa y si las respuestas SPH son coherentes con un balance analitico de primer orden.</p>
-    <div class="grid">
-      <figure>
-        <img src="figures/09_benchmark_hidraulico.png" alt="Benchmark hidraulico DualSPHysics contra referencia experimental">
-        <figcaption><strong>Benchmark hidraulico:</strong> caso oficial <code>CaseDambreakVal2D</code>. RMSE del frente: 0.257 m; error relativo final: 3.42%. Valida instalacion, GenCase, DualSPHysics, GPU y postproceso de gauges; no valida el bloque.</figcaption>
-      </figure>
-      <figure>
-        <img src="figures/10_contact_sanity.png" alt="Sanity de contacto bloque suelo sin impacto hidraulico">
-        <figcaption><strong>Sanity de contacto:</strong> la zona sombreada es el acomodo inicial de Chrono/contacto. Después de ese transiente, la velocidad cae prácticamente a cero y el desplazamiento sostenido queda en 0.78% de <code>d_eq</code>, bajo el umbral de 5%, sin fuerza SPH local.</figcaption>
-      </figure>
-      <figure>
-        <img src="figures/11_comparacion_analitica.png" alt="Comparacion analitica preliminar entre movilidad y desplazamiento">
-        <figcaption><strong>Comparacion analitica:</strong> indice <code>Psi = F_motriz / F_resistente</code> aplicado a piloto y batch2. La escala log evita que los casos de desplazamiento extremo oculten los cercanos al umbral. No hay contradicciones fuertes entre banda analitica y clase SPH en los casos con datos hidraulicos utiles.</figcaption>
-      </figure>
-    </div>
-    <p class="note"><strong>Lectura:</strong> estas verificaciones aumentan la defensibilidad del pipeline sin afirmar validacion experimental del bloque. Son controles independientes: hidraulica base, contacto inicial y coherencia fisica de orden de magnitud.</p>
-  </section>
-
-  <section>
-    <h2>8. Tabla resumida de lotes posteriores</h2>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Lote</th><th>Caso</th><th>H (m)</th><th>m*</th><th>mu</th><th>Pendiente</th><th>Clase</th><th>Despl. (%)</th><th>Despl. (mm)</th><th>Rot.</th></tr></thead>
-        <tbody><tr><td>AL1</td><td><code>al1_lowH_m085_mu0620</code></td><td>0.175</td><td>0.85</td><td>0.6200</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>1.23%</td><td>1.24 mm</td><td>4.10 deg</td></tr>
-<tr><td>AL1</td><td><code>al1_base_m085_mu0780</code></td><td>0.200</td><td>0.85</td><td>0.7800</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>7.64%</td><td>7.67 mm</td><td>6.09 deg</td></tr>
-<tr><td>AL1</td><td><code>al1_base_m115_mu0620</code></td><td>0.200</td><td>1.15</td><td>0.6200</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>1.23%</td><td>1.24 mm</td><td>4.69 deg</td></tr>
-<tr><td>AL1</td><td><code>al1_base_m125_mu0600</code></td><td>0.200</td><td>1.25</td><td>0.6000</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>1.23%</td><td>1.24 mm</td><td>4.80 deg</td></tr>
-<tr><td>AL1</td><td><code>al1_midH_m100_mu0800</code></td><td>0.210</td><td>1.00</td><td>0.8000</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>1.98%</td><td>1.99 mm</td><td>4.96 deg</td></tr>
-<tr><td>AL1</td><td><code>al1_midH_m115_mu0730</code></td><td>0.210</td><td>1.15</td><td>0.7300</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>1.23%</td><td>1.24 mm</td><td>4.79 deg</td></tr>
-<tr><td>AL1</td><td><code>al1_highH_m115_mu0800</code></td><td>0.225</td><td>1.15</td><td>0.8000</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>1.29%</td><td>1.30 mm</td><td>4.76 deg</td></tr>
-<tr><td>AL1</td><td><code>al1_highH_m125_mu0740</code></td><td>0.225</td><td>1.25</td><td>0.7400</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>1.27%</td><td>1.27 mm</td><td>4.84 deg</td></tr>
-<tr><td>Batch2</td><td><code>batch2_h0175_mu0680</code></td><td>0.175</td><td>1.00</td><td>0.6800</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>1.23%</td><td>1.24 mm</td><td>4.56 deg</td></tr>
-<tr><td>Batch2</td><td><code>batch2_slope10_mu0600</code></td><td>0.200</td><td>1.00</td><td>0.6000</td><td>1:10</td><td><span class='pill stable'>ESTABLE</span></td><td>1.50%</td><td>1.51 mm</td><td>7.60 deg</td></tr>
-<tr><td>Batch2</td><td><code>batch2_slope10_mu0650</code></td><td>0.200</td><td>1.00</td><td>0.6500</td><td>1:10</td><td><span class='pill stable'>ESTABLE</span></td><td>1.42%</td><td>1.43 mm</td><td>7.44 deg</td></tr>
-<tr><td>Batch2</td><td><code>batch2_base_mu0675</code></td><td>0.200</td><td>1.00</td><td>0.6750</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>5.99%</td><td>6.02 mm</td><td>5.33 deg</td></tr>
-<tr><td>Batch2</td><td><code>batch2_base_mu0685</code></td><td>0.200</td><td>1.00</td><td>0.6850</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>3.78%</td><td>3.80 mm</td><td>4.76 deg</td></tr>
-<tr><td>Batch2</td><td><code>batch2_base_mu0700</code></td><td>0.200</td><td>1.00</td><td>0.7000</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>2.31%</td><td>2.32 mm</td><td>4.87 deg</td></tr>
-<tr><td>Batch2</td><td><code>batch2_h0225_mu0680</code></td><td>0.225</td><td>1.00</td><td>0.6800</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>111.28%</td><td>111.75 mm</td><td>16.89 deg</td></tr>
-<tr><td>Batch2</td><td><code>batch2_h0225_mu0720</code></td><td>0.225</td><td>1.00</td><td>0.7200</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>62.87%</td><td>63.14 mm</td><td>13.39 deg</td></tr>
-<tr><td>Batch3</td><td><code>batch3_lowH_mu0600</code></td><td>0.175</td><td>1.00</td><td>0.6000</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>1.23%</td><td>1.24 mm</td><td>4.82 deg</td></tr>
-<tr><td>Batch3</td><td><code>batch3_lowH_mu0640</code></td><td>0.175</td><td>1.00</td><td>0.6400</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>1.23%</td><td>1.24 mm</td><td>4.94 deg</td></tr>
-<tr><td>Batch3</td><td><code>batch3_lowH_mu0660</code></td><td>0.175</td><td>1.00</td><td>0.6600</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>1.23%</td><td>1.24 mm</td><td>4.53 deg</td></tr>
-<tr><td>Batch3</td><td><code>batch3_base_mu0678</code></td><td>0.200</td><td>1.00</td><td>0.6780</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>6.53%</td><td>6.56 mm</td><td>5.56 deg</td></tr>
-<tr><td>Batch3</td><td><code>batch3_base_mu0680</code></td><td>0.200</td><td>1.00</td><td>0.6800</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>8.09%</td><td>8.12 mm</td><td>5.86 deg</td></tr>
-<tr><td>Batch3</td><td><code>batch3_base_mu0682</code></td><td>0.200</td><td>1.00</td><td>0.6820</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>4.25%</td><td>4.27 mm</td><td>5.33 deg</td></tr>
-<tr><td>Batch3</td><td><code>batch3_midH_mu0700</code></td><td>0.210</td><td>1.00</td><td>0.7000</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>23.95%</td><td>24.05 mm</td><td>8.27 deg</td></tr>
-<tr><td>Batch3</td><td><code>batch3_midH_mu0740</code></td><td>0.210</td><td>1.00</td><td>0.7400</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>8.56%</td><td>8.59 mm</td><td>6.27 deg</td></tr>
-<tr><td>Batch3</td><td><code>batch3_highH_mu0760</code></td><td>0.225</td><td>1.00</td><td>0.7600</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>44.78%</td><td>44.96 mm</td><td>11.15 deg</td></tr>
-<tr><td>Batch3</td><td><code>batch3_highH_mu0800</code></td><td>0.225</td><td>1.00</td><td>0.8000</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>25.73%</td><td>25.83 mm</td><td>8.56 deg</td></tr>
-<tr><td>Batch4 masa</td><td><code>batch4_mass_m085_H0175_mu0560</code></td><td>0.175</td><td>0.85</td><td>0.5600</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>5.46%</td><td>5.48 mm</td><td>5.30 deg</td></tr>
-<tr><td>Batch4 masa</td><td><code>batch4_mass_m115_H0175_mu0640</code></td><td>0.175</td><td>1.15</td><td>0.6400</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>1.23%</td><td>1.24 mm</td><td>4.12 deg</td></tr>
-<tr><td>Batch4 masa</td><td><code>batch4_mass_m085_H0200_mu0682</code></td><td>0.200</td><td>0.85</td><td>0.6820</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>50.13%</td><td>50.35 mm</td><td>11.28 deg</td></tr>
-<tr><td>Batch4 masa</td><td><code>batch4_mass_m100_H0200_mu0681</code></td><td>0.200</td><td>1.00</td><td>0.6810</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>4.28%</td><td>4.30 mm</td><td>5.20 deg</td></tr>
-<tr><td>Batch4 masa</td><td><code>batch4_mass_m115_H0200_mu0680</code></td><td>0.200</td><td>1.15</td><td>0.6800</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>1.23%</td><td>1.24 mm</td><td>4.41 deg</td></tr>
-<tr><td>Batch4 masa</td><td><code>batch4_mass_m125_H0200_mu0675</code></td><td>0.200</td><td>1.25</td><td>0.6750</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>1.23%</td><td>1.24 mm</td><td>4.63 deg</td></tr>
-<tr><td>Batch4 masa</td><td><code>batch4_mass_m085_H0210_mu0740</code></td><td>0.210</td><td>0.85</td><td>0.7400</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>66.83%</td><td>67.11 mm</td><td>13.08 deg</td></tr>
-<tr><td>Batch4 masa</td><td><code>batch4_mass_m115_H0210_mu0760</code></td><td>0.210</td><td>1.15</td><td>0.7600</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>1.23%</td><td>1.24 mm</td><td>4.39 deg</td></tr>
-<tr><td>Batch4 masa</td><td><code>batch4_mass_m085_H0225_mu0800</code></td><td>0.225</td><td>0.85</td><td>0.8000</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>106.55%</td><td>107.00 mm</td><td>16.37 deg</td></tr>
-<tr><td>Batch4 masa</td><td><code>batch4_mass_m100_H0225_mu0860</code></td><td>0.225</td><td>1.00</td><td>0.8600</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>5.85%</td><td>5.87 mm</td><td>5.70 deg</td></tr>
-<tr><td>Batch4 masa</td><td><code>batch4_mass_m125_H0225_mu0800</code></td><td>0.225</td><td>1.25</td><td>0.8000</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>1.23%</td><td>1.24 mm</td><td>4.83 deg</td></tr>
-<tr><td>Batch4 masa</td><td><code>batch4_mass_m125_H0225_mu0860</code></td><td>0.225</td><td>1.25</td><td>0.8600</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>1.23%</td><td>1.24 mm</td><td>4.73 deg</td></tr>
-<tr><td>Piloto</td><td><code>prod_pilot_fail_low_mu</code></td><td>0.200</td><td>1.00</td><td>0.6000</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>42.38%</td><td>42.56 mm</td><td>10.68 deg</td></tr>
-<tr><td>Piloto</td><td><code>prod_pilot_slope_check</code></td><td>0.200</td><td>1.00</td><td>0.6800</td><td>1:10</td><td><span class='pill stable'>ESTABLE</span></td><td>1.42%</td><td>1.43 mm</td><td>7.43 deg</td></tr>
-<tr><td>Piloto</td><td><code>prod_pilot_frontier</code></td><td>0.200</td><td>1.00</td><td>0.6806</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>5.02%</td><td>5.04 mm</td><td>5.08 deg</td></tr>
-<tr><td>Piloto</td><td><code>prod_pilot_stable_high_mu</code></td><td>0.200</td><td>1.00</td><td>0.7500</td><td>1:20</td><td><span class='pill stable'>ESTABLE</span></td><td>1.23%</td><td>1.24 mm</td><td>4.46 deg</td></tr>
-<tr><td>Piloto</td><td><code>prod_pilot_stronger_hydraulic</code></td><td>0.250</td><td>1.00</td><td>0.3000</td><td>1:20</td><td><span class='pill fail'>FALLO</span></td><td>1341.54%</td><td>1347.18 mm</td><td>55.78 deg</td></tr></tbody>
-      </table>
-    </div>
-  </section>
-
-  <section>
-    <h2>9. Analisis final y literatura usada</h2>
+    <h2>6. Analisis final y literatura usada</h2>
     <p>Sin un experimento fisico propio del bloque, la tesis no debe afirmar validacion experimental directa del caso completo. La defensa se arma por capas: sensibilidad de resolucion, benchmark hidraulico externo, sanity de contacto bloque-suelo y comparacion analitica de orden de magnitud. Cada capa responde una pregunta distinta.</p>
     <div class="table-wrap">
       <table>
@@ -251,7 +144,7 @@
   </section>
 
   <section>
-    <h2>10. Términos usados</h2>
+    <h2>7. Términos usados</h2>
     <dl class="terms">
       <div><dt>dp</dt><dd>Espaciamiento inicial entre partículas SPH. Menor <code>dp</code> implica mayor resolución y mayor costo computacional.</dd></div>
       <div><dt>Resolución SPH</dt><dd>Nivel de detalle espacial dado por el tamaño/separación de partículas, no por una malla fija.</dd></div>

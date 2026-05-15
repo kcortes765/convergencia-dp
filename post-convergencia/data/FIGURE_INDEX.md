@@ -5,7 +5,7 @@ Figuras derivadas de exports livianos oficiales: piloto, batch2, batch3, batch4 
 ## Regla visual aplicada
 - El desplazamiento normalizado usa `Dmax (% d_eq)` y siempre muestra equivalente absoluto en mm cuando aparece como eje o escala principal.
 - Umbral primario: `5% d_eq = 5.02 mm`.
-- Colores de clase: azul = ESTABLE, vermillion = FALLO; se evita depender solo de rojo/verde.
+- Colores de clase: verde = ESTABLE, rojo = FALLO, gris = parcial/no oficial.
 - La rotacion se muestra como diagnostico acumulado; no define la clase.
 - Las gauges hidraulicas explican contexto fisico, pero ChronoExchange sigue siendo la fuente primaria del movimiento del bloque.
 

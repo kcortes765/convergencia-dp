@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Post-convergencia SPH</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="page">
+  <header class="top">
+    <p class="meta">Tesis UCN · SPH-Chrono</p>
+    <h1>Post-convergencia: frontera operacional y lotes dirigidos</h1>
+    <p>Esta pagina concentra lo que viene despues de fijar <code>dp=0.003 m</code>: piloto, batch2, batch3, batch4 y AL1. AL2 no se incluye hasta que termine y exista export oficial.</p>
+    <p><a href="https://kcortes765.github.io/convergencia-dp/">Volver a convergencia de dp</a></p>
+  </header>
+
+  <section>
+    <h2>1. Marco de lectura</h2>
+    <dl class="cards">
+      <div><dt>Casos oficiales</dt><dd>42</dd></div>
+      <div><dt>Estables</dt><dd>24</dd></div>
+      <div><dt>Fallos</dt><dd>18</dd></div>
+      <div><dt>Lotes cerrados</dt><dd>5</dd></div>
+      <div><dt>Parciales</dt><dd>1</dd></div>
+    </dl>
+    <p>La clase se decide por <code>displacement_only</code>: fallo si <code>Dmax &gt; 5% d_eq</code>. La rotacion, las fuerzas y las gauges son diagnosticas. En todos los graficos relevantes el desplazamiento aparece en porcentaje y en milimetros.</p>
+    <figure>
+      <img src="figures/00_setup_planta_elevacion.png" alt="Setup fisico en planta y elevacion">
+      <figcaption>Setup fisico: canal, playa 1:20 y bloque irregular. Este esquema es referencia visual, no un resultado de simulacion.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>2. Figuras principales</h2>
+    <div class="figure-stack">
+      <figure>
+        <img src="figures/01_response_map_h_mu_by_mass.png" alt="Mapa H-mu-masa">
+        <figcaption><strong>Mapa H-mu-masa.</strong> Mapa operacional por masa relativa. Verde = estable; rojo = fallo; gris = parcial.</figcaption>
+      </figure>
+<figure>
+        <img src="figures/02_margin_vs_mu_by_mass_and_h.png" alt="Margen al umbral">
+        <figcaption><strong>Margen al umbral.</strong> Margen continuo respecto de 5% de d_eq, con lectura absoluta en mm.</figcaption>
+      </figure>
+<figure>
+        <img src="figures/03_batch_story_margin_strip.png" alt="Historia de lotes">
+        <figcaption><strong>Historia de lotes.</strong> Secuencia compacta desde piloto hasta AL1, separando exploracion y cierre de brackets.</figcaption>
+      </figure>
+<figure>
+        <img src="figures/04_local_hydraulics_vs_displacement.png" alt="Hidraulica local">
+        <figcaption><strong>Hidraulica local.</strong> Relacion entre hmax/Umax locales y desplazamiento del bloque.</figcaption>
+      </figure>
+<figure>
+        <img src="figures/05_forces_vs_displacement.png" alt="Fuerzas diagnosticas">
+        <figcaption><strong>Fuerzas diagnosticas.</strong> Fuerzas SPH y contacto contra desplazamiento primario.</figcaption>
+      </figure>
+<figure>
+        <img src="figures/06_rotation_diagnostic_vs_displacement.png" alt="Rotacion diagnostica">
+        <figcaption><strong>Rotacion diagnostica.</strong> Rotacion acumulada frente al criterio displacement_only.</figcaption>
+      </figure>
+<figure>
+        <img src="figures/08_mass_effect_displacement_summary.png" alt="Efecto de masa">
+        <figcaption><strong>Efecto de masa.</strong> Resumen del desplazamiento por masa relativa.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>3. Resumen por lote</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Lote</th><th>Casos OK</th><th>Estables</th><th>Fallos</th><th>Dmax mediano</th></tr></thead>
+        <tbody><tr><td>AL1</td><td>8</td><td><span class='pill stable'>7</span></td><td><span class='pill fail'>1</span></td><td>1.25%</td></tr>
+<tr><td>Batch2</td><td>8</td><td><span class='pill stable'>5</span></td><td><span class='pill fail'>3</span></td><td>3.05%</td></tr>
+<tr><td>Batch3</td><td>10</td><td><span class='pill stable'>4</span></td><td><span class='pill fail'>6</span></td><td>7.31%</td></tr>
+<tr><td>Batch4 masa</td><td>11</td><td><span class='pill stable'>6</span></td><td><span class='pill fail'>5</span></td><td>4.28%</td></tr>
+<tr><td>Piloto</td><td>5</td><td><span class='pill stable'>2</span></td><td><span class='pill fail'>3</span></td><td>5.02%</td></tr></tbody>
+      </table>
+    </div>
+    <p class="note">Los datos fuente estan en <a href="data/master_production_story.csv">master_production_story.csv</a>. Los casos parciales se conservan como diagnostico, no como evidencia oficial para entrenar o cerrar frontera.</p>
+  </section>
+
+  <section>
+    <h2>4. Lectura metodologica corta</h2>
+    <p>Esta pagina no prueba convergencia adicional de <code>dp</code>. Usa la resolucion operativa ya elegida para construir una frontera practica en <code>H</code>, <code>mu</code> y <code>m*</code>. La evidencia fuerte es el margen continuo al umbral; la clase estable/fallo es una discretizacion de ese margen.</p>
+    <p>Convencion visual: verde = <span class="inline-stable">ESTABLE</span>, rojo = <span class="inline-fail">FALLO</span>, gris = parcial/no oficial.</p>
+  </section>
+</main>
+</body>
+</html>
