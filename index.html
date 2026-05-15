@@ -48,11 +48,11 @@
     <p>El caso <code>dp=0.002 m</code> se usa como referencia fina. La lectura no es que la convergencia sea perfecta: en <code>dp=0.003 m</code>, la altura/cota de agua y la velocidad máxima del bloque quedan dentro o muy cerca de una banda de 5%, mientras que el desplazamiento máximo queda levemente fuera, con una diferencia cercana a 6%. Esta evidencia sostiene una <strong>estabilización práctica</strong> de las variables principales, suficiente para adoptar una resolución operativa con cautela.</p>
       <figure>
         <img src="figures/01_variables_defendibles_dp003.png" alt="Variables principales que sostienen dp 0.003">
-      <figcaption>Variables principales en <code>dp=0.003 m</code> comparadas con <code>dp=0.002 m</code>. La evidencia más fuerte está en altura/cota de agua y velocidad del bloque; el desplazamiento queda cercano, aunque no exactamente dentro de ±5%.</figcaption>
+      <figcaption>Variables principales en <code>dp=0.003 m</code> comparadas con <code>dp=0.002 m</code>. Cada diferencia porcentual incluye su diferencia absoluta: mm para desplazamiento/altura y m/s para velocidad.</figcaption>
       <div class="read-guide">
         <strong>Cómo leer esta figura:</strong>
         <ul>
-          <li><strong>Panel A:</strong> compara solo el valor máximo. Cero significa igual al caso fino <code>dp=0.002 m</code>.</li>
+          <li><strong>Panel A:</strong> compara solo el valor máximo. Cero significa igual al caso fino <code>dp=0.002 m</code>; las etiquetas agregan la diferencia absoluta.</li>
           <li><strong>Panel B:</strong> compara la forma completa de la curva temporal. Menor porcentaje significa curva más parecida al caso fino.</li>
           <li><strong>Conclusión:</strong> el agua y la velocidad del bloque son las evidencias más limpias; el desplazamiento queda cercano y se acepta con cautela.</li>
         </ul>
@@ -87,11 +87,11 @@
     <div class="figure-stack">
       <figure>
         <img src="figures/02_tendencia_variables_principales.png" alt="Tendencia de variables principales hacia el caso fino">
-        <figcaption>En el rango fino, las variables principales se aproximan al caso <code>dp=0.002 m</code>, pero no de forma perfecta ni totalmente monótona. En <code>dp=0.003 m</code>, velocidad y altura/cota quedan dentro de ±5%, mientras que el desplazamiento queda cerca, alrededor de 6% respecto del caso fino.</figcaption>
+        <figcaption>En el rango fino, las variables principales se muestran en unidades físicas: Dmax en mm, velocidad en m/s y altura/cota en mm. El eje derecho conserva la lectura relativa respecto de <code>dp=0.002 m</code>.</figcaption>
       </figure>
       <figure>
         <img src="figures/03_curvas_temporales_finas.png" alt="Curvas temporales de desplazamiento, velocidad del bloque y altura de agua">
-        <figcaption>Curvas temporales del rango fino. La comparación revisa la forma de la respuesta, no solo el máximo, y se centra en desplazamiento, velocidad del bloque y altura/cota de agua.</figcaption>
+        <figcaption>Curvas temporales del rango fino en unidades absolutas: desplazamiento en mm, velocidad del bloque en m/s y altura/cota de agua en mm. El porcentaje del desplazamiento queda solo como eje auxiliar.</figcaption>
       </figure>
     </div>
   </section>
