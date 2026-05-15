@@ -25,10 +25,29 @@
       <div><dt>Parciales</dt><dd>1</dd></div>
     </dl>
     <p>La clase se decide por <code>displacement_only</code>: fallo si <code>Dmax &gt; 5% d_eq</code>. La rotacion, las fuerzas y las gauges son diagnosticas. En todos los graficos relevantes el desplazamiento aparece en porcentaje y en milimetros.</p>
-    <figure>
-      <img src="figures/00_setup_planta_elevacion.png" alt="Setup fisico en planta y elevacion">
-      <figcaption>Setup fisico: canal, playa 1:20 y bloque irregular. Este esquema es referencia visual, no un resultado de simulacion.</figcaption>
-    </figure>
+    <p>La geometria base del canal y el bloque se mantiene como marco comun, pero esta pagina no representa una simulacion unica. Resume una familia de casos con condiciones hidraulicas, friccion y masa barridas.</p>
+    
+    <div class="scope-panel">
+      <article>
+        <h3>Variables barridas</h3>
+        <dl>
+          <div><dt>Altura hidraulica H (m)</dt><dd>0.175, 0.200, 0.210, 0.225, 0.250</dd></div>
+          <div><dt>Friccion bloque-playa, mu</dt><dd>0.300 a 0.860 (23 niveles)</dd></div>
+          <div><dt>Masa relativa m*</dt><dd>0.85, 1.00, 1.15, 1.25</dd></div>
+          <div><dt>Pendiente evaluada</dt><dd>1:10, 20</dd></div>
+        </dl>
+      </article>
+      <article>
+        <h3>Condiciones metodologicas comunes</h3>
+        <dl>
+          <div><dt>Resolucion</dt><dd>dp = 0.003 m</dd></div>
+          <div><dt>Criterio primario</dt><dd>displacement_only</dd></div>
+          <div><dt>Referencia temporal</dt><dd>t_ref = 0.500, 0.500, 0.500, 0.500 s</dd></div>
+          <div><dt>Clase de movimiento</dt><dd>Dmax &gt; 5% d_eq</dd></div>
+        </dl>
+      </article>
+    </div>
+    
   </section>
 
   <section>
