@@ -63,27 +63,31 @@
         <thead>
           <tr>
             <th>dp (m)</th>
+            <th>Caso corrido</th>
+            <th>Estado</th>
             <th>Dmax (mm)</th>
             <th>Dmax (% d_eq)</th>
             <th>V bloque max (m/s)</th>
             <th>h agua max (m)</th>
             <th>U flujo max (m/s)</th>
             <th>Rot. acum. max (deg)</th>
+            <th>t sim (s)</th>
+            <th>pasos</th>
             <th>Particulas</th>
             <th>Mem GPU</th>
             <th>Tiempo (min)</th>
           </tr>
         </thead>
-        <tbody><tr><td>0.010</td><td>384.46</td><td>382.8%</td><td>0.427</td><td>0.123</td><td>2.066</td><td>23.04</td><td>0.87 M</td><td>0.2 GB</td><td>13.3</td></tr>
-<tr><td>0.008</td><td>393.27</td><td>391.6%</td><td>0.394</td><td>0.126</td><td>2.152</td><td>24.53</td><td>1.47 M</td><td>0.3 GB</td><td>17.8</td></tr>
-<tr><td>0.006</td><td>180.91</td><td>180.1%</td><td>0.206</td><td>0.122</td><td>1.678</td><td>12.82</td><td>2.95 M</td><td>0.6 GB</td><td>30.4</td></tr>
-<tr><td>0.005</td><td>142.26</td><td>141.7%</td><td>0.157</td><td>0.122</td><td>1.640</td><td>15.72</td><td>4.69 M</td><td>0.9 GB</td><td>48.1</td></tr>
-<tr><td>0.004</td><td>120.60</td><td>120.1%</td><td>0.164</td><td>0.128</td><td>1.464</td><td>16.61</td><td>8.15 M</td><td>1.5 GB</td><td>89.5</td></tr>
-<tr><td>0.003</td><td>120.41</td><td>119.9%</td><td>0.143</td><td>0.130</td><td>1.534</td><td>16.47</td><td>17.53 M</td><td>3.3 GB</td><td>249.2</td></tr>
-<tr><td>0.002</td><td>128.37</td><td>127.8%</td><td>0.148</td><td>0.136</td><td>1.636</td><td>24.02</td><td>51.86 M</td><td>9.8 GB</td><td>1144.2</td></tr></tbody>
+        <tbody><tr><td>0.010</td><td><code>conv3_f05_full_dp001</code></td><td>OK</td><td>384.46</td><td>382.8%</td><td>0.427</td><td>0.123</td><td>2.066</td><td>23.04</td><td>9.999</td><td>9500</td><td>0.87 M</td><td>0.2 GB</td><td>13.3</td></tr>
+<tr><td>0.008</td><td><code>conv3_f05_full_dp0008</code></td><td>OK</td><td>393.27</td><td>391.6%</td><td>0.394</td><td>0.126</td><td>2.152</td><td>24.53</td><td>9.999</td><td>9500</td><td>1.47 M</td><td>0.3 GB</td><td>17.8</td></tr>
+<tr><td>0.006</td><td><code>conv3_f05_full_dp0006</code></td><td>OK</td><td>180.91</td><td>180.1%</td><td>0.206</td><td>0.122</td><td>1.678</td><td>12.82</td><td>9.999</td><td>9500</td><td>2.95 M</td><td>0.6 GB</td><td>30.4</td></tr>
+<tr><td>0.005</td><td><code>conv3_f05_full_dp0005</code></td><td>OK</td><td>142.26</td><td>141.7%</td><td>0.157</td><td>0.122</td><td>1.640</td><td>15.72</td><td>9.999</td><td>9500</td><td>4.69 M</td><td>0.9 GB</td><td>48.1</td></tr>
+<tr><td>0.004</td><td><code>conv3_f05_full_dp0004</code></td><td>OK</td><td>120.60</td><td>120.1%</td><td>0.164</td><td>0.128</td><td>1.464</td><td>16.61</td><td>9.999</td><td>9500</td><td>8.15 M</td><td>1.5 GB</td><td>89.5</td></tr>
+<tr><td>0.003</td><td><code>conv3_f05_full_dp0003</code></td><td>OK</td><td>120.41</td><td>119.9%</td><td>0.143</td><td>0.130</td><td>1.534</td><td>16.47</td><td>9.999</td><td>9500</td><td>17.53 M</td><td>3.3 GB</td><td>249.2</td></tr>
+<tr><td>0.002</td><td><code>conv3_f05_full_dp0002</code></td><td>OK</td><td>128.37</td><td>127.8%</td><td>0.148</td><td>0.136</td><td>1.636</td><td>24.02</td><td>9.999</td><td>9500</td><td>51.86 M</td><td>9.8 GB</td><td>1144.2</td></tr></tbody>
       </table>
     </div>
-    <p class="note">Tabla derivada de <code>data/results/conv3_f05_full.csv</code>. El desplazamiento se muestra en mm y normalizado por <code>d_eq=0.100421 m</code>.</p>
+    <p class="note">Tabla derivada de <code>data/results/conv3_f05_full.csv</code>. Cada fila corresponde al caso realmente corrido para una resolucion <code>dp</code>; el desplazamiento se muestra en mm y normalizado por <code>d_eq=0.100421 m</code>.</p>
     <div class="figure-stack">
       <figure>
         <img src="figures/02_tendencia_variables_principales.png" alt="Tendencia de variables principales hacia el caso fino">
