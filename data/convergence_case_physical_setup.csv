@@ -1,0 +1,17 @@
+parametro,valor
+Fuente auditada,data/logs/conv3_f05_full.log
+Serie,conv3_f05_full
+Altura de presa / columna inicial,0.20 m
+Masa del bloque,1.00 kg
+Coeficiente de fricción bloque-playa,mu = 0.50
+Pendiente de playa,1:20
+Rotación adicional del bloque,rot_z = 0.0 deg
+Rotación STL registrada,"(0.0, 0.0, 0.0) deg"
+Posición inicial nominal,"(x, y, z) = (6.5, 0.5, 0.025) m"
+Bloque,"BLIR3.stl, escala = 0.04"
+Volumen / densidad,0.00053023 m3 / 1886.0 kg/m3
+Diámetro equivalente,d_eq = 0.100421 m
+Bbox bloque,0.1710 x 0.2100 x 0.0399 m
+Canal,"L_flat=6.0 m, L_ramp=9.0 m, L_end=15.0 m, W=1.0 m, H=1.5 m"
+Gauges,"12 velocity + 8 maxZ, reubicados según posición del bloque"
+Resoluciones barridas,"dp = 0.010, 0.008, 0.006, 0.005, 0.004, 0.003, 0.002 m"

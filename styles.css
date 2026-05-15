@@ -140,6 +140,7 @@ figcaption {
 }
 .read-guide li { margin: 4px 0; }
 .table-wrap { overflow-x: auto; border: 1px solid var(--line); }
+.compact-table { max-width: 920px; }
 table {
   width: 100%;
   border-collapse: collapse;
@@ -151,6 +152,8 @@ th, td {
   text-align: left;
 }
 th { background: #eef2f6; }
+.compact-table th { width: 270px; white-space: nowrap; }
+.compact-table td { color: var(--muted); }
 .pill {
   display: inline-block;
   border-radius: 3px;
