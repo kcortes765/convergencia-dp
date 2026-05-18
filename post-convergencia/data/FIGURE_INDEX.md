@@ -1,6 +1,6 @@
 # Production Story Graphics
 
-Figuras derivadas de exports livianos oficiales: piloto, batch2, batch3, batch4 y AL1.
+Figuras derivadas de exports livianos oficiales: piloto, batch2, batch3, batch4, AL1, AL2 y AL3.
 
 ## Regla visual aplicada
 - El desplazamiento normalizado usa `Dmax (% d_eq)` y siempre muestra equivalente absoluto en mm cuando aparece como eje o escala principal.
@@ -10,16 +10,16 @@ Figuras derivadas de exports livianos oficiales: piloto, batch2, batch3, batch4 
 - Las gauges hidraulicas explican contexto fisico, pero ChronoExchange sigue siendo la fuente primaria del movimiento del bloque.
 
 ## Dataset
-- Casos oficiales incluidos: 42.
+- Casos oficiales incluidos: 60.
 - Casos parciales documentados pero no usados como evidencia principal: 1.
 - Rango H: 0.175 a 0.250 m.
-- Rango mu: 0.300 a 0.860.
+- Rango mu: 0.300 a 0.900.
 - Rango m*: 0.85 a 1.25.
 
 ## Figuras esenciales
 - `01_response_map_h_mu_by_mass.png` / `01_response_map_h_mu_by_mass.svg`
   - Muestra: Mapa H-mu separado por masa relativa; color/forma indica clase y tamano indica Dmax.
-  - Importa: Resume la frontera operacional aprendida por lotes dirigidos usando todos los casos oficiales hasta AL1.
+  - Importa: Resume la frontera operacional aprendida por lotes dirigidos usando todos los casos oficiales hasta AL3.
   - Cautela: No interpolar visualmente: los puntos son simulaciones discretas, no una superficie continua validada.
 - `02_margin_vs_mu_by_mass_and_h.png` / `02_margin_vs_mu_by_mass_and_h.svg`
   - Muestra: Margen continuo contra mu, con eje secundario en mm.
@@ -27,7 +27,7 @@ Figuras derivadas de exports livianos oficiales: piloto, batch2, batch3, batch4 
   - Cautela: Las lineas unen puntos de la misma H solo como ayuda visual, no como interpolacion formal.
 - `03_batch_story_margin_strip.png` / `03_batch_story_margin_strip.svg`
   - Muestra: Secuencia de lotes con margen continuo al umbral, en % y mm.
-  - Importa: Cuenta visualmente como el experimento dirigido paso de extremos a puntos de frontera.
+  - Importa: Cuenta visualmente como el experimento dirigido paso de extremos a puntos de frontera hasta AL3.
   - Cautela: No representa orden temporal exacto de cada simulacion, sino orden logico por lote.
 - `06_rotation_diagnostic_vs_displacement.png` / `06_rotation_diagnostic_vs_displacement.svg`
   - Muestra: Rotacion acumulada maxima contra desplazamiento, con umbrales visuales.
@@ -49,10 +49,10 @@ Figuras derivadas de exports livianos oficiales: piloto, batch2, batch3, batch4 
   - Cautela: Los campos de costo faltan en algunos exports; esos puntos se omiten.
 - `08_mass_effect_displacement_summary.png` / `08_mass_effect_displacement_summary.svg` (apoyo)
   - Muestra: Dmax contra m*, coloreado por mu y con borde por clase.
-  - Importa: Resume el aprendizaje central de batch4/AL1: m* baja aumenta criticidad.
+  - Importa: Resume el aprendizaje central de batch4/AL1/AL2/AL3: m* baja aumenta criticidad.
   - Cautela: No controla por H en un solo panel; usar junto al mapa H-mu por masa.
 
 ## Advertencias metodologicas
 - Estas figuras describen la frontera operacional a `dp=0.003`, no una frontera universal independiente de resolucion.
 - Los puntos unidos por lineas son guias visuales; la superficie formal debe venir de surrogate/GP y validacion posterior.
-- AL2 esta en ejecucion y no se incluye hasta tener export oficial.
+- AL3 ya se incluye; el siguiente paso es cerrar brackets con AL4 desde el GP after-AL3.
