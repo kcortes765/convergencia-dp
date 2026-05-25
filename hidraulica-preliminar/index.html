@@ -20,21 +20,21 @@
     <dl class="cards">
 
       <div><dt>Corridas disponibles</dt><dd>7/8</dd></div>
-      <div><dt>Unblocked</dt><dd>4/4</dd></div>
-      <div><dt>With-block ref</dt><dd>3/4</dd></div>
-      <div><dt>h_local max sin bloque</dt><dd>0.059 m</dd></div>
-      <div><dt>u_x max sin bloque</dt><dd>0.896 m/s</dd></div>
-      <div><dt>Momentum proxy max</dt><dd>16.75</dd></div>
+      <div><dt>Sin bloque</dt><dd>4/4</dd></div>
+      <div><dt>Con bloque ref.</dt><dd>3/4</dd></div>
+      <div><dt>Profundidad max. sin bloque</dt><dd>0.059 m</dd></div>
+      <div><dt>Velocidad max. sin bloque</dt><dd>0.896 m/s</dd></div>
+      <div><dt>Proxy de momentum max.</dt><dd>16.75 N/m</dd></div>
 
     </dl>
     <div class="split">
       <div class="callout">
         <h3>Lectura principal</h3>
-        <p><code>unblocked</code> es la traduccion transferible: convierte <code>H_dam</code> en <code>h_local</code>, <code>u_x</code>, momentum proxy y <code>Fr</code> antes del bloque.</p>
+        <p><strong>Sin bloque</strong> es la traduccion transferible: convierte <code>H_dam</code> en profundidad local, velocidad longitudinal, proxy de momentum y <code>Fr</code> antes del bloque.</p>
       </div>
       <div class="callout warning">
         <h3>Lectura diagnostica</h3>
-        <p><code>with_block_ref</code> muestra cuanto perturba el bloque al flujo. No reemplaza al input transferible. Falta el par con bloque para <code>H_dam=0.225</code>.</p>
+        <p><strong>Con bloque de referencia</strong> muestra cuanto perturba el bloque al flujo. No reemplaza al input transferible. Falta el par con bloque para <code>H_dam=0.225</code>.</p>
       </div>
     </div>
   </section>
@@ -47,35 +47,35 @@
           <img src="figures/01_local_variables_by_h.png" alt="De H_dam a variables locales">
           <span class="zoom-chip">Ampliar grafico</span>
         </button>
-        <figcaption><strong>De H_dam a variables locales.</strong> Muestra la traduccion preliminar desde la altura dam-break hacia h_local, u_x, momentum proxy y Fr. La serie unblocked es la base transferible.</figcaption>
+        <figcaption><strong>De H_dam a variables locales.</strong> Muestra la traduccion preliminar desde la altura inicial dam-break hacia profundidad local, velocidad, proxy de momentum y Froude. La serie sin bloque es la base transferible.</figcaption>
       </figure>
 <figure class="zoomable-figure">
         <button class="figure-open" type="button" data-zoom-src="figures/02_with_block_ratios.svg" data-zoom-title="Perturbacion por bloque" aria-label="Ampliar grafico: Perturbacion por bloque">
           <img src="figures/02_with_block_ratios.png" alt="Perturbacion por bloque">
           <span class="zoom-chip">Ampliar grafico</span>
         </button>
-        <figcaption><strong>Perturbacion por bloque.</strong> Compara with_block_ref contra unblocked para la misma H_dam. Si el ratio es 1 no hay cambio; sobre 1 aumenta; bajo 1 disminuye.</figcaption>
+        <figcaption><strong>Perturbacion por bloque.</strong> Compara con bloque de referencia contra sin bloque para la misma H_dam. Si la razon es 1 no hay cambio; sobre 1 aumenta; bajo 1 disminuye.</figcaption>
       </figure>
 <figure class="zoomable-figure">
         <button class="figure-open" type="button" data-zoom-src="figures/03_local_feature_space.svg" data-zoom-title="Espacio h-u local" aria-label="Ampliar grafico: Espacio h-u local">
           <img src="figures/03_local_feature_space.png" alt="Espacio h-u local">
           <span class="zoom-chip">Ampliar grafico</span>
         </button>
-        <figcaption><strong>Espacio h-u local.</strong> Ubica cada corrida en el plano h_local vs u_x. El tamano representa momentum proxy; ayuda a ver que variable nueva reemplaza mejor a H_dam.</figcaption>
+        <figcaption><strong>Espacio h-u local.</strong> Ubica cada corrida en el plano profundidad local vs velocidad local. El tamano representa el proxy de momentum; ayuda a ver como se reemplaza H_dam.</figcaption>
       </figure>
 <figure class="zoomable-figure">
         <button class="figure-open" type="button" data-zoom-src="figures/04_unblocked_hydrographs.svg" data-zoom-title="Series locales sin bloque" aria-label="Ampliar grafico: Series locales sin bloque">
           <img src="figures/04_unblocked_hydrographs.png" alt="Series locales sin bloque">
           <span class="zoom-chip">Ampliar grafico</span>
         </button>
-        <figcaption><strong>Series locales sin bloque.</strong> Muestra la llegada temporal del flujo no obstruido. Sirve para defender que el input final sale de gauges y no solo de H_dam.</figcaption>
+        <figcaption><strong>Series locales sin bloque.</strong> Muestra la llegada temporal del flujo no obstruido. Sirve para defender que la entrada final sale de gauges y no solo de H_dam.</figcaption>
       </figure>
 <figure class="zoomable-figure">
         <button class="figure-open" type="button" data-zoom-src="figures/05_with_block_hydrographs.svg" data-zoom-title="Series locales con bloque" aria-label="Ampliar grafico: Series locales con bloque">
           <img src="figures/05_with_block_hydrographs.png" alt="Series locales con bloque">
           <span class="zoom-chip">Ampliar grafico</span>
         </button>
-        <figcaption><strong>Series locales con bloque.</strong> Muestra como cambia la senal local cuando el bloque esta presente. Es diagnostico de interaccion, no el input principal de la ecuacion.</figcaption>
+        <figcaption><strong>Series locales con bloque.</strong> Muestra como cambia la senal local cuando el bloque esta presente. Es diagnostico de interaccion, no la entrada principal de la ecuacion.</figcaption>
       </figure>
 <figure class="zoomable-figure">
         <button class="figure-open" type="button" data-zoom-src="figures/06_block_reference_motion.svg" data-zoom-title="Movimiento del bloque de referencia" aria-label="Ampliar grafico: Movimiento del bloque de referencia">
@@ -93,17 +93,17 @@
       <table>
         <thead>
           <tr>
-            <th>Caso</th><th>Condicion</th><th>H_dam</th><th>h_local max (m)</th><th>u_x max (m/s)</th><th>Momentum proxy</th><th>Fr</th><th>D bloque</th>
+            <th>Caso</th><th>Condicion</th><th>H_dam</th><th>prof. max (m)</th><th>vel. max (m/s)</th><th>proxy momentum (N/m)</th><th>Fr</th><th>D bloque</th>
           </tr>
         </thead>
         <tbody>
-<tr><td><code>hydro_unblocked_H0175</code></td><td><span class='pill water'>unblocked</span></td><td>0.175</td><td>0.0493</td><td>0.801</td><td>9.59</td><td>2.52</td><td></td></tr>
-<tr><td><code>hydro_unblocked_H0200</code></td><td><span class='pill water'>unblocked</span></td><td>0.200</td><td>0.0540</td><td>0.818</td><td>13.08</td><td>2.56</td><td></td></tr>
-<tr><td><code>hydro_unblocked_H0210</code></td><td><span class='pill water'>unblocked</span></td><td>0.210</td><td>0.0536</td><td>0.864</td><td>14.01</td><td>2.47</td><td></td></tr>
-<tr><td><code>hydro_unblocked_H0225</code></td><td><span class='pill water'>unblocked</span></td><td>0.225</td><td>0.0592</td><td>0.896</td><td>16.75</td><td>2.61</td><td></td></tr>
-<tr><td><code>hydro_withblock_ref_H0175</code></td><td><span class='pill boulder'>with_block_ref</span></td><td>0.175</td><td>0.0663</td><td>0.778</td><td>7.59</td><td>2.22</td><td>1.23%</td></tr>
-<tr><td><code>hydro_withblock_ref_H0200</code></td><td><span class='pill boulder'>with_block_ref</span></td><td>0.200</td><td>0.0682</td><td>0.759</td><td>8.01</td><td>2.30</td><td>1.23%</td></tr>
-<tr><td><code>hydro_withblock_ref_H0210</code></td><td><span class='pill boulder'>with_block_ref</span></td><td>0.210</td><td>0.0692</td><td>0.868</td><td>7.98</td><td>2.69</td><td>1.23%</td></tr>
+<tr><td><code>hydro_unblocked_H0175</code></td><td><span class='pill water'>sin bloque</span></td><td>0.175</td><td>0.0493</td><td>0.801</td><td>9.59</td><td>2.52</td><td></td></tr>
+<tr><td><code>hydro_unblocked_H0200</code></td><td><span class='pill water'>sin bloque</span></td><td>0.200</td><td>0.0540</td><td>0.818</td><td>13.08</td><td>2.56</td><td></td></tr>
+<tr><td><code>hydro_unblocked_H0210</code></td><td><span class='pill water'>sin bloque</span></td><td>0.210</td><td>0.0536</td><td>0.864</td><td>14.01</td><td>2.47</td><td></td></tr>
+<tr><td><code>hydro_unblocked_H0225</code></td><td><span class='pill water'>sin bloque</span></td><td>0.225</td><td>0.0592</td><td>0.896</td><td>16.75</td><td>2.61</td><td></td></tr>
+<tr><td><code>hydro_withblock_ref_H0175</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.175</td><td>0.0663</td><td>0.778</td><td>7.59</td><td>2.22</td><td>1.23%</td></tr>
+<tr><td><code>hydro_withblock_ref_H0200</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.200</td><td>0.0682</td><td>0.759</td><td>8.01</td><td>2.30</td><td>1.23%</td></tr>
+<tr><td><code>hydro_withblock_ref_H0210</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.210</td><td>0.0692</td><td>0.868</td><td>7.98</td><td>2.69</td><td>1.23%</td></tr>
         </tbody>
       </table>
     </div>
