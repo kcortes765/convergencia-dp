@@ -1,0 +1,13 @@
+{
+  "phase": "hydraulic_characterization",
+  "matrix": "C:\\Users\\Admin\\Desktop\\SPH-Tesis\\config\\hydraulic_characterization_phase1_20260523.csv",
+  "dp": 0.003,
+  "total_cases": 2,
+  "completed": 1,
+  "failed": 0,
+  "current_case": "hydro_withblock_ref_H0225",
+  "start_time": "2026-05-25T11:02:06.163113",
+  "dry_run": false,
+  "updated": "2026-05-25T15:24:36.927838",
+  "progress": "2/2"
+}

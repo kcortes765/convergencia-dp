@@ -1,0 +1,4 @@
+H_dam,h_ratio_with_block_over_unblocked,u_ratio_with_block_over_unblocked,momentum_ratio_with_block_over_unblocked,with_block_case,unblocked_case,block_disp_pct_deq,notes
+0.175,1.3451814758302763,0.9715476248468339,0.791150987736256,hydro_withblock_ref_H0175,hydro_unblocked_H0175,1.2336256319369425,partial 7/8; H=0.225 with_block_ref still running/missing
+0.2,1.2640312528377555,0.92703831713565,0.6122084311855076,hydro_withblock_ref_H0200,hydro_unblocked_H0200,1.231651438362091,partial 7/8; H=0.225 with_block_ref still running/missing
+0.21,1.2898359971140563,1.004417335206092,0.5695669597493154,hydro_withblock_ref_H0210,hydro_unblocked_H0210,1.2326385281430798,partial 7/8; H=0.225 with_block_ref still running/missing

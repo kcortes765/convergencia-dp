@@ -1,0 +1,7 @@
+file,title,meaning
+01_local_variables_by_h,De H_dam a variables locales,"Muestra la traduccion preliminar desde la altura dam-break hacia h_local, u_x, momentum proxy y Fr. La serie unblocked es la base transferible."
+02_with_block_ratios,Perturbacion por bloque,Compara with_block_ref contra unblocked para la misma H_dam. Si el ratio es 1 no hay cambio; sobre 1 aumenta; bajo 1 disminuye.
+03_local_feature_space,Espacio h-u local,Ubica cada corrida en el plano h_local vs u_x. El tamano representa momentum proxy; ayuda a ver que variable nueva reemplaza mejor a H_dam.
+04_unblocked_hydrographs,Series locales sin bloque,Muestra la llegada temporal del flujo no obstruido. Sirve para defender que el input final sale de gauges y no solo de H_dam.
+05_with_block_hydrographs,Series locales con bloque,"Muestra como cambia la senal local cuando el bloque esta presente. Es diagnostico de interaccion, no el input principal de la ecuacion."
+06_block_reference_motion,Movimiento del bloque de referencia,Verifica que el bloque usado como obstruccion se mantuvo casi fijo: todos los casos disponibles quedan bajo 2% de d_eq.
