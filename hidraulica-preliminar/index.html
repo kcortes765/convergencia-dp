@@ -11,9 +11,80 @@
   <header class="top">
     <p class="meta">Tesis UCN - SPH-Chrono - parcial 7/8</p>
     <h1>Hidraulica local preliminar: de H_dam a variables antes del bloque</h1>
-    <p>Esta pagina resume el export parcial de la Fase 1 hidraulica. Sirve para presentar resultados preliminares mientras la WS completa <code>hydro_withblock_ref_H0225</code>.</p>
+    <p>Esta pagina resume el export parcial de la Fase 1 hidraulica y reexpresa la evidencia oficial de post-convergencia con variables locales medibles antes del bloque. Sirve para presentar resultados preliminares mientras la WS completa <code>hydro_withblock_ref_H0225</code>.</p>
     <p><a href="https://kcortes765.github.io/convergencia-dp/post-convergencia/">Volver a post-convergencia</a></p>
   </header>
+
+  <section>
+    <h2>Traduccion preliminar de post-convergencia</h2>
+    <dl class="cards">
+
+      <div><dt>Casos traducidos</dt><dd>59/60</dd></div>
+      <div><dt>Base hidraulica</dt><dd>sin bloque 4/4</dd></div>
+      <div><dt>Clases traducidas</dt><dd>37 ESTABLE / 22 FALLO</dd></div>
+      <div><dt>H_dam cubiertos</dt><dd>4 niveles</dd></div>
+      <div><dt>Excluido por ahora</dt><dd>H_dam 0.250</dd></div>
+      <div><dt>Estado</dt><dd>preliminar 7/8</dd></div>
+
+    </dl>
+    <div class="split">
+      <div class="callout">
+        <h3>Que se esta traduciendo</h3>
+        <p>Los casos oficiales de post-convergencia siguen siendo los mismos resultados SPH. La diferencia es que cada <code>H_dam</code> se reemplaza por <code>h_local</code>, <code>u_x</code>, <code>max(rho h u_x^2)</code> y <code>Fr</code> medidos en la corrida sin bloque.</p>
+      </div>
+      <div class="callout warning">
+        <h3>Limite metodologico</h3>
+        <p>Esto no es un GP reentrenado en variables locales. Es una relectura preliminar 7/8 para presentar coherencia fisica; el ajuste final debe esperar el export completo y la decision de reentrenamiento.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Figuras traducidas desde post-convergencia</h2>
+    <div class="figure-grid">
+<figure class="zoomable-figure">
+        <button class="figure-open" type="button" data-zoom-src="figures/07_translated_local_momentum_map.svg" data-zoom-title="Mapa observado en solicitacion local" aria-label="Ampliar grafico: Mapa observado en solicitacion local">
+          <img src="figures/07_translated_local_momentum_map.png" alt="Mapa observado en solicitacion local">
+          <span class="zoom-chip">Ampliar grafico</span>
+        </button>
+        <figcaption><strong>Mapa observado en solicitacion local.</strong> Reexpresa los casos oficiales de post-convergencia como proxy de momentum local sin bloque vs friccion, separado por masa relativa. Es evidencia observada traducida, no un GP nuevo.</figcaption>
+      </figure>
+<figure class="zoomable-figure">
+        <button class="figure-open" type="button" data-zoom-src="figures/08_translated_margin_vs_momentum.svg" data-zoom-title="Margen de falla vs solicitacion local" aria-label="Ampliar grafico: Margen de falla vs solicitacion local">
+          <img src="figures/08_translated_margin_vs_momentum.png" alt="Margen de falla vs solicitacion local">
+          <span class="zoom-chip">Ampliar grafico</span>
+        </button>
+        <figcaption><strong>Margen de falla vs solicitacion local.</strong> Muestra cuanto queda cada caso sobre o bajo el umbral de 5% d_eq despues de reemplazar H_dam por el proxy local. Margen positivo es estable; margen negativo es falla.</figcaption>
+      </figure>
+<figure class="zoomable-figure">
+        <button class="figure-open" type="button" data-zoom-src="figures/09_translated_displacement_vs_local_forcing.svg" data-zoom-title="Desplazamiento observado vs solicitacion local" aria-label="Ampliar grafico: Desplazamiento observado vs solicitacion local">
+          <img src="figures/09_translated_displacement_vs_local_forcing.png" alt="Desplazamiento observado vs solicitacion local">
+          <span class="zoom-chip">Ampliar grafico</span>
+        </button>
+        <figcaption><strong>Desplazamiento observado vs solicitacion local.</strong> Relaciona el desplazamiento maximo observado con el proxy de momentum local. La linea punteada es el criterio de falla usado en produccion.</figcaption>
+      </figure>
+    </div>
+    <p class="note">Datos fuente: <a href="data/post_convergence_translated_local_variables_7of8.csv">post_convergence_translated_local_variables_7of8.csv</a>. El archivo <a href="data/post_convergence_translation_excluded_7of8.csv">post_convergence_translation_excluded_7of8.csv</a> deja trazado el caso oficial excluido por falta de caracterizacion hidraulica en <code>H_dam=0.250</code>.</p>
+  </section>
+
+  <section>
+    <h2>Resumen por nivel traducido</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>H_dam</th><th>h_local max (m)</th><th>u_x max (m/s)</th><th>proxy momentum (N/m)</th><th>Fr</th><th>rango m*</th><th>rango mu</th><th>clases observadas</th>
+          </tr>
+        </thead>
+        <tbody>
+<tr><td>0.175</td><td>0.0493</td><td>0.801</td><td>9.59</td><td>2.52</td><td>0.85-1.15</td><td>0.560-0.680</td><td><span class='pill stable'>8 ESTABLE</span> <span class='pill failure'>1 FALLO</span></td></tr>
+<tr><td>0.200</td><td>0.0540</td><td>0.818</td><td>13.08</td><td>2.56</td><td>0.85-1.25</td><td>0.600-0.860</td><td><span class='pill stable'>15 ESTABLE</span> <span class='pill failure'>7 FALLO</span></td></tr>
+<tr><td>0.210</td><td>0.0536</td><td>0.864</td><td>14.01</td><td>2.47</td><td>0.85-1.15</td><td>0.700-0.900</td><td><span class='pill stable'>6 ESTABLE</span> <span class='pill failure'>4 FALLO</span></td></tr>
+<tr><td>0.225</td><td>0.0592</td><td>0.896</td><td>16.75</td><td>2.61</td><td>0.85-1.25</td><td>0.660-0.880</td><td><span class='pill stable'>8 ESTABLE</span> <span class='pill failure'>10 FALLO</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
   <section>
     <h2>Estado del paquete</h2>
@@ -34,13 +105,13 @@
       </div>
       <div class="callout warning">
         <h3>Lectura diagnostica</h3>
-        <p><strong>Con bloque de referencia</strong> muestra cuanto perturba el bloque al flujo. No reemplaza al input transferible. Falta el par con bloque para <code>H_dam=0.225</code>.</p>
+        <p><strong>Con bloque de referencia</strong> muestra cuanto perturba el bloque al flujo. No reemplaza la entrada transferible. Falta el par con bloque para <code>H_dam=0.225</code>.</p>
       </div>
     </div>
   </section>
 
   <section>
-    <h2>Figuras</h2>
+    <h2>Figuras hidraulicas base</h2>
     <div class="figure-grid">
 <figure class="zoomable-figure">
         <button class="figure-open" type="button" data-zoom-src="figures/01_local_variables_by_h.svg" data-zoom-title="De H_dam a variables locales" aria-label="Ampliar grafico: De H_dam a variables locales">

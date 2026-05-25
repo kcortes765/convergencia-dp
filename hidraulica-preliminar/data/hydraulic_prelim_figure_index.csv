@@ -1,7 +1,10 @@
-file,title,meaning
-01_local_variables_by_h,De H_dam a variables locales,"Muestra la traduccion preliminar desde la altura inicial dam-break hacia profundidad local, velocidad, proxy de momentum y Froude. La serie sin bloque es la base transferible."
-02_with_block_ratios,Perturbacion por bloque,Compara con bloque de referencia contra sin bloque para la misma H_dam. Si la razon es 1 no hay cambio; sobre 1 aumenta; bajo 1 disminuye.
-03_local_feature_space,Espacio h-u local,Ubica cada corrida en el plano profundidad local vs velocidad local. El tamano representa el proxy de momentum; ayuda a ver como se reemplaza H_dam.
-04_unblocked_hydrographs,Series locales sin bloque,Muestra la llegada temporal del flujo no obstruido. Sirve para defender que la entrada final sale de gauges y no solo de H_dam.
-05_with_block_hydrographs,Series locales con bloque,"Muestra como cambia la senal local cuando el bloque esta presente. Es diagnostico de interaccion, no la entrada principal de la ecuacion."
-06_block_reference_motion,Movimiento del bloque de referencia,Verifica que el bloque usado como obstruccion se mantuvo casi fijo: todos los casos disponibles quedan bajo 2% de d_eq.
+group,file,title,meaning
+hidraulica,01_local_variables_by_h,De H_dam a variables locales,"Muestra la traduccion preliminar desde la altura inicial dam-break hacia profundidad local, velocidad, proxy de momentum y Froude. La serie sin bloque es la base transferible."
+hidraulica,02_with_block_ratios,Perturbacion por bloque,Compara con bloque de referencia contra sin bloque para la misma H_dam. Si la razon es 1 no hay cambio; sobre 1 aumenta; bajo 1 disminuye.
+hidraulica,03_local_feature_space,Espacio h-u local,Ubica cada corrida en el plano profundidad local vs velocidad local. El tamano representa el proxy de momentum; ayuda a ver como se reemplaza H_dam.
+hidraulica,04_unblocked_hydrographs,Series locales sin bloque,Muestra la llegada temporal del flujo no obstruido. Sirve para defender que la entrada final sale de gauges y no solo de H_dam.
+hidraulica,05_with_block_hydrographs,Series locales con bloque,"Muestra como cambia la senal local cuando el bloque esta presente. Es diagnostico de interaccion, no la entrada principal de la ecuacion."
+hidraulica,06_block_reference_motion,Movimiento del bloque de referencia,Verifica que el bloque usado como obstruccion se mantuvo casi fijo: todos los casos disponibles quedan bajo 2% de d_eq.
+traduccion,07_translated_local_momentum_map,Mapa observado en solicitacion local,"Reexpresa los casos oficiales de post-convergencia como proxy de momentum local sin bloque vs friccion, separado por masa relativa. Es evidencia observada traducida, no un GP nuevo."
+traduccion,08_translated_margin_vs_momentum,Margen de falla vs solicitacion local,Muestra cuanto queda cada caso sobre o bajo el umbral de 5% d_eq despues de reemplazar H_dam por el proxy local. Margen positivo es estable; margen negativo es falla.
+traduccion,09_translated_displacement_vs_local_forcing,Desplazamiento observado vs solicitacion local,Relaciona el desplazamiento maximo observado con el proxy de momentum local. La linea punteada es el criterio de falla usado en produccion.
