@@ -9,9 +9,9 @@
 <body>
 <main class="page">
   <header class="top">
-    <p class="meta">Tesis UCN - SPH-Chrono - parcial 7/8</p>
+    <p class="meta">Tesis UCN - SPH-Chrono - hidraulica 8/8</p>
     <h1>Hidraulica local preliminar: de H_dam a variables antes del bloque</h1>
-    <p>Esta pagina resume el export parcial de la Fase 1 hidraulica y reexpresa la evidencia oficial de post-convergencia con variables locales medibles antes del bloque. Sirve para presentar resultados preliminares mientras la WS completa <code>hydro_withblock_ref_H0225</code>.</p>
+    <p>Esta pagina resume el export completo de la Fase 1 hidraulica y reexpresa la evidencia oficial de post-convergencia con variables locales medibles antes del bloque. Sirve para presentar resultados preliminares antes del reentrenamiento o ajuste final con variables locales.</p>
     <p><a href="https://kcortes765.github.io/convergencia-dp/post-convergencia/">Volver a post-convergencia</a></p>
   </header>
 
@@ -24,7 +24,7 @@
       <div><dt>Clases traducidas</dt><dd>37 ESTABLE / 22 FALLO</dd></div>
       <div><dt>H_dam cubiertos</dt><dd>4 niveles</dd></div>
       <div><dt>Excluido por ahora</dt><dd>H_dam 0.250</dd></div>
-      <div><dt>Estado</dt><dd>preliminar 7/8</dd></div>
+      <div><dt>Estado hidraulico</dt><dd>completo 8/8</dd></div>
 
     </dl>
     <div class="split">
@@ -34,7 +34,7 @@
       </div>
       <div class="callout warning">
         <h3>Limite metodologico</h3>
-        <p>Esto no es un GP reentrenado en variables locales. Es una relectura preliminar 7/8 para presentar coherencia fisica; el ajuste final debe esperar el export completo y la decision de reentrenamiento.</p>
+        <p>Esto no es un GP reentrenado en variables locales. Es una relectura preliminar con hidraulica 8/8 para presentar coherencia fisica; el ajuste final todavia requiere decidir el reentrenamiento.</p>
       </div>
     </div>
   </section>
@@ -64,7 +64,7 @@
         <figcaption><strong>Desplazamiento observado vs solicitacion local.</strong> Relaciona el desplazamiento maximo observado con el proxy de momentum local. La linea punteada es el criterio de falla usado en produccion.</figcaption>
       </figure>
     </div>
-    <p class="note">Datos fuente: <a href="data/post_convergence_translated_local_variables_7of8.csv">post_convergence_translated_local_variables_7of8.csv</a>. El archivo <a href="data/post_convergence_translation_excluded_7of8.csv">post_convergence_translation_excluded_7of8.csv</a> deja trazado el caso oficial excluido por falta de caracterizacion hidraulica en <code>H_dam=0.250</code>.</p>
+    <p class="note">Datos fuente: <a href="data/post_convergence_translated_local_variables_8of8.csv">post_convergence_translated_local_variables_8of8.csv</a>. El archivo <a href="data/post_convergence_translation_excluded_8of8.csv">post_convergence_translation_excluded_8of8.csv</a> deja trazado el caso oficial excluido por falta de caracterizacion hidraulica en <code>H_dam=0.250</code>.</p>
   </section>
 
   <section>
@@ -90,9 +90,9 @@
     <h2>Estado del paquete</h2>
     <dl class="cards">
 
-      <div><dt>Corridas disponibles</dt><dd>7/8</dd></div>
+      <div><dt>Corridas disponibles</dt><dd>8/8</dd></div>
       <div><dt>Sin bloque</dt><dd>4/4</dd></div>
-      <div><dt>Con bloque ref.</dt><dd>3/4</dd></div>
+      <div><dt>Con bloque ref.</dt><dd>4/4</dd></div>
       <div><dt>Profundidad max. sin bloque</dt><dd>0.059 m</dd></div>
       <div><dt>Velocidad max. sin bloque</dt><dd>0.896 m/s</dd></div>
       <div><dt>Proxy de momentum max.</dt><dd>16.75 N/m</dd></div>
@@ -105,7 +105,7 @@
       </div>
       <div class="callout warning">
         <h3>Lectura diagnostica</h3>
-        <p><strong>Con bloque de referencia</strong> muestra cuanto perturba el bloque al flujo. No reemplaza la entrada transferible. Falta el par con bloque para <code>H_dam=0.225</code>.</p>
+        <p><strong>Con bloque de referencia</strong> muestra cuanto perturba el bloque al flujo. No reemplaza la entrada transferible; sirve para cuantificar la interaccion bloque-flujo con una obstruccion estable.</p>
       </div>
     </div>
   </section>
@@ -175,10 +175,11 @@
 <tr><td><code>hydro_withblock_ref_H0175</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.175</td><td>0.0663</td><td>0.778</td><td>7.59</td><td>2.22</td><td>1.23%</td></tr>
 <tr><td><code>hydro_withblock_ref_H0200</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.200</td><td>0.0682</td><td>0.759</td><td>8.01</td><td>2.30</td><td>1.23%</td></tr>
 <tr><td><code>hydro_withblock_ref_H0210</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.210</td><td>0.0692</td><td>0.868</td><td>7.98</td><td>2.69</td><td>1.23%</td></tr>
+<tr><td><code>hydro_withblock_ref_H0225</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.225</td><td>0.0714</td><td>0.821</td><td>10.24</td><td>2.24</td><td>1.26%</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="note">Datos fuente: <a href="data/hydraulic_phase1_partial_summary.csv">hydraulic_phase1_partial_summary.csv</a> y <a href="data/hydraulic_comparison_summary_partial.csv">hydraulic_comparison_summary_partial.csv</a>. Estado parcial 7/8: no cerrar conclusiones definitivas hasta incorporar <code>hydro_withblock_ref_H0225</code>.</p>
+    <p class="note">Datos fuente: <a href="data/hydraulic_phase1_all_summary.csv">hydraulic_phase1_all_summary.csv</a> y <a href="data/hydraulic_comparison_summary.csv">hydraulic_comparison_summary.csv</a>. Estado hidraulico completo 8/8; la traduccion a ecuacion final sigue siendo preliminar hasta decidir el reentrenamiento en variables locales.</p>
   </section>
 </main>
 

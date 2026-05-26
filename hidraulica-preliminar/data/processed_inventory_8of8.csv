@@ -1,0 +1,9 @@
+case_id,condition,csv_count,bytes_total,processed_path
+hydro_unblocked_H0175,unblocked,22,8875852,C:\Users\Admin\Desktop\SPH-Tesis\data\processed\hydro_unblocked_H0175
+hydro_unblocked_H0200,unblocked,22,9009580,C:\Users\Admin\Desktop\SPH-Tesis\data\processed\hydro_unblocked_H0200
+hydro_unblocked_H0210,unblocked,22,9040265,C:\Users\Admin\Desktop\SPH-Tesis\data\processed\hydro_unblocked_H0210
+hydro_unblocked_H0225,unblocked,22,9084348,C:\Users\Admin\Desktop\SPH-Tesis\data\processed\hydro_unblocked_H0225
+hydro_withblock_ref_H0175,with_block_ref,24,11896228,C:\Users\Admin\Desktop\SPH-Tesis\data\processed\hydro_withblock_ref_H0175
+hydro_withblock_ref_H0200,with_block_ref,24,11925583,C:\Users\Admin\Desktop\SPH-Tesis\data\processed\hydro_withblock_ref_H0200
+hydro_withblock_ref_H0210,with_block_ref,24,11980698,C:\Users\Admin\Desktop\SPH-Tesis\data\processed\hydro_withblock_ref_H0210
+hydro_withblock_ref_H0225,with_block_ref,24,12021336,C:\Users\Admin\Desktop\SPH-Tesis\data\processed\hydro_withblock_ref_H0225
