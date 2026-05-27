@@ -54,14 +54,14 @@
           <img src="figures/08_translated_margin_vs_momentum.png" alt="Margen de falla vs solicitacion local">
           <span class="zoom-chip">Ampliar grafico</span>
         </button>
-        <figcaption><strong>Margen de falla vs solicitacion local.</strong> Muestra cuanto queda cada caso sobre o bajo el umbral de 5% d_eq despues de reemplazar H_dam por el proxy local. Margen positivo es estable; margen negativo es falla.</figcaption>
+        <figcaption><strong>Margen de falla vs solicitacion local.</strong> Muestra cuanto queda cada caso sobre o bajo el umbral de 5% d_eq despues de reemplazar H_dam por el proxy local. El eje vertical se trunca para enfocar la zona cercana al umbral.</figcaption>
       </figure>
 <figure class="zoomable-figure">
         <button class="figure-open" type="button" data-zoom-src="figures/09_translated_displacement_vs_local_forcing.svg" data-zoom-title="Desplazamiento observado vs solicitacion local" aria-label="Ampliar grafico: Desplazamiento observado vs solicitacion local">
           <img src="figures/09_translated_displacement_vs_local_forcing.png" alt="Desplazamiento observado vs solicitacion local">
           <span class="zoom-chip">Ampliar grafico</span>
         </button>
-        <figcaption><strong>Desplazamiento observado vs solicitacion local.</strong> Relaciona el desplazamiento maximo observado con el proxy de momentum local. La linea punteada es el criterio de falla usado en produccion.</figcaption>
+        <figcaption><strong>Desplazamiento observado vs solicitacion local.</strong> Relaciona el desplazamiento maximo observado con el proxy de momentum local. La linea punteada es el criterio de falla; el eje se trunca para no esconder la zona cercana al umbral.</figcaption>
       </figure>
     </div>
     <p class="note">Datos fuente: <a href="data/post_convergence_translated_local_variables_14of14.csv">post_convergence_translated_local_variables_14of14.csv</a>. El archivo <a href="data/post_convergence_translation_excluded_14of14.csv">post_convergence_translation_excluded_14of14.csv</a> deja trazado el caso oficial excluido por falta de caracterizacion hidraulica en <code>H_dam=0.250</code>.</p>
@@ -132,7 +132,7 @@
           <img src="figures/03_local_feature_space.png" alt="Espacio h-u local">
           <span class="zoom-chip">Ampliar grafico</span>
         </button>
-        <figcaption><strong>Espacio h-u local.</strong> Ubica cada corrida en el plano profundidad local vs velocidad local. El tamano representa el proxy de momentum; ayuda a ver como se reemplaza H_dam.</figcaption>
+        <figcaption><strong>Espacio h-u local.</strong> Ubica cada corrida en el plano profundidad local vs velocidad local y muestra el proxy usado para el GP local. Color/forma separan sin bloque y con bloque de referencia.</figcaption>
       </figure>
 <figure class="zoomable-figure">
         <button class="figure-open" type="button" data-zoom-src="figures/04_unblocked_hydrographs.svg" data-zoom-title="Series locales sin bloque" aria-label="Ampliar grafico: Series locales sin bloque">
