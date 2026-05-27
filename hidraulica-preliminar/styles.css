@@ -112,7 +112,7 @@ figure {
   position: relative;
   display: block;
   width: 100%;
-  padding: 0;
+  padding: 32px 0 0;
   border: 0;
   background: transparent;
   cursor: zoom-in;
@@ -129,7 +129,7 @@ figure {
 .zoom-chip {
   position: absolute;
   right: 10px;
-  top: 10px;
+  top: 0;
   border: 1px solid rgba(23, 32, 42, .16);
   background: rgba(255, 255, 255, .92);
   color: var(--ink);
