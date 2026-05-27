@@ -9,9 +9,9 @@
 <body>
 <main class="page">
   <header class="top">
-    <p class="meta">Tesis UCN - SPH-Chrono - hidraulica 8/8</p>
+    <p class="meta">Tesis UCN - SPH-Chrono - hidraulica 14/14</p>
     <h1>Hidraulica local preliminar: de H_dam a variables antes del bloque</h1>
-    <p>Esta pagina resume el export completo de la Fase 1 hidraulica y reexpresa la evidencia oficial de post-convergencia con variables locales medibles antes del bloque. Sirve para presentar resultados preliminares antes del reentrenamiento o ajuste final con variables locales.</p>
+    <p>Esta pagina resume las Fases 1 y 2 de caracterizacion hidraulica local y reexpresa la evidencia oficial de post-convergencia con variables medibles antes del bloque. Sirve para presentar resultados preliminares antes del reentrenamiento o ajuste final con variables locales.</p>
     <p><a href="https://kcortes765.github.io/convergencia-dp/post-convergencia/">Volver a post-convergencia</a></p>
   </header>
 
@@ -20,11 +20,11 @@
     <dl class="cards">
 
       <div><dt>Casos traducidos</dt><dd>59/60</dd></div>
-      <div><dt>Base hidraulica</dt><dd>sin bloque 4/4</dd></div>
+      <div><dt>Base hidraulica</dt><dd>sin bloque 7/7</dd></div>
       <div><dt>Clases traducidas</dt><dd>37 ESTABLE / 22 FALLO</dd></div>
       <div><dt>H_dam cubiertos</dt><dd>4 niveles</dd></div>
       <div><dt>Excluido por ahora</dt><dd>H_dam 0.250</dd></div>
-      <div><dt>Estado hidraulico</dt><dd>completo 8/8</dd></div>
+      <div><dt>Estado hidraulico</dt><dd>completo 14/14</dd></div>
 
     </dl>
     <div class="split">
@@ -34,7 +34,7 @@
       </div>
       <div class="callout warning">
         <h3>Limite metodologico</h3>
-        <p>Esto no es un GP reentrenado en variables locales. Es una relectura preliminar con hidraulica 8/8 para presentar coherencia fisica; el ajuste final todavia requiere decidir el reentrenamiento.</p>
+        <p>Esto no es un GP reentrenado en variables locales. Es una relectura preliminar con hidraulica 14/14 para presentar coherencia fisica; el ajuste final todavia requiere decidir el reentrenamiento.</p>
       </div>
     </div>
   </section>
@@ -64,7 +64,7 @@
         <figcaption><strong>Desplazamiento observado vs solicitacion local.</strong> Relaciona el desplazamiento maximo observado con el proxy de momentum local. La linea punteada es el criterio de falla usado en produccion.</figcaption>
       </figure>
     </div>
-    <p class="note">Datos fuente: <a href="data/post_convergence_translated_local_variables_8of8.csv">post_convergence_translated_local_variables_8of8.csv</a>. El archivo <a href="data/post_convergence_translation_excluded_8of8.csv">post_convergence_translation_excluded_8of8.csv</a> deja trazado el caso oficial excluido por falta de caracterizacion hidraulica en <code>H_dam=0.250</code>.</p>
+    <p class="note">Datos fuente: <a href="data/post_convergence_translated_local_variables_14of14.csv">post_convergence_translated_local_variables_14of14.csv</a>. El archivo <a href="data/post_convergence_translation_excluded_14of14.csv">post_convergence_translation_excluded_14of14.csv</a> deja trazado el caso oficial excluido por falta de caracterizacion hidraulica en <code>H_dam=0.250</code>.</p>
   </section>
 
   <section>
@@ -90,11 +90,11 @@
     <h2>Estado del paquete</h2>
     <dl class="cards">
 
-      <div><dt>Corridas disponibles</dt><dd>8/8</dd></div>
-      <div><dt>Sin bloque</dt><dd>4/4</dd></div>
-      <div><dt>Con bloque ref.</dt><dd>4/4</dd></div>
+      <div><dt>Corridas disponibles</dt><dd>14/14</dd></div>
+      <div><dt>Sin bloque</dt><dd>7/7</dd></div>
+      <div><dt>Con bloque ref.</dt><dd>7/7</dd></div>
       <div><dt>Profundidad max. sin bloque</dt><dd>0.059 m</dd></div>
-      <div><dt>Velocidad max. sin bloque</dt><dd>0.896 m/s</dd></div>
+      <div><dt>Velocidad max. sin bloque</dt><dd>0.930 m/s</dd></div>
       <div><dt>Proxy de momentum max.</dt><dd>16.75 N/m</dd></div>
 
     </dl>
@@ -169,17 +169,23 @@
         </thead>
         <tbody>
 <tr><td><code>hydro_unblocked_H0175</code></td><td><span class='pill water'>sin bloque</span></td><td>0.175</td><td>0.0493</td><td>0.801</td><td>9.59</td><td>2.52</td><td></td></tr>
+<tr><td><code>hydro2_unblocked_H01875</code></td><td><span class='pill water'>sin bloque</span></td><td>0.188</td><td>0.0492</td><td>0.873</td><td>11.45</td><td>2.42</td><td></td></tr>
 <tr><td><code>hydro_unblocked_H0200</code></td><td><span class='pill water'>sin bloque</span></td><td>0.200</td><td>0.0540</td><td>0.818</td><td>13.08</td><td>2.56</td><td></td></tr>
+<tr><td><code>hydro2_unblocked_H02050</code></td><td><span class='pill water'>sin bloque</span></td><td>0.205</td><td>0.0542</td><td>0.829</td><td>13.45</td><td>2.57</td><td></td></tr>
 <tr><td><code>hydro_unblocked_H0210</code></td><td><span class='pill water'>sin bloque</span></td><td>0.210</td><td>0.0536</td><td>0.864</td><td>14.01</td><td>2.47</td><td></td></tr>
+<tr><td><code>hydro2_unblocked_H02175</code></td><td><span class='pill water'>sin bloque</span></td><td>0.217</td><td>0.0577</td><td>0.930</td><td>15.33</td><td>2.76</td><td></td></tr>
 <tr><td><code>hydro_unblocked_H0225</code></td><td><span class='pill water'>sin bloque</span></td><td>0.225</td><td>0.0592</td><td>0.896</td><td>16.75</td><td>2.61</td><td></td></tr>
 <tr><td><code>hydro_withblock_ref_H0175</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.175</td><td>0.0663</td><td>0.778</td><td>7.59</td><td>2.22</td><td>1.23%</td></tr>
+<tr><td><code>hydro2_withblock_ref_H01875</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.188</td><td>0.0665</td><td>0.822</td><td>8.88</td><td>2.29</td><td>1.23%</td></tr>
 <tr><td><code>hydro_withblock_ref_H0200</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.200</td><td>0.0682</td><td>0.759</td><td>8.01</td><td>2.30</td><td>1.23%</td></tr>
+<tr><td><code>hydro2_withblock_ref_H02050</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.205</td><td>0.0680</td><td>0.814</td><td>9.00</td><td>2.48</td><td>1.23%</td></tr>
 <tr><td><code>hydro_withblock_ref_H0210</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.210</td><td>0.0692</td><td>0.868</td><td>7.98</td><td>2.69</td><td>1.23%</td></tr>
+<tr><td><code>hydro2_withblock_ref_H02175</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.217</td><td>0.0713</td><td>0.871</td><td>10.94</td><td>2.32</td><td>1.23%</td></tr>
 <tr><td><code>hydro_withblock_ref_H0225</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.225</td><td>0.0714</td><td>0.821</td><td>10.24</td><td>2.24</td><td>1.26%</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="note">Datos fuente: <a href="data/hydraulic_phase1_all_summary.csv">hydraulic_phase1_all_summary.csv</a> y <a href="data/hydraulic_comparison_summary.csv">hydraulic_comparison_summary.csv</a>. Estado hidraulico completo 8/8; la traduccion a ecuacion final sigue siendo preliminar hasta decidir el reentrenamiento en variables locales.</p>
+    <p class="note">Datos fuente: <a href="data/hydraulic_all_phases_summary.csv">hydraulic_all_phases_summary.csv</a> y <a href="data/hydraulic_all_phases_comparison_summary.csv">hydraulic_all_phases_comparison_summary.csv</a>. Estado hidraulico completo 14/14; la traduccion a ecuacion final sigue siendo preliminar hasta decidir el reentrenamiento en variables locales.</p>
   </section>
 </main>
 
