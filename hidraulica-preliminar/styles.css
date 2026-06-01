@@ -67,6 +67,30 @@ section {
   padding: 20px;
   margin: 18px 0;
 }
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0 0;
+}
+.site-nav a {
+  display: inline-block;
+  border: 1px solid #c8d1dc;
+  background: #f7fafd;
+  color: #255f91;
+  border-radius: 4px;
+  padding: 8px 12px;
+  text-decoration: none;
+  font-weight: 700;
+}
+.site-nav a[aria-current="page"] {
+  background: #255f91;
+  color: white;
+  border-color: #255f91;
+}
+.footer-nav {
+  margin-bottom: 0;
+}
 .cards {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));

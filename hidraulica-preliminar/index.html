@@ -12,16 +12,21 @@
     <p class="meta">Tesis UCN - SPH-Chrono - hidraulica 14/14</p>
     <h1>Hidraulica local preliminar: de H_dam a variables antes del bloque</h1>
     <p>Esta pagina resume las Fases 1 y 2 de caracterizacion hidraulica local y reexpresa la evidencia oficial de post-convergencia con variables medibles antes del bloque. Sirve para presentar resultados preliminares antes del reentrenamiento o ajuste final con variables locales.</p>
-    <p><a href="https://kcortes765.github.io/convergencia-dp/post-convergencia/">Volver a post-convergencia</a></p>
+    <nav class="site-nav" aria-label="Navegación entre páginas">
+  <a href="../">Convergencia dp</a>
+  <a href="../post-convergencia/">Post-convergencia</a>
+  <a href="../hidraulica-preliminar/" aria-current="page">Hidráulica local</a>
+  <a href="../lo-que-viene/">Lo que viene</a>
+</nav>
   </header>
 
   <section>
     <h2>Traduccion preliminar de post-convergencia</h2>
     <dl class="cards">
 
-      <div><dt>Casos traducidos</dt><dd>59/60</dd></div>
+      <div><dt>Casos traducidos</dt><dd>92/93</dd></div>
       <div><dt>Base hidraulica</dt><dd>sin bloque 7/7</dd></div>
-      <div><dt>Clases traducidas</dt><dd>37 ESTABLE / 22 FALLO</dd></div>
+      <div><dt>Clases traducidas</dt><dd>54 ESTABLE / 38 FALLO</dd></div>
       <div><dt>H_dam cubiertos</dt><dd>4 niveles</dd></div>
       <div><dt>Excluido por ahora</dt><dd>H_dam 0.250</dd></div>
       <div><dt>Estado hidraulico</dt><dd>completo 14/14</dd></div>
@@ -77,10 +82,10 @@
           </tr>
         </thead>
         <tbody>
-<tr><td>0.175</td><td>0.0493</td><td>0.801</td><td>9.59</td><td>2.52</td><td>0.85-1.15</td><td>0.560-0.680</td><td><span class='pill stable'>8 ESTABLE</span> <span class='pill failure'>1 FALLO</span></td></tr>
-<tr><td>0.200</td><td>0.0540</td><td>0.818</td><td>13.08</td><td>2.56</td><td>0.85-1.25</td><td>0.600-0.860</td><td><span class='pill stable'>15 ESTABLE</span> <span class='pill failure'>7 FALLO</span></td></tr>
-<tr><td>0.210</td><td>0.0536</td><td>0.864</td><td>14.01</td><td>2.47</td><td>0.85-1.15</td><td>0.700-0.900</td><td><span class='pill stable'>6 ESTABLE</span> <span class='pill failure'>4 FALLO</span></td></tr>
-<tr><td>0.225</td><td>0.0592</td><td>0.896</td><td>16.75</td><td>2.61</td><td>0.85-1.25</td><td>0.660-0.880</td><td><span class='pill stable'>8 ESTABLE</span> <span class='pill failure'>10 FALLO</span></td></tr>
+<tr><td>0.175</td><td>0.0493</td><td>0.801</td><td>9.59</td><td>2.52</td><td>0.85-1.15</td><td>0.560-0.680</td><td><span class='pill stable'>9 ESTABLE</span> <span class='pill failure'>1 FALLO</span></td></tr>
+<tr><td>0.200</td><td>0.0540</td><td>0.818</td><td>13.08</td><td>2.56</td><td>0.85-1.25</td><td>0.600-0.860</td><td><span class='pill stable'>16 ESTABLE</span> <span class='pill failure'>10 FALLO</span></td></tr>
+<tr><td>0.210</td><td>0.0536</td><td>0.864</td><td>14.01</td><td>2.47</td><td>0.85-1.25</td><td>0.560-0.900</td><td><span class='pill stable'>17 ESTABLE</span> <span class='pill failure'>11 FALLO</span></td></tr>
+<tr><td>0.225</td><td>0.0592</td><td>0.896</td><td>16.75</td><td>2.61</td><td>0.85-1.25</td><td>0.660-0.900</td><td><span class='pill stable'>12 ESTABLE</span> <span class='pill failure'>16 FALLO</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -187,6 +192,16 @@
     </div>
     <p class="note">Datos fuente: <a href="data/hydraulic_all_phases_summary.csv">hydraulic_all_phases_summary.csv</a> y <a href="data/hydraulic_all_phases_comparison_summary.csv">hydraulic_all_phases_comparison_summary.csv</a>. Estado hidraulico completo 14/14; la traduccion a ecuacion final sigue siendo preliminar hasta decidir el reentrenamiento en variables locales.</p>
   </section>
+
+  <section class="footer-nav">
+    <h2>Navegacion</h2>
+    <nav class="site-nav" aria-label="Navegación entre páginas">
+  <a href="../">Convergencia dp</a>
+  <a href="../post-convergencia/">Post-convergencia</a>
+  <a href="../hidraulica-preliminar/" aria-current="page">Hidráulica local</a>
+  <a href="../lo-que-viene/">Lo que viene</a>
+</nav>
+  </section>
 </main>
 
 
@@ -202,7 +217,7 @@
       </div>
     </div>
     <div class="zoom-modal__stage">
-      <img id="figureZoomImage" alt="">
+      <img id="figureZoomImage" alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==">
     </div>
     <p class="zoom-help">Rueda/trackpad para zoom, arrastrar para mover, doble clic para acercar, Esc para cerrar.</p>
   </div>
@@ -261,7 +276,7 @@
     modal.classList.remove("is-open");
     modal.setAttribute("aria-hidden", "true");
     document.body.classList.remove("modal-open");
-    img.removeAttribute("src");
+    img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
   };
 
   document.querySelectorAll(".figure-open").forEach((button) => {

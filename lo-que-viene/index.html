@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lo que viene</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="page">
+  <header class="top">
+    <p class="meta">Tesis UCN - hoja de ruta</p>
+    <h1>Lo que viene: de resultados preliminares a cierre defendible</h1>
+    <p>Esta página es deliberadamente operativa: separa qué se puede mostrar hoy, qué falta para cerrar la incertidumbre de resolución y qué pasos quedan antes de Monte Carlo y tesis final.</p>
+    <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../post-convergencia/">Post-convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../lo-que-viene/" aria-current="page">Lo que viene</a></nav>
+  </header>
+
+  <section>
+    <h2>Resumen corto</h2>
+    <dl class="cards">
+<div><dt>Ahora mismo</dt><dd>4/6 dp=0.002</dd><small>faltan 2 high-H</small></div>
+<div><dt>Cierre base</dt><dd>6-12 sims</dd><small>según resultado fino</small></div>
+<div><dt>Holdout</dt><dd>6 sims</dd><small>validación formal dp=0.003</small></div>
+<div><dt>Monte Carlo</dt><dd>0 SPH</dd><small>corre sobre GP final</small></div>
+<div><dt>GP local actual</dt><dd>0.861</dd><small>accuracy LOO preliminar</small></div>
+<div><dt>Decisión</dt><dd>no mínimo</dd><small>correr sólido, por etapas</small></div>
+    </dl>
+    <p>Con 4/6 checks finos ya se puede presentar una conclusión preliminar: cerca del umbral, <code>dp=0.003</code> es conservador respecto de <code>dp=0.002</code> en los pares disponibles. Para cierre formal todavía se necesita terminar 6/6 y decidir si se buscan 1-4 puntos finos más bajos en fricción.</p>
+  </section>
+
+  <section>
+    <h2>Ruta de decisión</h2>
+    <div class="figure-grid">
+      <figure>
+        <a href="figures/06_ruta_lo_que_viene.png" target="_blank" aria-label="Abrir figura: Ruta al cierre"><img src="figures/06_ruta_lo_que_viene.png" alt="Ruta al cierre"></a>
+        <figcaption><strong>Ruta al cierre.</strong> Orden recomendado después del parcial dp=0.002: terminar, decidir bracket fino, reentrenar GP local, holdout y Monte Carlo.</figcaption>
+      </figure>
+      <figure>
+        <a href="figures/07_presupuesto_simulaciones.png" target="_blank" aria-label="Abrir figura: Presupuesto de simulaciones"><img src="figures/07_presupuesto_simulaciones.png" alt="Presupuesto de simulaciones"></a>
+        <figcaption><strong>Presupuesto de simulaciones.</strong> Rango razonable de SPH nuevas si se quiere un cierre sólido y no solo el mínimo presentable.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>Caminos según el 6/6</h2>
+    <div class="split">
+      <div class="callout">
+        <h3>Si los 6/6 quedan estables</h3>
+        <p>La lectura fuerte es que los fallos marginales de <code>dp=0.003</code> estaban dentro de la banda de resolución. Conviene correr 1-4 puntos <code>dp=0.002</code> con menor <code>μ</code> para recuperar el lado de falla fino.</p>
+      </div>
+      <div class="callout warning">
+        <h3>Si aparece un fallo fino</h3>
+        <p>Mejor: queda bracket fino directo en esa zona. Después se reentrena GP local, se diseña holdout y se prepara Monte Carlo sin lanzar una campaña grande innecesaria.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Qué no se debe vender todavía</h2>
+    <p>No vender una probabilidad final de falla antes del holdout y Monte Carlo. Sí se puede vender una confiabilidad por capas: convergencia operativa, benchmark, sanity de contacto, coherencia analítica, AL8 y sensibilidad parcial <code>dp=0.002</code>.</p>
+    <p class="note">La tesis no termina con estos 4/6. Queda muy bien encaminada para presentar avance, pero el cierre defendible requiere terminar checks, reentrenar/validar y correr Monte Carlo sobre el GP final.</p>
+  </section>
+
+  <section class="footer-nav">
+    <h2>Navegación</h2>
+    <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../post-convergencia/">Post-convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../lo-que-viene/" aria-current="page">Lo que viene</a></nav>
+  </section>
+</main>
+</body>
+</html>
