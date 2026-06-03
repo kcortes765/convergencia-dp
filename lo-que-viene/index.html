@@ -9,61 +9,61 @@
 <body>
 <main class="page">
   <header class="top">
-    <p class="meta">Tesis UCN - hoja de ruta</p>
     <h1>Lo que viene: de resultados preliminares a cierre defendible</h1>
-    <p>Esta página es deliberadamente operativa: separa qué se puede mostrar hoy, qué falta para cerrar la incertidumbre de resolución y qué pasos quedan antes de Monte Carlo y tesis final.</p>
+    <p>Con el <code>dp=0.002</code> completo, la decision ya no es esperar datos: es decidir si conviene buscar una frontera fina adicional o pasar a reentrenar, validar y cerrar probabilisticamente.</p>
     <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../post-convergencia/">Post-convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../lo-que-viene/" aria-current="page">Lo que viene</a></nav>
   </header>
 
   <section>
     <h2>Resumen corto</h2>
     <dl class="cards">
-<div><dt>Ahora mismo</dt><dd>4/6 dp=0.002</dd><small>faltan 2 high-H</small></div>
-<div><dt>Cierre base</dt><dd>6-12 sims</dd><small>según resultado fino</small></div>
-<div><dt>Holdout</dt><dd>6 sims</dd><small>validación formal dp=0.003</small></div>
+<div><dt>Ahora mismo</dt><dd>6/6 dp=0.002</dd><small>todos ESTABLE</small></div>
+<div><dt>Mas cercano</dt><dd>4.32% d_eq</dd><small>aun bajo 5% d_eq</small></div>
+<div><dt>Cambios clase</dt><dd>4/6</dd><small>banda de resolucion</small></div>
+<div><dt>Opcional fino</dt><dd>2-4 sims</dd><small>solo si se busca falla dp=0.002</small></div>
+<div><dt>Holdout</dt><dd>6 sims</dd><small>validacion formal dp=0.003</small></div>
 <div><dt>Monte Carlo</dt><dd>0 SPH</dd><small>corre sobre GP final</small></div>
 <div><dt>GP local actual</dt><dd>0.861</dd><small>accuracy LOO preliminar</small></div>
-<div><dt>Decisión</dt><dd>no mínimo</dd><small>correr sólido, por etapas</small></div>
     </dl>
-    <p>Con 4/6 checks finos ya se puede presentar una conclusión preliminar: cerca del umbral, <code>dp=0.003</code> es conservador respecto de <code>dp=0.002</code> en los pares disponibles. Para cierre formal todavía se necesita terminar 6/6 y decidir si se buscan 1-4 puntos finos más bajos en fricción.</p>
+    <p>Para presentar hoy: los checks finos indican que las fallas marginales de <code>dp=0.003</code> son conservadoras cerca del umbral. No conviene venderlas como frontera exacta; conviene vender una banda de resolucion y mostrar que el caso fino mas exigido sigue bajo el umbral.</p>
   </section>
 
   <section>
-    <h2>Ruta de decisión</h2>
+    <h2>Ruta de decision</h2>
     <div class="figure-grid">
       <figure>
         <a href="figures/06_ruta_lo_que_viene.png" target="_blank" aria-label="Abrir figura: Ruta al cierre"><img src="figures/06_ruta_lo_que_viene.png" alt="Ruta al cierre"></a>
-        <figcaption><strong>Ruta al cierre.</strong> Orden recomendado después del parcial dp=0.002: terminar, decidir bracket fino, reentrenar GP local, holdout y Monte Carlo.</figcaption>
+        <figcaption><strong>Ruta al cierre.</strong> Orden recomendado despues de dp=0.002 completo: decidir bracket fino, reentrenar GP local, holdout y Monte Carlo.</figcaption>
       </figure>
       <figure>
         <a href="figures/07_presupuesto_simulaciones.png" target="_blank" aria-label="Abrir figura: Presupuesto de simulaciones"><img src="figures/07_presupuesto_simulaciones.png" alt="Presupuesto de simulaciones"></a>
-        <figcaption><strong>Presupuesto de simulaciones.</strong> Rango razonable de SPH nuevas si se quiere un cierre sólido y no solo el mínimo presentable.</figcaption>
+        <figcaption><strong>Presupuesto de simulaciones.</strong> Rango razonable de SPH nuevas si se quiere un cierre solido y no solo el minimo presentable.</figcaption>
       </figure>
     </div>
   </section>
 
   <section>
-    <h2>Caminos según el 6/6</h2>
+    <h2>Caminos reales</h2>
     <div class="split">
       <div class="callout">
-        <h3>Si los 6/6 quedan estables</h3>
-        <p>La lectura fuerte es que los fallos marginales de <code>dp=0.003</code> estaban dentro de la banda de resolución. Conviene correr 1-4 puntos <code>dp=0.002</code> con menor <code>μ</code> para recuperar el lado de falla fino.</p>
+        <h3>Ruta recomendada para presentar</h3>
+        <p>No correr otra tanda grande antes de ordenar el resultado. Actualizar web, explicar banda de resolucion, reentrenar GP local con estos datos y preparar holdout formal.</p>
       </div>
       <div class="callout warning">
-        <h3>Si aparece un fallo fino</h3>
-        <p>Mejor: queda bracket fino directo en esa zona. Después se reentrena GP local, se diseña holdout y se prepara Monte Carlo sin lanzar una campaña grande innecesaria.</p>
+        <h3>Ruta pro para cierre fino</h3>
+        <p>Si queremos recuperar el lado de falla a <code>dp=0.002</code>, lanzar una mini-tanda de 2-4 casos con menor <code>mu</code>. No hace falta una campana grande a ciegas.</p>
       </div>
     </div>
   </section>
 
   <section>
-    <h2>Qué no se debe vender todavía</h2>
-    <p>No vender una probabilidad final de falla antes del holdout y Monte Carlo. Sí se puede vender una confiabilidad por capas: convergencia operativa, benchmark, sanity de contacto, coherencia analítica, AL8 y sensibilidad parcial <code>dp=0.002</code>.</p>
-    <p class="note">La tesis no termina con estos 4/6. Queda muy bien encaminada para presentar avance, pero el cierre defendible requiere terminar checks, reentrenar/validar y correr Monte Carlo sobre el GP final.</p>
+    <h2>Que no se debe vender todavia</h2>
+    <p>No vender una probabilidad final de falla antes del holdout y Monte Carlo. Si se puede vender una confiabilidad por capas: convergencia operativa, benchmark, sanity de contacto, coherencia analitica, AL8, variables locales y sensibilidad completa <code>dp=0.002</code>.</p>
+    <p class="note">La tesis queda muy bien encaminada, pero el cierre defendible exige GP final, holdout y Monte Carlo. El <code>dp=0.002</code> completo mejora la historia porque cuantifica la incertidumbre, no porque elimine la necesidad de validar.</p>
   </section>
 
   <section class="footer-nav">
-    <h2>Navegación</h2>
+    <h2>Navegacion</h2>
     <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../post-convergencia/">Post-convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../lo-que-viene/" aria-current="page">Lo que viene</a></nav>
   </section>
 </main>

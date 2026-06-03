@@ -2,21 +2,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns:xlink="http://www.w3.org/1999/xlink" width="750.96pt" height="292.365656pt" viewBox="0 0 750.96 292.365656" xmlns="http://www.w3.org/2000/svg" version="1.1">
- <metadata>
-  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-   <cc:Work>
-    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-06-01T17:58:14.269893</dc:date>
-    <dc:format>image/svg+xml</dc:format>
-    <dc:creator>
-     <cc:Agent>
-      <dc:title>Matplotlib v3.7.5, https://matplotlib.org/</dc:title>
-     </cc:Agent>
-    </dc:creator>
-   </cc:Work>
-  </rdf:RDF>
- </metadata>
- <defs>
+<defs>
   <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
  </defs>
  <g id="figure_1">
@@ -35,7 +21,7 @@ L 106.6356 175.727096
 L 106.6356 97.556696 
 L 10.8828 97.556696 
 z
-" clip-path="url(#p52c8023c9e)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p537b0c2b90)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
     <path d="M 137.57112 175.727096 
@@ -43,7 +29,7 @@ L 233.32392 175.727096
 L 233.32392 97.556696 
 L 137.57112 97.556696 
 z
-" clip-path="url(#p52c8023c9e)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p537b0c2b90)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 264.25944 175.727096 
@@ -51,7 +37,7 @@ L 360.01224 175.727096
 L 360.01224 97.556696 
 L 264.25944 97.556696 
 z
-" clip-path="url(#p52c8023c9e)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p537b0c2b90)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
     <path d="M 390.94776 175.727096 
@@ -59,7 +45,7 @@ L 486.70056 175.727096
 L 486.70056 97.556696 
 L 390.94776 97.556696 
 z
-" clip-path="url(#p52c8023c9e)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p537b0c2b90)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
     <path d="M 517.63608 175.727096 
@@ -67,7 +53,7 @@ L 613.38888 175.727096
 L 613.38888 97.556696 
 L 517.63608 97.556696 
 z
-" clip-path="url(#p52c8023c9e)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p537b0c2b90)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_7">
     <path d="M 644.3244 175.727096 
@@ -75,14 +61,14 @@ L 740.0772 175.727096
 L 740.0772 97.556696 
 L 644.3244 97.556696 
 z
-" clip-path="url(#p52c8023c9e)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p537b0c2b90)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="text_1">
     <text style="fill: #17202a; font: 700 10px 'DejaVu Sans'; text-anchor: middle" x="58.7592" y="118.555831" transform="rotate(-0 58.7592 118.555831)">Ahora</text>
    </g>
    <g id="text_2">
-    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(21.595106 147.228299)">dp=0.002 parcial</text>
-    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(41.526278 156.858418)">4/6 listo</text>
+    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(15.948669 147.228299)">dp=0.002 completo</text>
+    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(34.695325 156.858418)">6/6 estable</text>
    </g>
    <g id="patch_8">
     <path d="M 117.471448 136.641896 
@@ -94,11 +80,11 @@ L 121.168443 138.641896
 " style="fill: none; stroke: #17202a; stroke-width: 1.4; stroke-linecap: round"/>
    </g>
    <g id="text_3">
-    <text style="fill: #17202a; font: 700 10px 'DejaVu Sans'; text-anchor: middle" x="185.44752" y="118.555831" transform="rotate(-0 185.44752 118.555831)">Al terminar 6/6</text>
+    <text style="fill: #17202a; font: 700 10px 'DejaVu Sans'; text-anchor: middle" x="185.44752" y="118.555831" transform="rotate(-0 185.44752 118.555831)">Decision</text>
    </g>
    <g id="text_4">
-    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(154.988739 147.228299)">decidir si falta</text>
-    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(159.853786 156.858418)">bracket fino</text>
+    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(155.856129 147.228299)">bracket fino o</text>
+    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(162.146895 156.858418)">pasar a GP</text>
    </g>
    <g id="patch_9">
     <path d="M 244.159768 136.641896 
@@ -110,11 +96,11 @@ L 247.856763 138.641896
 " style="fill: none; stroke: #17202a; stroke-width: 1.4; stroke-linecap: round"/>
    </g>
    <g id="text_5">
-    <text style="fill: #17202a; font: 700 10px 'DejaVu Sans'; text-anchor: middle" x="312.13584" y="118.555831" transform="rotate(-0 312.13584 118.555831)">Si falta bracket</text>
+    <text style="fill: #17202a; font: 700 10px 'DejaVu Sans'; text-anchor: middle" x="312.13584" y="118.555831" transform="rotate(-0 312.13584 118.555831)">Si se afina</text>
    </g>
    <g id="text_6">
-    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(268.895981 147.021899)">1-4 casos dp=0.002</text>
-    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(279.435012 157.064818)">más bajos en μ</text>
+    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(268.895981 147.228299)">2-4 casos dp=0.002</text>
+    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(275.257293 156.858418)">mas bajos en mu</text>
    </g>
    <g id="patch_10">
     <path d="M 370.848088 136.641896 
@@ -142,7 +128,7 @@ L 501.233403 138.641896
 " style="fill: none; stroke: #17202a; stroke-width: 1.4; stroke-linecap: round"/>
    </g>
    <g id="text_9">
-    <text style="fill: #17202a; font: 700 10px 'DejaVu Sans'; text-anchor: middle" x="565.51248" y="118.555831" transform="rotate(-0 565.51248 118.555831)">Validación</text>
+    <text style="fill: #17202a; font: 700 10px 'DejaVu Sans'; text-anchor: middle" x="565.51248" y="118.555831" transform="rotate(-0 565.51248 118.555831)">Validacion</text>
    </g>
    <g id="text_10">
     <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(533.967949 147.228299)">holdout formal</text>
@@ -165,18 +151,15 @@ L 627.921723 138.641896
     <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(663.547347 156.858418)">sin SPH extra</text>
    </g>
    <g id="text_13">
-    <text style="fill: #17202a; font: 10px 'DejaVu Sans'; text-anchor: start" x="58.7592" y="227.840696" transform="rotate(-0 58.7592 227.840696)">Regla: no convertir dp=0.002 en nuevo universo productivo; usarlo para cuantificar incertidumbre de resolución.</text>
+    <text style="fill: #17202a; font: 10px 'DejaVu Sans'; text-anchor: start" x="58.7592" y="227.840696" transform="rotate(-0 58.7592 227.840696)">Criterio: dp=0.002 cuantifica incertidumbre de resolucion; la decision siguiente es modelar, validar o afinar pocos puntos.</text>
    </g>
    <g id="text_14">
-    <text style="fill: #17202a; font: 700 10px 'DejaVu Sans'; text-anchor: start" x="58.7592" y="251.291816" transform="rotate(-0 58.7592 251.291816)">Regla operacional WS: SI ACTIVE SIEMPRE NTFY, sin heartbeat salvo pedido explícito.</text>
-   </g>
-   <g id="text_15">
-    <text style="font: 700 15px 'DejaVu Sans'; text-anchor: middle" x="375.48" y="18.597656" transform="rotate(-0 375.48 18.597656)">Ruta corta desde el parcial dp=0.002 hasta el cierre defendible</text>
+    <text style="font: 700 15px 'DejaVu Sans'; text-anchor: middle" x="375.48" y="18.597656" transform="rotate(-0 375.48 18.597656)">Ruta corta desde dp=0.002 completo hasta el cierre defendible</text>
    </g>
   </g>
  </g>
  <defs>
-  <clipPath id="p52c8023c9e">
+  <clipPath id="p537b0c2b90">
    <rect x="7.2" y="24.597656" width="736.56" height="260.568"/>
   </clipPath>
  </defs>
