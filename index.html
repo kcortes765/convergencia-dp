@@ -14,10 +14,10 @@
       <h1>Convergencia de resolución SPH</h1>
       <p>Esta pagina resume por que se adopta <code>dp=0.003 m</code> como resolucion operativa. La produccion dirigida y active learning quedan en una pagina separada.</p>
       <nav class="site-nav" aria-label="Navegación entre páginas">
-        <a href="./" aria-current="page">Convergencia dp</a>
-        <a href="post-convergencia/">Post-convergencia</a>
-        <a href="hidraulica-preliminar/">Hidraulica local</a>
-        <a href="lo-que-viene/">Lo que viene</a>
+        <a href="../convergence_story_web/" aria-current="page">Convergencia dp</a>
+        <a href="../post_convergence_story_web/">Post-convergencia</a>
+        <a href="../hydraulic_phase1_prelim_web/">Hidraulica local</a>
+        <a href="../lo_que_viene_web/">Lo que viene</a>
       </nav>
     </div>
   </header>
@@ -34,31 +34,28 @@
       </dl>
       <figure>
         <img src="figures/00_setup_planta_elevacion.png" alt="Planta y elevacion del setup SPH">
-        <figcaption>Setup fisico usado en la lectura: canal, playa 1:20 y bloque irregular. La silueta del bloque proviene de <code>models/BLIR3.stl</code> con escala 0.04 y rotacion registrada del caso; los contornos auditables quedan en <code>data/stl_boulder_outline_*.csv</code>. La elevacion global realza z para legibilidad; el detalle muestra el apoyo local sin penetracion.</figcaption>
+        <figcaption>Setup fisico usado en la lectura: canal, playa 1:20 y bloque irregular. La elevacion global realza z para legibilidad; el detalle muestra el apoyo local sin penetracion.</figcaption>
       </figure>
     <h3>Ficha del caso físico usado para la convergencia</h3>
     <p>Todos los valores de la tabla por resolución corresponden a este mismo caso físico; lo único que cambia entre filas es <code>dp</code>.</p>
     <div class="table-wrap compact-table">
       <table>
-        <tbody><tr><th>Fuente auditada</th><td>data/logs/conv3_f05_full.log</td></tr>
-<tr><th>Serie</th><td>conv3_f05_full</td></tr>
-<tr><th>Altura de presa / columna inicial</th><td>0.20 m</td></tr>
+        <tbody><tr><th>Altura de presa / columna inicial</th><td>0.20 m</td></tr>
 <tr><th>Masa del bloque</th><td>1.00 kg</td></tr>
 <tr><th>Coeficiente de fricción bloque-playa</th><td>mu = 0.50</td></tr>
 <tr><th>Pendiente de playa</th><td>1:20</td></tr>
 <tr><th>Rotación adicional del bloque</th><td>rot_z = 0.0 deg</td></tr>
-<tr><th>Rotación STL registrada</th><td>(0.0, 0.0, 0.0) deg</td></tr>
 <tr><th>Posición inicial nominal</th><td>(x, y, z) = (6.5, 0.5, 0.025) m</td></tr>
-<tr><th>Bloque</th><td>BLIR3.stl, escala = 0.04</td></tr>
+<tr><th>Bloque</th><td>bloque irregular representativo, escala geometrica 0.04</td></tr>
 <tr><th>Volumen / densidad</th><td>0.00053023 m3 / 1886.0 kg/m3</td></tr>
 <tr><th>Diámetro equivalente</th><td>d_eq = 0.100421 m</td></tr>
-<tr><th>Bbox bloque</th><td>0.1710 x 0.2100 x 0.0399 m</td></tr>
+<tr><th>Dimensiones aproximadas del bloque</th><td>0.1710 x 0.2100 x 0.0399 m</td></tr>
 <tr><th>Canal</th><td>L_flat=6.0 m, L_ramp=9.0 m, L_end=15.0 m, W=1.0 m, H=1.5 m</td></tr>
-<tr><th>Gauges</th><td>12 velocity + 8 maxZ, reubicados según posición del bloque</td></tr>
+<tr><th>Puntos de medicion</th><td>velocidad y altura/cota maxima junto al bloque</td></tr>
 <tr><th>Resoluciones barridas</th><td>dp = 0.010, 0.008, 0.006, 0.005, 0.004, 0.003, 0.002 m</td></tr></tbody>
       </table>
     </div>
-    <p class="note">Ficha reconstruida desde <code>data/logs/conv3_f05_full.log</code>. Esta es la condición específica usada para la convergencia continua; no representa todos los casos productivos posteriores.</p>
+    <p class="note">Esta es la condicion especifica usada para la convergencia continua; no representa todos los casos productivos posteriores.</p>
       <p>SPH no usa una malla fija; usa partículas. Por eso aquí <code>dp</code> significa <strong>espaciamiento inicial entre partículas</strong> y se interpreta como resolución espacial del modelo.</p>
       <p>El análisis se ordena así: primero se comparan variables continuas para distintos <code>dp</code>, como desplazamiento del bloque, velocidad del bloque, velocidad del flujo y altura de agua en gauges. Esa es la parte de convergencia o sensibilidad de resolución.</p>
       <p>Luego, con una resolución seleccionada por equilibrio entre respuesta y costo, se analiza si el bloque inicia movimiento bajo un criterio operacional. Esa segunda parte es el estudio de estabilidad, no el reemplazo del análisis de convergencia.</p>
@@ -117,7 +114,7 @@
 <tr><td><span class='dp-chip reference'>0.002</span></td><td><span class='pill stable'>OK</span></td><td>128.37</td><td>127.8%</td><td>referencia</td><td>0.148</td><td>135.9 mm</td><td>1.64</td><td>24.02</td><td>51.86 M<br><span class='muted'>9.8 GB · 1144.2 min</span></td><td>Referencia fina</td></tr></tbody>
       </table>
     </div>
-    <p class="note">Tabla derivada de <code>data/results/conv3_f05_full.csv</code>. <code>Delta Dmax</code> se calcula contra el caso fino <code>dp=0.002 m</code>; valores negativos significan menor desplazamiento máximo que la referencia fina.</p>
+    <p class="note"><code>Delta Dmax</code> se calcula contra el caso fino <code>dp=0.002 m</code>; valores negativos significan menor desplazamiento maximo que la referencia fina.</p>
     <div class="figure-stack">
       <figure>
         <img src="figures/02_tendencia_variables_principales.png" alt="Tendencia de variables principales hacia el caso fino">
@@ -218,10 +215,10 @@
   <section class="footer-nav">
     <h2>Navegacion</h2>
     <nav class="site-nav" aria-label="Navegación entre páginas">
-      <a href="./" aria-current="page">Convergencia dp</a>
-      <a href="post-convergencia/">Post-convergencia</a>
-      <a href="hidraulica-preliminar/">Hidraulica local</a>
-      <a href="lo-que-viene/">Lo que viene</a>
+      <a href="../convergence_story_web/" aria-current="page">Convergencia dp</a>
+      <a href="../post_convergence_story_web/">Post-convergencia</a>
+      <a href="../hydraulic_phase1_prelim_web/">Hidraulica local</a>
+      <a href="../lo_que_viene_web/">Lo que viene</a>
     </nav>
   </section>
 </main>
