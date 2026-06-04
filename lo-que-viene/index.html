@@ -10,7 +10,7 @@
 <main class="page">
   <header class="top">
     <h1>Lo que viene: de resultados preliminares a cierre defendible</h1>
-    <p>Con el <code>dp=0.002</code> completo, la decision ya no es esperar datos: es decidir si conviene buscar una frontera fina adicional o pasar a reentrenar, validar y cerrar probabilisticamente.</p>
+    <p>Con el <code>dp=0.002</code> completo, la lectura ya no es esperar datos base: hay una banda de resolucion clara y una mini-tanda fina de 4 casos preparada para acotar mejor esa banda.</p>
     <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../post-convergencia/">Post-convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../lo-que-viene/" aria-current="page">Lo que viene</a></nav>
   </header>
 
@@ -20,12 +20,12 @@
 <div><dt>Ahora mismo</dt><dd>6/6 dp=0.002</dd><small>todos ESTABLE</small></div>
 <div><dt>Mas cercano</dt><dd>4.32% d_eq</dd><small>aun bajo 5% d_eq</small></div>
 <div><dt>Cambios clase</dt><dd>4/6</dd><small>banda de resolucion</small></div>
-<div><dt>Opcional fino</dt><dd>2-4 sims</dd><small>solo si se busca falla dp=0.002</small></div>
+<div><dt>Refinamiento</dt><dd>4 sims</dd><small>preparadas para buscar falla fina</small></div>
 <div><dt>Holdout</dt><dd>6 sims</dd><small>validacion formal dp=0.003</small></div>
 <div><dt>Monte Carlo</dt><dd>0 SPH</dd><small>corre sobre GP final</small></div>
 <div><dt>GP local actual</dt><dd>0.861</dd><small>accuracy LOO preliminar</small></div>
     </dl>
-    <p>Para presentar hoy: los checks finos indican que las fallas marginales de <code>dp=0.003</code> son conservadoras cerca del umbral. No conviene venderlas como frontera exacta; conviene vender una banda de resolucion y mostrar que el caso fino mas exigido sigue bajo el umbral.</p>
+    <p>Para presentar hoy: los checks finos indican que las fallas marginales de <code>dp=0.003</code> son conservadoras cerca del umbral. No conviene venderlas como frontera exacta; conviene vender una banda de resolucion y explicar que el refinamiento fino busca recuperar el lado de falla a <code>dp=0.002</code>.</p>
   </section>
 
   <section>
@@ -33,7 +33,7 @@
     <div class="figure-grid">
       <figure>
         <a href="figures/06_ruta_lo_que_viene_dp002_completo.png" target="_blank" aria-label="Abrir figura: Ruta al cierre"><img src="figures/06_ruta_lo_que_viene_dp002_completo.png" alt="Ruta al cierre"></a>
-        <figcaption><strong>Ruta al cierre.</strong> Orden recomendado despues de dp=0.002 completo: decidir bracket fino, reentrenar GP local, holdout y Monte Carlo.</figcaption>
+        <figcaption><strong>Ruta al cierre.</strong> Orden recomendado despues de dp=0.002 completo: refinamiento fino, reentrenar GP local, holdout y Monte Carlo.</figcaption>
       </figure>
       <figure>
         <a href="figures/07_presupuesto_simulaciones.png" target="_blank" aria-label="Abrir figura: Presupuesto de simulaciones"><img src="figures/07_presupuesto_simulaciones.png" alt="Presupuesto de simulaciones"></a>
@@ -47,11 +47,11 @@
     <div class="split">
       <div class="callout">
         <h3>Ruta recomendada para presentar</h3>
-        <p>No correr otra tanda grande antes de ordenar el resultado. Actualizar web, explicar banda de resolucion, reentrenar GP local con estos datos y preparar holdout formal.</p>
+        <p>No correr otra tanda grande antes de ordenar el resultado. Mostrar la banda de resolucion, esperar el refinamiento fino de 4 casos y luego reentrenar GP local para preparar holdout formal.</p>
       </div>
       <div class="callout warning">
         <h3>Ruta pro para cierre fino</h3>
-        <p>Si queremos recuperar el lado de falla a <code>dp=0.002</code>, lanzar una mini-tanda de 2-4 casos con menor <code>mu</code>. No hace falta una campana grande a ciegas.</p>
+        <p>La mini-tanda de 4 casos con menor <code>mu</code> busca recuperar el lado de falla a <code>dp=0.002</code>. Si aparece FALLO, se cierra bracket fino; si no aparece, la frontera fina queda mas baja y no se extiende automaticamente.</p>
       </div>
     </div>
   </section>
