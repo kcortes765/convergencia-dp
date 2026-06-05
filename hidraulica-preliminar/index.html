@@ -11,7 +11,7 @@
   <header class="top">
     <p class="meta">Tesis UCN - SPH-Chrono - hidraulica 14/14</p>
     <h1>Hidraulica local preliminar: de H_dam a variables antes del bloque</h1>
-    <p>Esta pagina resume las Fases 1 y 2 de caracterizacion hidraulica local y reexpresa la evidencia oficial de post-convergencia con variables medibles antes del bloque. Sirve para presentar resultados preliminares antes del reentrenamiento o ajuste final con variables locales.</p>
+    <p>Esta pagina resume las Fases 1 y 2 de caracterizacion hidraulica local y reexpresa la evidencia oficial de post-convergencia con variables medibles antes del bloque.</p>
     <nav class="site-nav" aria-label="Navegación entre páginas">
   <a href="../">Convergencia dp</a>
   <a href="../post-convergencia/">Post-convergencia</a>
@@ -39,7 +39,7 @@
       </div>
       <div class="callout warning">
         <h3>Limite metodologico</h3>
-        <p>Esto no es un GP reentrenado en variables locales. Es una relectura preliminar con hidraulica 14/14 para presentar coherencia fisica; el ajuste final todavia requiere decidir el reentrenamiento.</p>
+        <p>Esto no es un GP reentrenado en variables locales. Es una transformacion hidraulica 14/14 de <code>H_dam</code> hacia variables locales; el ajuste final se obtiene con el reentrenamiento correspondiente.</p>
       </div>
     </div>
   </section>
@@ -110,7 +110,7 @@
       </div>
       <div class="callout warning">
         <h3>Lectura diagnostica</h3>
-        <p><strong>Con bloque de referencia</strong> muestra cuanto perturba el bloque al flujo. No reemplaza la entrada transferible; sirve para cuantificar la interaccion bloque-flujo con una obstruccion estable.</p>
+        <p><strong>Con bloque de referencia</strong> muestra cuanto perturba el bloque al flujo. No reemplaza la entrada transferible; cuantifica la interaccion bloque-flujo con una obstruccion estable.</p>
       </div>
     </div>
   </section>
@@ -144,7 +144,7 @@
           <img src="figures/04_unblocked_hydrographs.png" alt="Series locales sin bloque">
           <span class="zoom-chip">Ampliar grafico</span>
         </button>
-        <figcaption><strong>Series locales sin bloque.</strong> Muestra la llegada temporal del flujo no obstruido. Sirve para defender que la entrada final sale de gauges y no solo de H_dam.</figcaption>
+        <figcaption><strong>Series locales sin bloque.</strong> Muestra la llegada temporal del flujo no obstruido. La entrada local se obtiene desde gauges antes del bloque y no solo desde H_dam.</figcaption>
       </figure>
 <figure class="zoomable-figure">
         <button class="figure-open" type="button" data-zoom-src="figures/05_with_block_hydrographs.svg" data-zoom-title="Series locales con bloque" aria-label="Ampliar grafico: Series locales con bloque">

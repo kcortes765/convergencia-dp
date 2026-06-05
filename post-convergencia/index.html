@@ -10,7 +10,7 @@
 <main class="page">
   <header class="top">
     <h1>Post-convergencia: frontera, variables locales e incertidumbre de resolucion</h1>
-    <p>Estado actualizado con AL8 y los checks finos <code>dp=0.002</code> completos. La lectura central es clara: cerca del umbral, <code>dp=0.003</code> entrega fallas marginales conservadoras frente a <code>dp=0.002</code>.</p>
+    <p>Estado actualizado con AL8 y los checks finos <code>dp=0.002</code> completos. Cerca del umbral, <code>dp=0.003</code> produce fallas marginales que pasan a estabilidad en la resolucion fina.</p>
     <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../post-convergencia/" aria-current="page">Post-convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../lo-que-viene/">Lo que viene</a></nav>
   </header>
 
@@ -26,12 +26,12 @@
     </dl>
     <div class="split">
       <div class="callout">
-        <h3>Resultado defendible hoy</h3>
-        <p>AL8 cerro dos brackets en <code>H=0.210</code>. Luego, los 6 checks <code>dp=0.002</code> quedaron ESTABLES. El caso fino mas cercano al umbral fue <code>H=0.225, m*=1.00, mu=0.8640: Dmax=4.32% d_eq</code>.</p>
+        <h3>AL8 y frontera H=0.210</h3>
+        <p>AL8 cerro dos brackets en <code>H=0.210</code>: <code>m*=1.15</code> entre <code>μ=0.6525</code> y <code>μ=0.6675</code>, y <code>m*=1.25</code> entre <code>μ=0.5900</code> y <code>μ=0.6000</code>.</p>
       </div>
       <div class="callout warning">
-        <h3>Como contarlo sin sobreprometer</h3>
-        <p>4 de 6 pares cambiaron de clase respecto de <code>dp=0.003</code>. Eso se presenta como banda de incertidumbre de resolucion cerca del umbral, no como anulacion de todo el active learning previo.</p>
+        <h3>Checks finos dp=0.002</h3>
+        <p>Los 6 checks finos quedaron ESTABLES. En 4 de 6 pares la clase cambio desde FALLO marginal en <code>dp=0.003</code> a ESTABLE en <code>dp=0.002</code>. Caso fino mas cercano: <code>H=0.225, m*=1.00, mu=0.8640: Dmax=4.32% d_eq</code>.</p>
       </div>
     </div>
   </section>
@@ -83,13 +83,13 @@
         <figcaption><strong>Fmotriz / Fresistente.</strong> Indice Psi = fuerza motriz aproximada / resistencia friccional efectiva. No reclasifica; verifica orden de magnitud.</figcaption>
       </figure>
     </div>
-    <p class="note">Frase defendible: el modelo no queda validado experimentalmente para este bloque especifico, pero si queda verificado por resolucion, contrastado con benchmark hidraulico, revisado por contacto y comparado con balance analitico.</p>
+    <p class="note">Controles de consistencia: resolucion, benchmark hidraulico, contacto casi sin forzante y balance analitico. La clasificacion final sigue definida por el desplazamiento maximo.</p>
   </section>
 
   <section>
     <h2>Variables clave</h2>
     <div class="terms">
-      <div class="term"><strong><code>H_dam</code></strong>Altura inicial de la columna dam-break. Sirve para generar el flujo, pero no es la variable final mas transferible.</div>
+      <div class="term"><strong><code>H_dam</code></strong>Altura inicial de la columna dam-break. Genera el flujo, pero no es la variable final mas transferible.</div>
       <div class="term"><strong><code>h_local</code></strong>Profundidad local medida en gauges antes del bloque, en la condicion sin bloque.</div>
       <div class="term"><strong><code>u_x</code></strong>Velocidad longitudinal local del flujo, positiva hacia la playa y el bloque.</div>
       <div class="term"><strong><code>M = rho max(h u_x^2)</code></strong>Solicitacion local tipo flujo de momentum por ancho. Es la mejor variable local preliminar porque combina profundidad y velocidad en el mismo instante de exigencia.</div>
@@ -114,7 +114,7 @@
 <tr><td>AL4</td><td>8</td><td><span class='pill stable'>5</span></td><td><span class='pill fail'>3</span></td><td>4.22%</td></tr>
 <tr><td>AL5</td><td>8</td><td><span class='pill stable'>4</span></td><td><span class='pill fail'>4</span></td><td>4.47%</td></tr>
 <tr><td>AL6</td><td>7</td><td><span class='pill stable'>3</span></td><td><span class='pill fail'>4</span></td><td>5.08%</td></tr>
-<tr><td>AL7 local</td><td>2</td><td><span class='pill stable'>0</span></td><td><span class='pill fail'>2</span></td><td>19.83%</td></tr>
+<tr><td>AL7</td><td>2</td><td><span class='pill stable'>0</span></td><td><span class='pill fail'>2</span></td><td>19.83%</td></tr>
 <tr><td>AL8</td><td>8</td><td><span class='pill stable'>5</span></td><td><span class='pill fail'>3</span></td><td>3.07%</td></tr>
         </tbody>
       </table>

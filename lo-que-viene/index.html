@@ -9,8 +9,8 @@
 <body>
 <main class="page">
   <header class="top">
-    <h1>Lo que viene: de resultados preliminares a cierre defendible</h1>
-    <p>Con el <code>dp=0.002</code> completo, la lectura ya no es esperar datos base: hay una banda de resolucion clara y una mini-tanda fina de 4 casos preparada para acotar mejor esa banda.</p>
+    <h1>Secuencia de cierre metodologico</h1>
+    <p>Con el <code>dp=0.002</code> completo, el estado tecnico se organiza en cuatro bloques: refinamiento fino, GP final, holdout formal y Monte Carlo.</p>
     <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../post-convergencia/">Post-convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../lo-que-viene/" aria-current="page">Lo que viene</a></nav>
   </header>
 
@@ -25,15 +25,15 @@
 <div><dt>Monte Carlo</dt><dd>0 SPH</dd><small>corre sobre GP final</small></div>
 <div><dt>GP local actual</dt><dd>0.861</dd><small>accuracy LOO preliminar</small></div>
     </dl>
-    <p>Para presentar hoy: los checks finos indican que las fallas marginales de <code>dp=0.003</code> son conservadoras cerca del umbral. No conviene venderlas como frontera exacta; conviene vender una banda de resolucion y explicar que el refinamiento fino busca recuperar el lado de falla a <code>dp=0.002</code>.</p>
+    <p>Los checks finos muestran sensibilidad de resolucion cerca del umbral: seis casos quedaron ESTABLES en <code>dp=0.002</code> y cuatro pares cambiaron desde FALLO marginal en <code>dp=0.003</code>.</p>
   </section>
 
   <section>
-    <h2>Ruta de decision</h2>
+    <h2>Secuencia metodologica</h2>
     <div class="figure-grid">
       <figure>
-        <a href="figures/06_ruta_lo_que_viene_dp002_completo.png" target="_blank" aria-label="Abrir figura: Ruta al cierre"><img src="figures/06_ruta_lo_que_viene_dp002_completo.png" alt="Ruta al cierre"></a>
-        <figcaption><strong>Ruta al cierre.</strong> Orden recomendado despues de dp=0.002 completo: refinamiento fino, reentrenar GP local, holdout y Monte Carlo.</figcaption>
+        <a href="figures/06_ruta_lo_que_viene_dp002_completo.png" target="_blank" aria-label="Abrir figura: Secuencia de cierre"><img src="figures/06_ruta_lo_que_viene_dp002_completo.png" alt="Secuencia de cierre"></a>
+        <figcaption><strong>Secuencia de cierre.</strong> Orden tecnico despues de dp=0.002 completo: refinamiento fino, GP local, holdout y Monte Carlo.</figcaption>
       </figure>
       <figure>
         <a href="figures/07_presupuesto_simulaciones.png" target="_blank" aria-label="Abrir figura: Presupuesto de simulaciones"><img src="figures/07_presupuesto_simulaciones.png" alt="Presupuesto de simulaciones"></a>
@@ -43,23 +43,23 @@
   </section>
 
   <section>
-    <h2>Caminos reales</h2>
+    <h2>Escenarios del refinamiento</h2>
     <div class="split">
       <div class="callout">
-        <h3>Ruta recomendada para presentar</h3>
-        <p>No correr otra tanda grande antes de ordenar el resultado. Mostrar la banda de resolucion, esperar el refinamiento fino de 4 casos y luego reentrenar GP local para preparar holdout formal.</p>
+        <h3>Si aparece FALLO</h3>
+        <p>El corte correspondiente queda con bracket fino en <code>dp=0.002</code>. Ese bracket se incorpora al GP final como evidencia de sensibilidad de resolucion.</p>
       </div>
       <div class="callout warning">
-        <h3>Ruta pro para cierre fino</h3>
-        <p>La mini-tanda de 4 casos con menor <code>mu</code> busca recuperar el lado de falla a <code>dp=0.002</code>. Si aparece FALLO, se cierra bracket fino; si no aparece, la frontera fina queda mas baja y no se extiende automaticamente.</p>
+        <h3>Si salen ESTABLES</h3>
+        <p>La frontera fina queda desplazada hacia menor <code>μ</code>. El resultado se usa como cota de resolucion y no cambia la resolucion productiva principal.</p>
       </div>
     </div>
   </section>
 
   <section>
-    <h2>Que no se debe vender todavia</h2>
-    <p>No vender una probabilidad final de falla antes del holdout y Monte Carlo. Si se puede vender una confiabilidad por capas: convergencia operativa, benchmark, sanity de contacto, coherencia analitica, AL8, variables locales y sensibilidad completa <code>dp=0.002</code>.</p>
-    <p class="note">La tesis queda muy bien encaminada, pero el cierre defendible exige GP final, holdout y Monte Carlo. El <code>dp=0.002</code> completo mejora la historia porque cuantifica la incertidumbre, no porque elimine la necesidad de validar.</p>
+    <h2>Cierre probabilistico</h2>
+    <p>La probabilidad de falla se calcula sobre el GP final. El holdout mide desempeno fuera del entrenamiento y el Monte Carlo propaga la incertidumbre del modelo en el espacio de variables.</p>
+    <p class="note">Los casos <code>dp=0.002</code> cuantifican sensibilidad de resolucion cerca del umbral; el holdout y Monte Carlo cuantifican desempeno e incertidumbre probabilistica.</p>
   </section>
 
   <section class="footer-nav">
