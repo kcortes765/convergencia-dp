@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Hidraulica local preliminar</title>
+  <title>Hidráulica local preliminar</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <main class="page">
   <header class="top">
-    <p class="meta">Tesis UCN - SPH-Chrono - hidraulica 14/14</p>
-    <h1>Hidraulica local preliminar: de H_dam a variables antes del bloque</h1>
-    <p>Esta pagina resume las Fases 1 y 2 de caracterizacion hidraulica local y reexpresa la evidencia oficial de post-convergencia con variables medibles antes del bloque.</p>
+    <p class="meta">Tesis UCN - SPH-Chrono - hidráulica 14/14</p>
+    <h1>Hidráulica local preliminar: de H_dam a variables antes del bloque</h1>
+    <p>Esta página resume las Fases 1 y 2 de caracterización hidráulica local y reexpresa la evidencia oficial de post-convergencia con variables medibles antes del bloque.</p>
     <nav class="site-nav" aria-label="Navegación entre páginas">
   <a href="../">Convergencia dp</a>
   <a href="../post-convergencia/">Post-convergencia</a>
@@ -21,25 +21,25 @@
   </header>
 
   <section>
-    <h2>Traduccion preliminar de post-convergencia</h2>
+    <h2>Traducción preliminar de post-convergencia</h2>
     <dl class="cards">
 
       <div><dt>Casos traducidos</dt><dd>92/93</dd></div>
-      <div><dt>Base hidraulica</dt><dd>sin bloque 7/7</dd></div>
+      <div><dt>Base hidráulica</dt><dd>sin bloque 7/7</dd></div>
       <div><dt>Clases traducidas</dt><dd>54 ESTABLE / 38 FALLO</dd></div>
       <div><dt>H_dam cubiertos</dt><dd>4 niveles</dd></div>
       <div><dt>Excluido por ahora</dt><dd>H_dam 0.250</dd></div>
-      <div><dt>Estado hidraulico</dt><dd>completo 14/14</dd></div>
+      <div><dt>Estado hidráulico</dt><dd>completo 14/14</dd></div>
 
     </dl>
     <div class="split">
       <div class="callout">
-        <h3>Que se esta traduciendo</h3>
+        <h3>Qué se está traduciendo</h3>
         <p>Los casos oficiales de post-convergencia siguen siendo los mismos resultados SPH. La diferencia es que cada <code>H_dam</code> se reemplaza por <code>h_local</code>, <code>u_x</code>, <code>max(rho h u_x^2)</code> y <code>Fr</code> medidos en la corrida sin bloque.</p>
       </div>
       <div class="callout warning">
-        <h3>Limite metodologico</h3>
-        <p>Esto no es un GP reentrenado en variables locales. Es una transformacion hidraulica 14/14 de <code>H_dam</code> hacia variables locales; el ajuste final se obtiene con el reentrenamiento correspondiente.</p>
+        <h3>Límite metodológico</h3>
+        <p>Esto no es un GP reentrenado en variables locales. Es una transformación hidráulica 14/14 de <code>H_dam</code> hacia variables locales; el ajuste final se obtiene con el reentrenamiento correspondiente.</p>
       </div>
     </div>
   </section>
@@ -48,28 +48,28 @@
     <h2>Figuras traducidas desde post-convergencia</h2>
     <div class="figure-grid">
 <figure class="zoomable-figure">
-        <button class="figure-open" type="button" data-zoom-src="figures/07_translated_local_momentum_map.svg" data-zoom-title="Mapa observado en solicitacion local" aria-label="Ampliar grafico: Mapa observado en solicitacion local">
-          <img src="figures/07_translated_local_momentum_map.png" alt="Mapa observado en solicitacion local">
-          <span class="zoom-chip">Ampliar grafico</span>
+        <button class="figure-open" type="button" data-zoom-src="figures/07_translated_local_momentum_map.svg" data-zoom-title="Mapa observado en solicitación local" aria-label="Ampliar gráfico: Mapa observado en solicitación local">
+          <img src="figures/07_translated_local_momentum_map.png" alt="Mapa observado en solicitación local">
+          <span class="zoom-chip">Ampliar gráfico</span>
         </button>
-        <figcaption><strong>Mapa observado en solicitacion local.</strong> Reexpresa los casos oficiales de post-convergencia como proxy de momentum local sin bloque vs friccion, separado por masa relativa. Es evidencia observada traducida, no un GP nuevo.</figcaption>
+        <figcaption><strong>Mapa observado en solicitación local.</strong> Reexpresa los casos oficiales de post-convergencia como proxy de momentum local sin bloque vs fricción, separado por masa relativa. Es evidencia observada traducida, no un GP nuevo.</figcaption>
       </figure>
 <figure class="zoomable-figure">
-        <button class="figure-open" type="button" data-zoom-src="figures/08_translated_margin_vs_momentum.svg" data-zoom-title="Margen de falla vs solicitacion local" aria-label="Ampliar grafico: Margen de falla vs solicitacion local">
-          <img src="figures/08_translated_margin_vs_momentum.png" alt="Margen de falla vs solicitacion local">
-          <span class="zoom-chip">Ampliar grafico</span>
+        <button class="figure-open" type="button" data-zoom-src="figures/08_translated_margin_vs_momentum.svg" data-zoom-title="Margen de falla vs solicitación local" aria-label="Ampliar gráfico: Margen de falla vs solicitación local">
+          <img src="figures/08_translated_margin_vs_momentum.png" alt="Margen de falla vs solicitación local">
+          <span class="zoom-chip">Ampliar gráfico</span>
         </button>
-        <figcaption><strong>Margen de falla vs solicitacion local.</strong> Muestra cuanto queda cada caso sobre o bajo el umbral de 5% d_eq despues de reemplazar H_dam por el proxy local. El eje vertical se trunca para enfocar la zona cercana al umbral.</figcaption>
+        <figcaption><strong>Margen de falla vs solicitación local.</strong> Muestra cuánto queda cada caso sobre o bajo el umbral de 5% d_eq después de reemplazar H_dam por el proxy local. El eje vertical se trunca para enfocar la zona cercana al umbral.</figcaption>
       </figure>
 <figure class="zoomable-figure">
-        <button class="figure-open" type="button" data-zoom-src="figures/09_translated_displacement_vs_local_forcing.svg" data-zoom-title="Desplazamiento observado vs solicitacion local" aria-label="Ampliar grafico: Desplazamiento observado vs solicitacion local">
-          <img src="figures/09_translated_displacement_vs_local_forcing.png" alt="Desplazamiento observado vs solicitacion local">
-          <span class="zoom-chip">Ampliar grafico</span>
+        <button class="figure-open" type="button" data-zoom-src="figures/09_translated_displacement_vs_local_forcing.svg" data-zoom-title="Desplazamiento observado vs solicitación local" aria-label="Ampliar gráfico: Desplazamiento observado vs solicitación local">
+          <img src="figures/09_translated_displacement_vs_local_forcing.png" alt="Desplazamiento observado vs solicitación local">
+          <span class="zoom-chip">Ampliar gráfico</span>
         </button>
-        <figcaption><strong>Desplazamiento observado vs solicitacion local.</strong> Relaciona el desplazamiento maximo observado con el proxy de momentum local. La linea punteada es el criterio de falla; el eje se trunca para no esconder la zona cercana al umbral.</figcaption>
+        <figcaption><strong>Desplazamiento observado vs solicitación local.</strong> Relaciona el desplazamiento máximo observado con el proxy de momentum local. La línea punteada es el criterio de falla; el eje se trunca para no esconder la zona cercana al umbral.</figcaption>
       </figure>
     </div>
-    <p class="note">La traduccion cubre el dominio base caracterizado hidraulicamente; el caso <code>H_dam=0.250</code> queda fuera de esta lectura local porque no forma parte de la base hidraulica principal.</p>
+    <p class="note">La traducción cubre el dominio base caracterizado hidráulicamente; el caso <code>H_dam=0.250</code> queda fuera de esta lectura local porque no forma parte de la base hidráulica principal.</p>
   </section>
 
   <section>
@@ -106,59 +106,59 @@
     <div class="split">
       <div class="callout">
         <h3>Lectura principal</h3>
-        <p><strong>Sin bloque</strong> es la traduccion transferible: convierte <code>H_dam</code> en profundidad local, velocidad longitudinal, proxy de momentum y <code>Fr</code> antes del bloque.</p>
+        <p><strong>Sin bloque</strong> es la traducción transferible: convierte <code>H_dam</code> en profundidad local, velocidad longitudinal, proxy de momentum y <code>Fr</code> antes del bloque.</p>
       </div>
       <div class="callout warning">
         <h3>Lectura diagnostica</h3>
-        <p><strong>Con bloque de referencia</strong> muestra cuanto perturba el bloque al flujo. No reemplaza la entrada transferible; cuantifica la interaccion bloque-flujo con una obstruccion estable.</p>
+        <p><strong>Con bloque de referencia</strong> muestra cuánto perturba el bloque al flujo. No reemplaza la entrada transferible; cuantifica la interacción bloque-flujo con una obstrucción estable.</p>
       </div>
     </div>
   </section>
 
   <section>
-    <h2>Figuras hidraulicas base</h2>
+    <h2>Figuras hidráulicas base</h2>
     <div class="figure-grid">
 <figure class="zoomable-figure">
-        <button class="figure-open" type="button" data-zoom-src="figures/01_local_variables_by_h.svg" data-zoom-title="De H_dam a variables locales" aria-label="Ampliar grafico: De H_dam a variables locales">
+        <button class="figure-open" type="button" data-zoom-src="figures/01_local_variables_by_h.svg" data-zoom-title="De H_dam a variables locales" aria-label="Ampliar gráfico: De H_dam a variables locales">
           <img src="figures/01_local_variables_by_h.png" alt="De H_dam a variables locales">
-          <span class="zoom-chip">Ampliar grafico</span>
+          <span class="zoom-chip">Ampliar gráfico</span>
         </button>
-        <figcaption><strong>De H_dam a variables locales.</strong> Muestra la traduccion preliminar desde la altura inicial dam-break hacia profundidad local, velocidad, proxy de momentum y Froude. La serie sin bloque es la base transferible.</figcaption>
+        <figcaption><strong>De H_dam a variables locales.</strong> Muestra la traducción preliminar desde la altura inicial dam-break hacia profundidad local, velocidad, proxy de momentum y Froude. La serie sin bloque es la base transferible.</figcaption>
       </figure>
 <figure class="zoomable-figure">
-        <button class="figure-open" type="button" data-zoom-src="figures/02_with_block_ratios.svg" data-zoom-title="Perturbacion por bloque" aria-label="Ampliar grafico: Perturbacion por bloque">
-          <img src="figures/02_with_block_ratios.png" alt="Perturbacion por bloque">
-          <span class="zoom-chip">Ampliar grafico</span>
+        <button class="figure-open" type="button" data-zoom-src="figures/02_with_block_ratios.svg" data-zoom-title="Perturbación por bloque" aria-label="Ampliar gráfico: Perturbación por bloque">
+          <img src="figures/02_with_block_ratios.png" alt="Perturbación por bloque">
+          <span class="zoom-chip">Ampliar gráfico</span>
         </button>
-        <figcaption><strong>Perturbacion por bloque.</strong> Compara con bloque de referencia contra sin bloque para la misma H_dam. Si la razon es 1 no hay cambio; sobre 1 aumenta; bajo 1 disminuye.</figcaption>
+        <figcaption><strong>Perturbación por bloque.</strong> Compara con bloque de referencia contra sin bloque para la misma H_dam. Si la razón es 1 no hay cambio; sobre 1 aumenta; bajo 1 disminuye.</figcaption>
       </figure>
 <figure class="zoomable-figure">
-        <button class="figure-open" type="button" data-zoom-src="figures/03_local_feature_space.svg" data-zoom-title="Espacio h-u local" aria-label="Ampliar grafico: Espacio h-u local">
+        <button class="figure-open" type="button" data-zoom-src="figures/03_local_feature_space.svg" data-zoom-title="Espacio h-u local" aria-label="Ampliar gráfico: Espacio h-u local">
           <img src="figures/03_local_feature_space.png" alt="Espacio h-u local">
-          <span class="zoom-chip">Ampliar grafico</span>
+          <span class="zoom-chip">Ampliar gráfico</span>
         </button>
         <figcaption><strong>Espacio h-u local.</strong> Ubica cada corrida en el plano profundidad local vs velocidad local y muestra el proxy usado para el GP local. Color/forma separan sin bloque y con bloque de referencia.</figcaption>
       </figure>
 <figure class="zoomable-figure">
-        <button class="figure-open" type="button" data-zoom-src="figures/04_unblocked_hydrographs.svg" data-zoom-title="Series locales sin bloque" aria-label="Ampliar grafico: Series locales sin bloque">
+        <button class="figure-open" type="button" data-zoom-src="figures/04_unblocked_hydrographs.svg" data-zoom-title="Series locales sin bloque" aria-label="Ampliar gráfico: Series locales sin bloque">
           <img src="figures/04_unblocked_hydrographs.png" alt="Series locales sin bloque">
-          <span class="zoom-chip">Ampliar grafico</span>
+          <span class="zoom-chip">Ampliar gráfico</span>
         </button>
         <figcaption><strong>Series locales sin bloque.</strong> Muestra la llegada temporal del flujo no obstruido. La entrada local se obtiene desde gauges antes del bloque y no solo desde H_dam.</figcaption>
       </figure>
 <figure class="zoomable-figure">
-        <button class="figure-open" type="button" data-zoom-src="figures/05_with_block_hydrographs.svg" data-zoom-title="Series locales con bloque" aria-label="Ampliar grafico: Series locales con bloque">
+        <button class="figure-open" type="button" data-zoom-src="figures/05_with_block_hydrographs.svg" data-zoom-title="Series locales con bloque" aria-label="Ampliar gráfico: Series locales con bloque">
           <img src="figures/05_with_block_hydrographs.png" alt="Series locales con bloque">
-          <span class="zoom-chip">Ampliar grafico</span>
+          <span class="zoom-chip">Ampliar gráfico</span>
         </button>
-        <figcaption><strong>Series locales con bloque.</strong> Muestra como cambia la senal local cuando el bloque esta presente. Es diagnostico de interaccion, no la entrada principal de la ecuacion.</figcaption>
+        <figcaption><strong>Series locales con bloque.</strong> Muestra cómo cambia la señal local cuando el bloque está presente. Es diagnóstico de interacción, no la entrada principal de la ecuación.</figcaption>
       </figure>
 <figure class="zoomable-figure">
-        <button class="figure-open" type="button" data-zoom-src="figures/06_block_reference_motion.svg" data-zoom-title="Movimiento del bloque de referencia" aria-label="Ampliar grafico: Movimiento del bloque de referencia">
+        <button class="figure-open" type="button" data-zoom-src="figures/06_block_reference_motion.svg" data-zoom-title="Movimiento del bloque de referencia" aria-label="Ampliar gráfico: Movimiento del bloque de referencia">
           <img src="figures/06_block_reference_motion.png" alt="Movimiento del bloque de referencia">
-          <span class="zoom-chip">Ampliar grafico</span>
+          <span class="zoom-chip">Ampliar gráfico</span>
         </button>
-        <figcaption><strong>Movimiento del bloque de referencia.</strong> Verifica que el bloque usado como obstruccion se mantuvo casi fijo: todos los casos disponibles quedan bajo 2% de d_eq.</figcaption>
+        <figcaption><strong>Movimiento del bloque de referencia.</strong> Verifica que el bloque usado como obstrucción se mantuvo casi fijo: todos los casos disponibles quedan bajo 2% de d_eq.</figcaption>
       </figure>
     </div>
   </section>
@@ -190,11 +190,11 @@
         </tbody>
       </table>
     </div>
-    <p class="note">Estado hidraulico completo 14/14. La traduccion a ecuacion final sigue siendo preliminar hasta cerrar el ajuste con variables locales.</p>
+    <p class="note">Estado hidráulico completo 14/14. La traducción a ecuación final sigue siendo preliminar hasta cerrar el ajuste con variables locales.</p>
   </section>
 
   <section class="footer-nav">
-    <h2>Navegacion</h2>
+    <h2>Navegación</h2>
     <nav class="site-nav" aria-label="Navegación entre páginas">
   <a href="../">Convergencia dp</a>
   <a href="../post-convergencia/">Post-convergencia</a>
@@ -205,10 +205,10 @@
 </main>
 
 
-<div class="zoom-modal" id="figureZoom" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Grafico ampliado">
+<div class="zoom-modal" id="figureZoom" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Gráfico ampliado">
   <div class="zoom-modal__panel">
     <div class="zoom-modal__bar">
-      <p id="figureZoomTitle">Grafico ampliado</p>
+      <p id="figureZoomTitle">Gráfico ampliado</p>
       <div class="zoom-controls" aria-label="Controles de zoom">
         <button type="button" data-zoom-action="out" aria-label="Alejar">-</button>
         <button type="button" data-zoom-action="reset" aria-label="Restablecer zoom">100%</button>
@@ -261,7 +261,7 @@
   };
   const openZoom = (button) => {
     const src = button.dataset.zoomSrc || button.querySelector("img")?.src;
-    const label = button.dataset.zoomTitle || button.querySelector("img")?.alt || "Grafico ampliado";
+    const label = button.dataset.zoomTitle || button.querySelector("img")?.alt || "Gráfico ampliado";
     if (!src) return;
     img.src = src;
     img.alt = label;

@@ -12,11 +12,11 @@
     <div>
       <p class="meta">Tesis UCN · modelo SPH-Chrono</p>
       <h1>Convergencia de resolución SPH</h1>
-      <p>Esta pagina resume por que se adopta <code>dp=0.003 m</code> como resolucion operativa. La produccion dirigida y active learning quedan en una pagina separada.</p>
+      <p>Esta página resume por qué se adopta <code>dp=0.003 m</code> como resolución operativa. La producción dirigida y active learning quedan en una página separada.</p>
       <nav class="site-nav" aria-label="Navegación entre páginas">
         <a href="./" aria-current="page">Convergencia dp</a>
         <a href="post-convergencia/">Post-convergencia</a>
-        <a href="hidraulica-preliminar/">Hidraulica local</a>
+        <a href="hidraulica-preliminar/">Hidráulica local</a>
         <a href="lo-que-viene/">Lo que viene</a>
       </nav>
     </div>
@@ -28,13 +28,13 @@
         <div><dt>Resolución adoptada</dt><dd>dp = 0.003 m</dd></div>
         <div><dt>Convergencia</dt><dd>variables temporales y máximos</dd></div>
         <div><dt>Estabilidad</dt><dd>análisis posterior al dp elegido</dd></div>
-        <div><dt>Post-convergencia</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/post-convergencia/">pagina dedicada</a></dd></div>
-        <div><dt>Hidraulica local</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/hidraulica-preliminar/">preliminar 14/14</a></dd></div>
+        <div><dt>Post-convergencia</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/post-convergencia/">página dedicada</a></dd></div>
+        <div><dt>Hidráulica local</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/hidraulica-preliminar/">preliminar 14/14</a></dd></div>
         <div><dt>Lo que viene</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/lo-que-viene/">hoja de ruta</a></dd></div>
       </dl>
       <figure>
-        <img src="figures/00_setup_planta_elevacion.png" alt="Planta y elevacion del setup SPH">
-        <figcaption>Setup fisico usado en la lectura: canal, playa 1:20 y bloque irregular. La elevacion global realza z para legibilidad; el detalle muestra el apoyo local sin penetracion.</figcaption>
+        <img src="figures/00_setup_planta_elevacion.png" alt="Planta y elevación del setup SPH">
+        <figcaption>Setup físico usado en la lectura: canal, playa 1:20 y bloque irregular. La elevación global realza z para legibilidad; el detalle muestra el apoyo local sin penetración.</figcaption>
       </figure>
     <h3>Ficha del caso físico usado para la convergencia</h3>
     <p>Todos los valores de la tabla por resolución corresponden a este mismo caso físico; lo único que cambia entre filas es <code>dp</code>.</p>
@@ -51,7 +51,7 @@
 <tr><th>Diámetro equivalente</th><td>d_eq = 0.100421 m</td></tr>
 <tr><th>Dimensiones aproximadas del bloque</th><td>0.1710 x 0.2100 x 0.0399 m</td></tr>
 <tr><th>Canal</th><td>L_flat=6.0 m, L_ramp=9.0 m, L_end=15.0 m, W=1.0 m, H=1.5 m</td></tr>
-<tr><th>Puntos de medicion</th><td>velocidad y altura/cota maxima junto al bloque</td></tr>
+<tr><th>Puntos de medición</th><td>velocidad y altura/cota máxima junto al bloque</td></tr>
 <tr><th>Resoluciones barridas</th><td>dp = 0.010, 0.008, 0.006, 0.005, 0.004, 0.003, 0.002 m</td></tr></tbody>
       </table>
     </div>
@@ -114,7 +114,7 @@
 <tr><td><span class='dp-chip reference'>0.002</span></td><td><span class='pill stable'>OK</span></td><td>128.37</td><td>127.8%</td><td>referencia</td><td>0.148</td><td>135.9 mm</td><td>1.64</td><td>24.02</td><td>51.86 M<br><span class='muted'>9.8 GB · 1144.2 min</span></td><td>Referencia fina</td></tr></tbody>
       </table>
     </div>
-    <p class="note"><code>Delta Dmax</code> se calcula contra el caso fino <code>dp=0.002 m</code>; valores negativos significan menor desplazamiento maximo que la referencia fina.</p>
+    <p class="note"><code>Delta Dmax</code> se calcula contra el caso fino <code>dp=0.002 m</code>; valores negativos significan menor desplazamiento máximo que la referencia fina.</p>
     <div class="figure-stack">
       <figure>
         <img src="figures/02_tendencia_variables_principales.png" alt="Tendencia de variables principales hacia el caso fino">
@@ -161,32 +161,32 @@
 
   <section>
     <h2>5. Post-convergencia separado</h2>
-    <p>Los lotes productivos, el efecto de masa, la hidraulica local, las fuerzas, la rotacion diagnostica y active learning se movieron a una pagina dedicada para no mezclar la seleccion de <code>dp</code> con el analisis posterior.</p>
-    <p><a class="button-link" href="https://kcortes765.github.io/convergencia-dp/post-convergencia/">Abrir pagina post-convergencia</a> <a class="button-link" href="https://kcortes765.github.io/convergencia-dp/hidraulica-preliminar/">Abrir hidraulica local preliminar</a> <a class="button-link" href="https://kcortes765.github.io/convergencia-dp/lo-que-viene/">Abrir lo que viene</a></p>
+    <p>Los lotes productivos, el efecto de masa, la hidráulica local, las fuerzas, la rotación diagnóstica y active learning se movieron a una página dedicada para no mezclar la selección de <code>dp</code> con el análisis posterior.</p>
+    <p><a class="button-link" href="https://kcortes765.github.io/convergencia-dp/post-convergencia/">Abrir página post-convergencia</a> <a class="button-link" href="https://kcortes765.github.io/convergencia-dp/hidraulica-preliminar/">Abrir hidráulica local preliminar</a> <a class="button-link" href="https://kcortes765.github.io/convergencia-dp/lo-que-viene/">Abrir lo que viene</a></p>
   </section>
 
   <section>
-    <h2>6. Analisis final y literatura usada</h2>
-    <p>Sin un experimento fisico propio del bloque, la tesis no debe afirmar validacion experimental directa del caso completo. La defensa se arma por capas: sensibilidad de resolucion, benchmark hidraulico externo, sanity de contacto bloque-suelo y comparacion analitica de orden de magnitud. Cada capa responde una pregunta distinta.</p>
+    <h2>6. Análisis final y literatura usada</h2>
+    <p>Sin un experimento físico propio del bloque, la tesis no debe afirmar validación experimental directa del caso completo. La defensa se arma por capas: sensibilidad de resolución, benchmark hidráulico externo, sanity de contacto bloque-suelo y comparación analítica de orden de magnitud. Cada capa responde una pregunta distinta.</p>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Capa</th><th>Que permite afirmar</th><th>Que no permite afirmar</th><th>Base de literatura</th></tr></thead>
         <tbody>
-          <tr><td>Convergencia/sensibilidad de <code>dp</code></td><td>Las variables continuas principales se estabilizan en el rango fino y <code>dp=0.003 m</code> es una resolucion operativa defendible.</td><td>No demuestra convergencia asintotica fuerte de la clase estable/fallo.</td><td>Richardson/Roache-GCI y tutorial NASA WIND sobre refinamiento espacial.</td></tr>
-          <tr><td>Benchmark hidraulico</td><td>La instalacion local de GenCase/DualSPHysics/GPU/postproceso reproduce un dam-break conocido.</td><td>No valida contacto, friccion ni movimiento del bloque irregular.</td><td>Testcases oficiales DualSPHysics y benchmarks SPHERIC de dam-break.</td></tr>
-          <tr><td>Sanity de contacto</td><td>El bloque no supera el umbral por apoyo inicial, penetracion o contacto numerico sin impacto hidraulico local.</td><td>No valida el movimiento bajo tsunami ni coeficientes de friccion reales.</td><td>Acoplamiento DualSPHysics-Chrono y documentacion de contacto/cuerpos rigidos.</td></tr>
-          <tr><td>Comparacion analitica</td><td>Los casos SPH no contradicen un balance fisico de arrastre, peso, pendiente y friccion a nivel de orden de magnitud.</td><td>No reemplaza SPH-Chrono ni predice exactamente desplazamiento/rotacion.</td><td>Nott/Nandasena para bloques costeros, experimentos de Bressan, datos moved/unmoved de Iwai & Goto y advertencias de Cox et al.</td></tr>
+          <tr><td>Convergencia/sensibilidad de <code>dp</code></td><td>Las variables continuas principales se estabilizan en el rango fino y <code>dp=0.003 m</code> es una resolución operativa defendible.</td><td>No demuestra convergencia asintótica fuerte de la clase estable/fallo.</td><td>Richardson/Roache-GCI y tutorial NASA WIND sobre refinamiento espacial.</td></tr>
+          <tr><td>Benchmark hidráulico</td><td>La instalación local de GenCase/DualSPHysics/GPU/postproceso reproduce un dam-break conocido.</td><td>No valida contacto, fricción ni movimiento del bloque irregular.</td><td>Testcases oficiales DualSPHysics y benchmarks SPHERIC de dam-break.</td></tr>
+          <tr><td>Sanity de contacto</td><td>El bloque no supera el umbral por apoyo inicial, penetración o contacto numérico sin impacto hidráulico local.</td><td>No valida el movimiento bajo tsunami ni coeficientes de fricción reales.</td><td>Acoplamiento DualSPHysics-Chrono y documentación de contacto/cuerpos rígidos.</td></tr>
+          <tr><td>Comparación analítica</td><td>Los casos SPH no contradicen un balance físico de arrastre, peso, pendiente y fricción a nivel de orden de magnitud.</td><td>No reemplaza SPH-Chrono ni predice exactamente desplazamiento/rotación.</td><td>Nott/Nandasena para bloques costeros, experimentos de Bressan, datos moved/unmoved de Iwai & Goto y advertencias de Cox et al.</td></tr>
         </tbody>
       </table>
     </div>
     <div class="source-grid">
       <article>
-        <h3>SPH y benchmark hidraulico</h3>
-        <p>Los <a href="https://github.com/DualSPHysics/DualSPHysics/wiki/7.-Testcases">testcases oficiales de DualSPHysics</a> y los <a href="https://www.spheric-sph.org/validation-tests">benchmarks SPHERIC</a> justifican usar casos dam-break como verificacion hidraulica del solver y del postproceso. En esta pagina se usa para validar el entorno, no el bloque.</p>
+        <h3>SPH y benchmark hidráulico</h3>
+        <p>Los <a href="https://github.com/DualSPHysics/DualSPHysics/wiki/7.-Testcases">testcases oficiales de DualSPHysics</a> y los <a href="https://www.spheric-sph.org/validation-tests">benchmarks SPHERIC</a> justifican usar casos dam-break como verificación hidráulica del solver y del postproceso. En esta página se usa para validar el entorno, no el bloque.</p>
       </article>
       <article>
-        <h3>Convergencia numerica</h3>
-        <p>El marco clasico de refinamiento se toma de Richardson/Roache-GCI, resumido por el tutorial de <a href="https://www.grc.nasa.gov/www/wind/valid/tutorial/spatconv.html?force_isolation=true">NASA WIND</a>. En SPH se adapta usando <code>dp</code> como escala de resolucion y evaluando variables continuas antes de hablar de estabilidad.</p>
+        <h3>Convergencia numérica</h3>
+        <p>El marco clásico de refinamiento se toma de Richardson/Roache-GCI, resumido por el tutorial de <a href="https://www.grc.nasa.gov/www/wind/valid/tutorial/spatconv.html?force_isolation=true">NASA WIND</a>. En SPH se adapta usando <code>dp</code> como escala de resolución y evaluando variables continuas antes de hablar de estabilidad.</p>
       </article>
       <article>
         <h3>Contacto y cuerpo rigido</h3>
@@ -194,10 +194,10 @@
       </article>
       <article>
         <h3>Bloques costeros</h3>
-        <p><a href="https://research.uaeu.ac.ae/en/publications/reassessment-of-hydrodynamic-equations-minimum-flow-velocity-to-i/">Nandasena, Paris & Tanaka</a> plantean balances de fuerzas para inicio de movimiento; <a href="https://pearl.plymouth.ac.uk/secam-research/1746">Bressan et al.</a> muestran experimentalmente la influencia de profundidad, velocidad, peso, forma y orientacion; <a href="https://www.nature.com/articles/s41598-021-92917-2">Iwai & Goto</a> refuerzan la importancia de casos movidos/no movidos; <a href="https://www.frontiersin.org/articles/10.3389/fmars.2020.00004/full">Cox et al.</a> discuten limitaciones de balances analiticos simplificados. En esta pagina esos balances se usan como control de coherencia fisica.</p>
+        <p><a href="https://research.uaeu.ac.ae/en/publications/reassessment-of-hydrodynamic-equations-minimum-flow-velocity-to-i/">Nandasena, Paris & Tanaka</a> plantean balances de fuerzas para inicio de movimiento; <a href="https://pearl.plymouth.ac.uk/secam-research/1746">Bressan et al.</a> muestran experimentalmente la influencia de profundidad, velocidad, peso, forma y orientación; <a href="https://www.nature.com/articles/s41598-021-92917-2">Iwai & Goto</a> refuerzan la importancia de casos movidos/no movidos; <a href="https://www.frontiersin.org/articles/10.3389/fmars.2020.00004/full">Cox et al.</a> discuten limitaciones de balances analíticos simplificados. En esta página esos balances se usan como control de coherencia física.</p>
       </article>
     </div>
-    <p class="note">Controles usados: convergencia de resolucion, benchmark hidraulico externo, sanity de contacto y comparacion con balances analiticos. La frontera final queda condicionada a <code>dp=0.003 m</code>, geometria fija, criterio <code>displacement_only</code> y parametros de contacto usados.</p>
+    <p class="note">Controles usados: convergencia de resolución, benchmark hidráulico externo, sanity de contacto y comparación con balances analíticos. La frontera final queda condicionada a <code>dp=0.003 m</code>, geometría fija, criterio <code>displacement_only</code> y parámetros de contacto usados.</p>
   </section>
 
   <section>
@@ -213,11 +213,11 @@
     </dl>
   </section>
   <section class="footer-nav">
-    <h2>Navegacion</h2>
+    <h2>Navegación</h2>
     <nav class="site-nav" aria-label="Navegación entre páginas">
       <a href="./" aria-current="page">Convergencia dp</a>
       <a href="post-convergencia/">Post-convergencia</a>
-      <a href="hidraulica-preliminar/">Hidraulica local</a>
+      <a href="hidraulica-preliminar/">Hidráulica local</a>
       <a href="lo-que-viene/">Lo que viene</a>
     </nav>
   </section>

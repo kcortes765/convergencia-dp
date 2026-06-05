@@ -9,8 +9,8 @@
 <body>
 <main class="page">
   <header class="top">
-    <h1>Post-convergencia: frontera, variables locales e incertidumbre de resolucion</h1>
-    <p>Estado actualizado con AL8 y los checks finos <code>dp=0.002</code> completos. Cerca del umbral, <code>dp=0.003</code> produce fallas marginales que pasan a estabilidad en la resolucion fina.</p>
+    <h1>Post-convergencia: frontera, variables locales e incertidumbre de resolución</h1>
+    <p>Estado actualizado con AL8 y los checks finos <code>dp=0.002</code> completos. Cerca del umbral, <code>dp=0.003</code> produce fallas marginales que pasan a estabilidad en la resolución fina.</p>
     <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../post-convergencia/" aria-current="page">Post-convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../lo-que-viene/">Lo que viene</a></nav>
   </header>
 
@@ -31,7 +31,7 @@
       </div>
       <div class="callout warning">
         <h3>Checks finos dp=0.002</h3>
-        <p>Los 6 checks finos quedaron ESTABLES. En 4 de 6 pares la clase cambio desde FALLO marginal en <code>dp=0.003</code> a ESTABLE en <code>dp=0.002</code>. Caso fino mas cercano: <code>H=0.225, m*=1.00, mu=0.8640: Dmax=4.32% d_eq</code>.</p>
+        <p>Los 6 checks finos quedaron ESTABLES. En 4 de 6 pares la clase cambió desde FALLO marginal en <code>dp=0.003</code> a ESTABLE en <code>dp=0.002</code>. Caso fino más cercano: <code>H=0.225, m*=1.00, mu=0.8640: Dmax=4.32% d_eq</code>.</p>
       </div>
     </div>
   </section>
@@ -48,53 +48,53 @@
         <figcaption><strong>Fronteras AL8 en H=0.210.</strong> Resume los dos brackets nuevos que justifican que AL8 fue informativo.</figcaption>
       </figure>
       <figure>
-        <a href="figures/03_dp002_vs_dp003_completo.png" target="_blank" aria-label="Abrir figura: Sensibilidad de resolucion dp=0.002 completa"><img src="figures/03_dp002_vs_dp003_completo.png" alt="Sensibilidad de resolucion dp=0.002 completa"></a>
-        <figcaption><strong>Sensibilidad de resolucion dp=0.002 completa.</strong> Compara los 6 checks finos contra sus pares de referencia dp=0.003.</figcaption>
+        <a href="figures/03_dp002_vs_dp003_completo.png" target="_blank" aria-label="Abrir figura: Sensibilidad de resolución dp=0.002 completa"><img src="figures/03_dp002_vs_dp003_completo.png" alt="Sensibilidad de resolución dp=0.002 completa"></a>
+        <figcaption><strong>Sensibilidad de resolución dp=0.002 completa.</strong> Compara los 6 checks finos contra sus pares de referencia dp=0.003.</figcaption>
       </figure>
       <figure>
-        <a href="figures/04_variables_locales_mapa_observado.png" target="_blank" aria-label="Abrir figura: Traduccion a variables locales"><img src="figures/04_variables_locales_mapa_observado.png" alt="Traduccion a variables locales"></a>
-        <figcaption><strong>Traduccion a variables locales.</strong> Conecta H_dam con la solicitacion local M=rho max(h u_x^2) y muestra los resultados observados en el espacio M, mu y m*.</figcaption>
+        <a href="figures/04_variables_locales_mapa_observado.png" target="_blank" aria-label="Abrir figura: Traducción a variables locales"><img src="figures/04_variables_locales_mapa_observado.png" alt="Traducción a variables locales"></a>
+        <figcaption><strong>Traducción a variables locales.</strong> Conecta H_dam con la solicitación local M=rho max(h u_x^2) y muestra los resultados observados en el espacio M, μ y m*.</figcaption>
       </figure>
       <figure>
         <a href="figures/05_confiabilidad_por_capas.png" target="_blank" aria-label="Abrir figura: Confiabilidad por capas"><img src="figures/05_confiabilidad_por_capas.png" alt="Confiabilidad por capas"></a>
-        <figcaption><strong>Confiabilidad por capas.</strong> Separa lo que ya esta defendido de lo que aun falta para afirmar confiabilidad probabilistica final.</figcaption>
+        <figcaption><strong>Confiabilidad por capas.</strong> Separa lo que ya está defendido de lo que aún falta para afirmar confiabilidad probabilística final.</figcaption>
       </figure>
       <figure>
-        <a href="figures/08_validacion_gp_local.png" target="_blank" aria-label="Abrir figura: Validacion GP local"><img src="figures/08_validacion_gp_local.png" alt="Validacion GP local"></a>
-        <figcaption><strong>Validacion GP local.</strong> Muestra el desempeno leave-one-out del modelo que usa M, mu y m*. Es herramienta de interpolacion, no reemplaza simulaciones SPH.</figcaption>
+        <a href="figures/08_validacion_gp_local.png" target="_blank" aria-label="Abrir figura: Validación GP local"><img src="figures/08_validacion_gp_local.png" alt="Validación GP local"></a>
+        <figcaption><strong>Validación GP local.</strong> Muestra el desempeño leave-one-out del modelo que usa M, μ y m*. Es herramienta de interpolación, no reemplaza simulaciones SPH.</figcaption>
       </figure>
     </div>
   </section>
 
   <section>
     <h2>Verificaciones restauradas</h2>
-    <p>Estas figuras mantienen el argumento de defensibilidad: solver hidraulico, contacto casi sin forzante y coherencia de fuerza motriz sobre resistencia.</p>
+    <p>Estas figuras mantienen el argumento de defensibilidad: solver hidráulico, contacto casi sin forzante y coherencia de fuerza motriz sobre resistencia.</p>
     <div class="figure-grid">
       <figure>
-        <a href="figures/09_benchmark_hidraulico.png" target="_blank" aria-label="Abrir figura: Benchmark hidraulico de canal"><img src="figures/09_benchmark_hidraulico.png" alt="Benchmark hidraulico de canal"></a>
-        <figcaption><strong>Benchmark hidraulico de canal.</strong> Caso dam-break oficial comparado contra referencia experimental incluida en DualSPHysics.</figcaption>
+        <a href="figures/09_benchmark_hidraulico.png" target="_blank" aria-label="Abrir figura: Benchmark hidráulico de canal"><img src="figures/09_benchmark_hidraulico.png" alt="Benchmark hidráulico de canal"></a>
+        <figcaption><strong>Benchmark hidráulico de canal.</strong> Caso dam-break oficial comparado contra referencia experimental incluida en DualSPHysics.</figcaption>
       </figure>
       <figure>
         <a href="figures/10_contact_sanity.png" target="_blank" aria-label="Abrir figura: Comportamiento casi sin agua"><img src="figures/10_contact_sanity.png" alt="Comportamiento casi sin agua"></a>
-        <figcaption><strong>Comportamiento casi sin agua.</strong> Verifica que el bloque no supera el umbral por apoyo inicial o contacto espurio sin forzante hidraulica local.</figcaption>
+        <figcaption><strong>Comportamiento casi sin agua.</strong> Verifica que el bloque no supera el umbral por apoyo inicial o contacto espurio sin forzante hidráulica local.</figcaption>
       </figure>
       <figure>
         <a href="figures/11_comparacion_analitica_fmotriz_fresistente.png" target="_blank" aria-label="Abrir figura: Fmotriz / Fresistente"><img src="figures/11_comparacion_analitica_fmotriz_fresistente.png" alt="Fmotriz / Fresistente"></a>
-        <figcaption><strong>Fmotriz / Fresistente.</strong> Indice Psi = fuerza motriz aproximada / resistencia friccional efectiva. No reclasifica; verifica orden de magnitud.</figcaption>
+        <figcaption><strong>Fmotriz / Fresistente.</strong> Índice Psi = fuerza motriz aproximada / resistencia friccional efectiva. No reclasifica; verifica orden de magnitud.</figcaption>
       </figure>
     </div>
-    <p class="note">Controles de consistencia: resolucion, benchmark hidraulico, contacto casi sin forzante y balance analitico. La clasificacion final sigue definida por el desplazamiento maximo.</p>
+    <p class="note">Controles de consistencia: resolución, benchmark hidráulico, contacto casi sin forzante y balance analítico. La clasificación final sigue definida por el desplazamiento máximo.</p>
   </section>
 
   <section>
     <h2>Variables clave</h2>
     <div class="terms">
-      <div class="term"><strong><code>H_dam</code></strong>Altura inicial de la columna dam-break. Genera el flujo, pero no es la variable final mas transferible.</div>
+      <div class="term"><strong><code>H_dam</code></strong>Altura inicial de la columna dam-break. Genera el flujo, pero no es la variable final más transferible.</div>
       <div class="term"><strong><code>h_local</code></strong>Profundidad local medida en gauges antes del bloque, en la condicion sin bloque.</div>
       <div class="term"><strong><code>u_x</code></strong>Velocidad longitudinal local del flujo, positiva hacia la playa y el bloque.</div>
-      <div class="term"><strong><code>M = rho max(h u_x^2)</code></strong>Solicitacion local tipo flujo de momentum por ancho. Es la mejor variable local preliminar porque combina profundidad y velocidad en el mismo instante de exigencia.</div>
-      <div class="term"><strong><code>mu</code></strong>Coeficiente de friccion bloque-playa usado para barrer estabilidad.</div>
-      <div class="term"><strong><code>m*</code></strong>Masa relativa: 1.00 es el bloque base, 0.85 mas liviano y 1.25 mas pesado.</div>
+      <div class="term"><strong><code>M = rho max(h u_x^2)</code></strong>Solicitación local tipo flujo de momentum por ancho. Es la mejor variable local preliminar porque combina profundidad y velocidad en el mismo instante de exigencia.</div>
+      <div class="term"><strong><code>mu</code></strong>Coeficiente de fricción bloque-playa usado para barrer estabilidad.</div>
+      <div class="term"><strong><code>m*</code></strong>Masa relativa: 1.00 es el bloque base, 0.85 más liviano y 1.25 más pesado.</div>
     </div>
   </section>
 
@@ -123,7 +123,7 @@
   </section>
 
   <section class="footer-nav">
-    <h2>Navegacion</h2>
+    <h2>Navegación</h2>
     <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../post-convergencia/" aria-current="page">Post-convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../lo-que-viene/">Lo que viene</a></nav>
   </section>
 </main>

@@ -21,7 +21,7 @@ L 106.6356 175.727096
 L 106.6356 97.556696 
 L 10.8828 97.556696 
 z
-" clip-path="url(#p1d5a46c383)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#pafa63d9f38)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
     <path d="M 137.57112 175.727096 
@@ -29,7 +29,7 @@ L 233.32392 175.727096
 L 233.32392 97.556696 
 L 137.57112 97.556696 
 z
-" clip-path="url(#p1d5a46c383)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#pafa63d9f38)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 264.25944 175.727096 
@@ -37,7 +37,7 @@ L 360.01224 175.727096
 L 360.01224 97.556696 
 L 264.25944 97.556696 
 z
-" clip-path="url(#p1d5a46c383)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#pafa63d9f38)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
     <path d="M 390.94776 175.727096 
@@ -45,7 +45,7 @@ L 486.70056 175.727096
 L 486.70056 97.556696 
 L 390.94776 97.556696 
 z
-" clip-path="url(#p1d5a46c383)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#pafa63d9f38)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
     <path d="M 517.63608 175.727096 
@@ -53,7 +53,7 @@ L 613.38888 175.727096
 L 613.38888 97.556696 
 L 517.63608 97.556696 
 z
-" clip-path="url(#p1d5a46c383)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#pafa63d9f38)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_7">
     <path d="M 644.3244 175.727096 
@@ -61,7 +61,7 @@ L 740.0772 175.727096
 L 740.0772 97.556696 
 L 644.3244 97.556696 
 z
-" clip-path="url(#p1d5a46c383)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#pafa63d9f38)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="text_1">
     <text style="fill: #17202a; font: 700 10px 'DejaVu Sans'; text-anchor: middle" x="58.7592" y="118.555831" transform="rotate(-0 58.7592 118.555831)">Ahora</text>
@@ -128,7 +128,7 @@ L 501.233403 138.641896
 " style="fill: none; stroke: #17202a; stroke-width: 1.4; stroke-linecap: round"/>
    </g>
    <g id="text_9">
-    <text style="fill: #17202a; font: 700 10px 'DejaVu Sans'; text-anchor: middle" x="565.51248" y="118.555831" transform="rotate(-0 565.51248 118.555831)">Validacion</text>
+    <text style="fill: #17202a; font: 700 10px 'DejaVu Sans'; text-anchor: middle" x="565.51248" y="118.555831" transform="rotate(-0 565.51248 118.555831)">Validación</text>
    </g>
    <g id="text_10">
     <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(533.967949 147.228299)">holdout formal</text>
@@ -151,7 +151,7 @@ L 627.921723 138.641896
     <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(663.547347 156.858418)">sin SPH extra</text>
    </g>
    <g id="text_13">
-    <text style="fill: #17202a; font: 10px 'DejaVu Sans'; text-anchor: start" x="58.7592" y="227.840696" transform="rotate(-0 58.7592 227.840696)">Criterio: dp=0.002 cuantifica incertidumbre de resolucion; no reemplaza la base productiva dp=0.003 ni el holdout.</text>
+    <text style="fill: #17202a; font: 10px 'DejaVu Sans'; text-anchor: start" x="58.7592" y="227.840696" transform="rotate(-0 58.7592 227.840696)">Criterio: dp=0.002 cuantifica incertidumbre de resolución; no reemplaza la base productiva dp=0.003 ni el holdout.</text>
    </g>
    <g id="text_14">
     <text style="font: 700 15px 'DejaVu Sans'; text-anchor: middle" x="375.48" y="18.597656" transform="rotate(-0 375.48 18.597656)">Ruta corta desde dp=0.002 completo hasta el cierre defendible</text>
@@ -159,7 +159,7 @@ L 627.921723 138.641896
   </g>
  </g>
  <defs>
-  <clipPath id="p1d5a46c383">
+  <clipPath id="pafa63d9f38">
    <rect x="7.2" y="24.597656" width="736.56" height="260.568"/>
   </clipPath>
  </defs>
