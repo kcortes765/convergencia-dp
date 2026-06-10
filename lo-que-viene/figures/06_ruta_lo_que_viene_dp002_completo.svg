@@ -21,7 +21,7 @@ L 106.6356 175.727096
 L 106.6356 97.556696 
 L 10.8828 97.556696 
 z
-" clip-path="url(#pafa63d9f38)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#pec5d92e607)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
     <path d="M 137.57112 175.727096 
@@ -29,7 +29,7 @@ L 233.32392 175.727096
 L 233.32392 97.556696 
 L 137.57112 97.556696 
 z
-" clip-path="url(#pafa63d9f38)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#pec5d92e607)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 264.25944 175.727096 
@@ -37,7 +37,7 @@ L 360.01224 175.727096
 L 360.01224 97.556696 
 L 264.25944 97.556696 
 z
-" clip-path="url(#pafa63d9f38)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#pec5d92e607)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
     <path d="M 390.94776 175.727096 
@@ -45,7 +45,7 @@ L 486.70056 175.727096
 L 486.70056 97.556696 
 L 390.94776 97.556696 
 z
-" clip-path="url(#pafa63d9f38)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#pec5d92e607)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
     <path d="M 517.63608 175.727096 
@@ -53,7 +53,7 @@ L 613.38888 175.727096
 L 613.38888 97.556696 
 L 517.63608 97.556696 
 z
-" clip-path="url(#pafa63d9f38)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#pec5d92e607)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_7">
     <path d="M 644.3244 175.727096 
@@ -61,14 +61,14 @@ L 740.0772 175.727096
 L 740.0772 97.556696 
 L 644.3244 97.556696 
 z
-" clip-path="url(#pafa63d9f38)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#pec5d92e607)" style="fill: #f8fafc; stroke: #cfd7e3; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="text_1">
-    <text style="fill: #17202a; font: 700 10px 'DejaVu Sans'; text-anchor: middle" x="58.7592" y="118.555831" transform="rotate(-0 58.7592 118.555831)">Ahora</text>
+    <text style="fill: #17202a; font: 700 10px 'DejaVu Sans'; text-anchor: middle" x="58.7592" y="118.555831" transform="rotate(-0 58.7592 118.555831)">Checks base</text>
    </g>
    <g id="text_2">
-    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(15.948669 147.228299)">dp=0.002 completo</text>
-    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(34.695325 156.858418)">6/6 estable</text>
+    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(37.386184 147.228299)">dp=0.002</text>
+    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(32.455294 156.858418)">6/6 estables</text>
    </g>
    <g id="patch_8">
     <path d="M 117.471448 136.641896 
@@ -80,11 +80,11 @@ L 121.168443 138.641896
 " style="fill: none; stroke: #17202a; stroke-width: 1.4; stroke-linecap: round"/>
    </g>
    <g id="text_3">
-    <text style="fill: #17202a; font: 700 10px 'DejaVu Sans'; text-anchor: middle" x="185.44752" y="118.555831" transform="rotate(-0 185.44752 118.555831)">En curso</text>
+    <text style="fill: #17202a; font: 700 10px 'DejaVu Sans'; text-anchor: middle" x="185.44752" y="118.555831" transform="rotate(-0 185.44752 118.555831)">Refinamiento</text>
    </g>
    <g id="text_4">
-    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(146.494895 147.228299)">4 casos dp=0.002</text>
-    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(148.568973 156.858418)">mas bajos en mu</text>
+    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(165.751504 147.228299)">2/4 fallos</text>
+    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(162.879239 156.858418)">2 en curso</text>
    </g>
    <g id="patch_9">
     <path d="M 244.159768 136.641896 
@@ -99,8 +99,8 @@ L 247.856763 138.641896
     <text style="fill: #17202a; font: 700 10px 'DejaVu Sans'; text-anchor: middle" x="312.13584" y="118.555831" transform="rotate(-0 312.13584 118.555831)">Lectura</text>
    </g>
    <g id="text_6">
-    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(272.302387 147.228299)">cerrar bracket fino</text>
-    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(272.604059 156.858418)">o confirmar banda</text>
+    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(281.366652 147.228299)">bracket actual</text>
+    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(272.212356 156.858418)">mu 0.8570-0.8640</text>
    </g>
    <g id="patch_10">
     <path d="M 370.848088 136.641896 
@@ -128,10 +128,10 @@ L 501.233403 138.641896
 " style="fill: none; stroke: #17202a; stroke-width: 1.4; stroke-linecap: round"/>
    </g>
    <g id="text_9">
-    <text style="fill: #17202a; font: 700 10px 'DejaVu Sans'; text-anchor: middle" x="565.51248" y="118.555831" transform="rotate(-0 565.51248 118.555831)">Validación</text>
+    <text style="fill: #17202a; font: 700 10px 'DejaVu Sans'; text-anchor: middle" x="565.51248" y="118.555831" transform="rotate(-0 565.51248 118.555831)">Validacion</text>
    </g>
    <g id="text_10">
-    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(533.967949 147.228299)">holdout formal</text>
+    <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(525.796605 147.228299)">validacion externa</text>
     <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(526.559855 156.858418)">6 casos dp=0.003</text>
    </g>
    <g id="patch_12">
@@ -151,15 +151,15 @@ L 627.921723 138.641896
     <text style="fill: #5a6673; font: 8.6px 'DejaVu Sans'" transform="translate(663.547347 156.858418)">sin SPH extra</text>
    </g>
    <g id="text_13">
-    <text style="fill: #17202a; font: 10px 'DejaVu Sans'; text-anchor: start" x="58.7592" y="227.840696" transform="rotate(-0 58.7592 227.840696)">Criterio: dp=0.002 cuantifica incertidumbre de resolución; no reemplaza la base productiva dp=0.003 ni el holdout.</text>
+    <text style="fill: #17202a; font: 10px 'DejaVu Sans'; text-anchor: start" x="58.7592" y="227.840696" transform="rotate(-0 58.7592 227.840696)">Criterio: dp=0.002 cuantifica incertidumbre de resolucion; no reemplaza la base productiva dp=0.003 ni la validacion externa.</text>
    </g>
    <g id="text_14">
-    <text style="font: 700 15px 'DejaVu Sans'; text-anchor: middle" x="375.48" y="18.597656" transform="rotate(-0 375.48 18.597656)">Ruta corta desde dp=0.002 completo hasta el cierre defendible</text>
+    <text style="font: 700 15px 'DejaVu Sans'; text-anchor: middle" x="375.48" y="18.597656" transform="rotate(-0 375.48 18.597656)">Ruta corta desde checks finos hasta cierre defendible</text>
    </g>
   </g>
  </g>
  <defs>
-  <clipPath id="pafa63d9f38">
+  <clipPath id="pec5d92e607">
    <rect x="7.2" y="24.597656" width="736.56" height="260.568"/>
   </clipPath>
  </defs>

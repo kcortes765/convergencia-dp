@@ -10,22 +10,22 @@
 <main class="page">
   <header class="top">
     <h1>Secuencia de cierre metodológico</h1>
-    <p>Con el <code>dp=0.002</code> completo, el estado técnico se organiza en cuatro bloques: refinamiento fino, GP final, holdout formal y Monte Carlo.</p>
+    <p>Con los checks base <code>dp=0.002</code> completos y el refinamiento fino parcialmente observado, el estado técnico se organiza en cuatro bloques: cerrar el bracket fino, actualizar el GP, validar externamente y ejecutar Monte Carlo.</p>
     <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../post-convergencia/">Post-convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../lo-que-viene/" aria-current="page">Lo que viene</a></nav>
   </header>
 
   <section>
     <h2>Resumen corto</h2>
     <dl class="cards">
-<div><dt>Ahora mismo</dt><dd>6/6 dp=0.002</dd><small>todos ESTABLE</small></div>
-<div><dt>Más cercano</dt><dd>4.32% d_eq</dd><small>aún bajo 5% d_eq</small></div>
+<div><dt>Checks base</dt><dd>6/6 dp=0.002</dd><small>todos ESTABLE</small></div>
+<div><dt>Refinamiento fino</dt><dd>2/4</dd><small>2 FALLO, 2 en curso</small></div>
+<div><dt>Bracket actual</dt><dd>0.8570-0.8640</dd><small>H=0.225, m*=1.00</small></div>
 <div><dt>Cambios clase</dt><dd>4/6</dd><small>banda de resolución</small></div>
-<div><dt>Refinamiento</dt><dd>4 sims</dd><small>preparadas para buscar falla fina</small></div>
-<div><dt>Holdout</dt><dd>6 sims</dd><small>validación formal dp=0.003</small></div>
+<div><dt>Validación externa</dt><dd>6 sims</dd><small>validación formal dp=0.003</small></div>
 <div><dt>Monte Carlo</dt><dd>0 SPH</dd><small>corre sobre GP final</small></div>
 <div><dt>GP local actual</dt><dd>0.861</dd><small>accuracy LOO preliminar</small></div>
     </dl>
-    <p>Los checks finos muestran sensibilidad de resolución cerca del umbral: seis casos quedaron ESTABLES en <code>dp=0.002</code> y cuatro pares cambiaron desde FALLO marginal en <code>dp=0.003</code>.</p>
+    <p>Los checks base muestran sensibilidad de resolución cerca del umbral: seis casos quedaron ESTABLES en <code>dp=0.002</code>. El refinamiento posterior ya detectó dos FALLO en <code>H=0.225, m*=1.00</code>, por lo que la frontera fina parcial queda entre <code>mu=0.8570</code> y <code>mu=0.8640</code>.</p>
   </section>
 
   <section>
@@ -33,7 +33,7 @@
     <div class="figure-grid">
       <figure>
         <a href="figures/06_ruta_lo_que_viene_dp002_completo.png" target="_blank" aria-label="Abrir figura: Secuencia de cierre"><img src="figures/06_ruta_lo_que_viene_dp002_completo.png" alt="Secuencia de cierre"></a>
-        <figcaption><strong>Secuencia de cierre.</strong> Orden técnico después de dp=0.002 completo: refinamiento fino, GP local, holdout y Monte Carlo.</figcaption>
+        <figcaption><strong>Secuencia de cierre.</strong> Orden técnico después de los checks finos: cerrar bracket, GP local, validación externa y Monte Carlo.</figcaption>
       </figure>
       <figure>
         <a href="figures/07_presupuesto_simulaciones.png" target="_blank" aria-label="Abrir figura: Presupuesto de simulaciones"><img src="figures/07_presupuesto_simulaciones.png" alt="Presupuesto de simulaciones"></a>
@@ -43,23 +43,23 @@
   </section>
 
   <section>
-    <h2>Escenarios del refinamiento</h2>
+    <h2>Escenarios restantes</h2>
     <div class="split">
       <div class="callout">
-        <h3>Si aparece FALLO</h3>
-        <p>El corte correspondiente queda con bracket fino en <code>dp=0.002</code>. Ese bracket se incorpora al GP final como evidencia de sensibilidad de resolución.</p>
+        <h3>Si los dos casos restantes fallan</h3>
+        <p>La frontera queda muy cerca del estable <code>mu=0.8640</code>. Eso entrega un bracket fino estrecho y suficiente para cerrar esta fase.</p>
       </div>
       <div class="callout warning">
-        <h3>Si salen ESTABLES</h3>
-        <p>La frontera fina queda desplazada hacia menor <code>μ</code>. El resultado se usa como cota de resolución y no cambia la resolución productiva principal.</p>
+        <h3>Si alguno estabiliza</h3>
+        <p>El bracket queda cerrado dentro de los puntos intermedios. El resultado se usa como evidencia de sensibilidad de resolución y no cambia la resolución productiva principal.</p>
       </div>
     </div>
   </section>
 
   <section>
     <h2>Cierre probabilístico</h2>
-    <p>La probabilidad de falla se calcula sobre el GP final. El holdout mide desempeño fuera del entrenamiento y el Monte Carlo propaga la incertidumbre del modelo en el espacio de variables.</p>
-    <p class="note">Los casos <code>dp=0.002</code> cuantifican sensibilidad de resolución cerca del umbral; el holdout y Monte Carlo cuantifican desempeño e incertidumbre probabilística.</p>
+    <p>La probabilidad de falla se calcula sobre el GP final. La validación externa mide desempeño fuera del entrenamiento y el Monte Carlo propaga la incertidumbre del modelo en el espacio de variables.</p>
+    <p class="note">Los casos <code>dp=0.002</code> cuantifican sensibilidad de resolución cerca del umbral; la validación externa y Monte Carlo cuantifican desempeño e incertidumbre probabilística.</p>
   </section>
 
   <section class="footer-nav">

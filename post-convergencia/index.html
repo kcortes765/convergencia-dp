@@ -10,7 +10,7 @@
 <main class="page">
   <header class="top">
     <h1>Post-convergencia: frontera, variables locales e incertidumbre de resolución</h1>
-    <p>Estado actualizado con AL8 y los checks finos <code>dp=0.002</code> completos. Cerca del umbral, <code>dp=0.003</code> produce fallas marginales que pasan a estabilidad en la resolución fina.</p>
+    <p>Estado actualizado con AL8, checks base <code>dp=0.002</code> y refinamiento fino parcial. Cerca del umbral, la resolución fina muestra una banda de sensibilidad y ya entrega un bracket directo en <code>H=0.225, m*=1.00</code>.</p>
     <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../post-convergencia/" aria-current="page">Post-convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../lo-que-viene/">Lo que viene</a></nav>
   </header>
 
@@ -22,6 +22,7 @@
 <div><dt>AL8</dt><dd>8/8 OK</dd><small>5 ESTABLE, 3 FALLO</small></div>
 <div><dt>dp=0.002</dt><dd>6/6 OK</dd><small>6 ESTABLE, 0 FALLO</small></div>
 <div><dt>Cambios de clase</dt><dd>4/6</dd><small>FALLO en dp=0.003 -&gt; ESTABLE en dp=0.002</small></div>
+<div><dt>Refinamiento fino</dt><dd>2/4</dd><small>2 FALLO, 2 en curso</small></div>
 <div><dt>GP local LOO</dt><dd>0.861</dd><small>variables M, mu, m*</small></div>
     </dl>
     <div class="split">
@@ -31,7 +32,7 @@
       </div>
       <div class="callout warning">
         <h3>Checks finos dp=0.002</h3>
-        <p>Los 6 checks finos quedaron ESTABLES. En 4 de 6 pares la clase cambió desde FALLO marginal en <code>dp=0.003</code> a ESTABLE en <code>dp=0.002</code>. Caso fino más cercano: <code>H=0.225, m*=1.00, mu=0.8640: Dmax=4.32% d_eq</code>.</p>
+        <p>Los 6 checks base quedaron ESTABLES. Luego, el refinamiento fino en <code>H=0.225, m*=1.00</code> ya tiene dos FALLO: <code>mu=0.8535</code> y <code>mu=0.8570</code>. El bracket parcial queda entre <code>mu=0.8570</code> FALLO y <code>mu=0.8640</code> ESTABLE.</p>
       </div>
     </div>
   </section>
@@ -48,8 +49,8 @@
         <figcaption><strong>Fronteras AL8 en H=0.210.</strong> Resume los dos brackets nuevos que justifican que AL8 fue informativo.</figcaption>
       </figure>
       <figure>
-        <a href="figures/03_dp002_vs_dp003_completo.png" target="_blank" aria-label="Abrir figura: Sensibilidad de resolución dp=0.002 completa"><img src="figures/03_dp002_vs_dp003_completo.png" alt="Sensibilidad de resolución dp=0.002 completa"></a>
-        <figcaption><strong>Sensibilidad de resolución dp=0.002 completa.</strong> Compara los 6 checks finos contra sus pares de referencia dp=0.003.</figcaption>
+        <a href="figures/03_dp002_vs_dp003_completo.png" target="_blank" aria-label="Abrir figura: Sensibilidad de resolución dp=0.002 base"><img src="figures/03_dp002_vs_dp003_completo.png" alt="Sensibilidad de resolución dp=0.002 base"></a>
+        <figcaption><strong>Sensibilidad de resolución dp=0.002 base.</strong> Compara los 6 checks base contra sus pares de referencia dp=0.003; el refinamiento fino parcial se resume en el texto superior.</figcaption>
       </figure>
       <figure>
         <a href="figures/04_variables_locales_mapa_observado.png" target="_blank" aria-label="Abrir figura: Traducción a variables locales"><img src="figures/04_variables_locales_mapa_observado.png" alt="Traducción a variables locales"></a>
