@@ -12,12 +12,12 @@
     <div>
       <p class="meta">Tesis UCN · modelo SPH-Chrono</p>
       <h1>Convergencia de resolución SPH</h1>
-      <p>Esta página resume por qué se adopta <code>dp=0.003 m</code> como resolución operativa. La producción dirigida y active learning quedan en una página separada.</p>
+      <p>Se adopta <code>dp=0.003 m</code> como resolución operativa para la campaña de estabilidad. La hidráulica local y el cierre probabilístico se tratan como bloques metodológicos independientes.</p>
       <nav class="site-nav" aria-label="Navegación entre páginas">
         <a href="./" aria-current="page">Convergencia dp</a>
-        <a href="post-convergencia/">Post-convergencia</a>
+        <a href="post-convergencia/">Resultados</a>
         <a href="hidraulica-preliminar/">Hidráulica local</a>
-        <a href="lo-que-viene/">Lo que viene</a>
+        <a href="lo-que-viene/">Cierre</a>
       </nav>
     </div>
   </header>
@@ -28,9 +28,9 @@
         <div><dt>Resolución adoptada</dt><dd>dp = 0.003 m</dd></div>
         <div><dt>Convergencia</dt><dd>variables temporales y máximos</dd></div>
         <div><dt>Estabilidad</dt><dd>análisis posterior al dp elegido</dd></div>
-        <div><dt>Post-convergencia</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/post-convergencia/">página dedicada</a></dd></div>
+        <div><dt>Resultados</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/post-convergencia/">fronteras y clases</a></dd></div>
         <div><dt>Hidráulica local</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/hidraulica-preliminar/">preliminar 14/14</a></dd></div>
-        <div><dt>Lo que viene</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/lo-que-viene/">hoja de ruta</a></dd></div>
+        <div><dt>Cierre</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/lo-que-viene/">validación y Monte Carlo</a></dd></div>
       </dl>
       <figure>
         <img src="figures/00_setup_planta_elevacion.png" alt="Planta y elevación del setup SPH">
@@ -160,9 +160,9 @@
   </section>
 
   <section>
-    <h2>5. Post-convergencia separado</h2>
-    <p>Los lotes productivos, el efecto de masa, la hidráulica local, las fuerzas, la rotación diagnóstica y active learning se movieron a una página dedicada para no mezclar la selección de <code>dp</code> con el análisis posterior.</p>
-    <p><a class="button-link" href="https://kcortes765.github.io/convergencia-dp/post-convergencia/">Abrir página post-convergencia</a> <a class="button-link" href="https://kcortes765.github.io/convergencia-dp/hidraulica-preliminar/">Abrir hidráulica local preliminar</a> <a class="button-link" href="https://kcortes765.github.io/convergencia-dp/lo-que-viene/">Abrir lo que viene</a></p>
+    <h2>5. Resultados separados</h2>
+    <p>La selección de <code>dp</code> responde la pregunta de resolución. Los resultados de estabilidad, la hidráulica local y el cierre metodológico responden preguntas distintas dentro del mismo flujo de trabajo.</p>
+    <p><a class="button-link" href="https://kcortes765.github.io/convergencia-dp/post-convergencia/">Abrir resultados</a> <a class="button-link" href="https://kcortes765.github.io/convergencia-dp/hidraulica-preliminar/">Abrir hidráulica local</a> <a class="button-link" href="https://kcortes765.github.io/convergencia-dp/lo-que-viene/">Abrir cierre</a></p>
   </section>
 
   <section>
@@ -182,7 +182,7 @@
     <div class="source-grid">
       <article>
         <h3>SPH y benchmark hidráulico</h3>
-        <p>Los <a href="https://github.com/DualSPHysics/DualSPHysics/wiki/7.-Testcases">testcases oficiales de DualSPHysics</a> y los <a href="https://www.spheric-sph.org/validation-tests">benchmarks SPHERIC</a> justifican usar casos dam-break como verificación hidráulica del solver y del postproceso. En esta página se usa para validar el entorno, no el bloque.</p>
+        <p>Los <a href="https://github.com/DualSPHysics/DualSPHysics/wiki/7.-Testcases">testcases oficiales de DualSPHysics</a> y los <a href="https://www.spheric-sph.org/validation-tests">benchmarks SPHERIC</a> justifican usar casos dam-break como verificación hidráulica del solver y del postproceso. Esa verificación valida el entorno numérico, no la respuesta del bloque.</p>
       </article>
       <article>
         <h3>Convergencia numérica</h3>
@@ -194,7 +194,7 @@
       </article>
       <article>
         <h3>Bloques costeros</h3>
-        <p><a href="https://research.uaeu.ac.ae/en/publications/reassessment-of-hydrodynamic-equations-minimum-flow-velocity-to-i/">Nandasena, Paris & Tanaka</a> plantean balances de fuerzas para inicio de movimiento; <a href="https://pearl.plymouth.ac.uk/secam-research/1746">Bressan et al.</a> muestran experimentalmente la influencia de profundidad, velocidad, peso, forma y orientación; <a href="https://www.nature.com/articles/s41598-021-92917-2">Iwai & Goto</a> refuerzan la importancia de casos movidos/no movidos; <a href="https://www.frontiersin.org/articles/10.3389/fmars.2020.00004/full">Cox et al.</a> discuten limitaciones de balances analíticos simplificados. En esta página esos balances se usan como control de coherencia física.</p>
+        <p><a href="https://research.uaeu.ac.ae/en/publications/reassessment-of-hydrodynamic-equations-minimum-flow-velocity-to-i/">Nandasena, Paris & Tanaka</a> plantean balances de fuerzas para inicio de movimiento; <a href="https://pearl.plymouth.ac.uk/secam-research/1746">Bressan et al.</a> muestran experimentalmente la influencia de profundidad, velocidad, peso, forma y orientación; <a href="https://www.nature.com/articles/s41598-021-92917-2">Iwai & Goto</a> refuerzan la importancia de casos movidos/no movidos; <a href="https://www.frontiersin.org/articles/10.3389/fmars.2020.00004/full">Cox et al.</a> discuten limitaciones de balances analíticos simplificados. Esos balances se usan como control de coherencia física.</p>
       </article>
     </div>
     <p class="note">Controles usados: convergencia de resolución, benchmark hidráulico externo, sanity de contacto y comparación con balances analíticos. La frontera final queda condicionada a <code>dp=0.003 m</code>, geometría fija, criterio <code>displacement_only</code> y parámetros de contacto usados.</p>
@@ -216,9 +216,9 @@
     <h2>Navegación</h2>
     <nav class="site-nav" aria-label="Navegación entre páginas">
       <a href="./" aria-current="page">Convergencia dp</a>
-      <a href="post-convergencia/">Post-convergencia</a>
+      <a href="post-convergencia/">Resultados</a>
       <a href="hidraulica-preliminar/">Hidráulica local</a>
-      <a href="lo-que-viene/">Lo que viene</a>
+      <a href="lo-que-viene/">Cierre</a>
     </nav>
   </section>
 </main>

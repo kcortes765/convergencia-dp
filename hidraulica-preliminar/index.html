@@ -9,19 +9,18 @@
 <body>
 <main class="page">
   <header class="top">
-    <p class="meta">Tesis UCN - SPH-Chrono - hidráulica 14/14</p>
-    <h1>Hidráulica local preliminar: de H_dam a variables antes del bloque</h1>
-    <p>Esta página resume las Fases 1 y 2 de caracterización hidráulica local y reexpresa la evidencia oficial de post-convergencia con variables medibles antes del bloque.</p>
+    <h1>Hidráulica local: de H_dam a solicitación antes del bloque</h1>
+    <p>La caracterización hidráulica local traduce la altura inicial <code>H_dam</code> al espacio <code>M, mu, m*</code> usado por el modelo GP local.</p>
     <nav class="site-nav" aria-label="Navegación entre páginas">
   <a href="../">Convergencia dp</a>
-  <a href="../post-convergencia/">Post-convergencia</a>
+  <a href="../post-convergencia/">Resultados</a>
   <a href="../hidraulica-preliminar/" aria-current="page">Hidráulica local</a>
-  <a href="../lo-que-viene/">Lo que viene</a>
+  <a href="../lo-que-viene/">Cierre</a>
 </nav>
   </header>
 
   <section>
-    <h2>Traducción preliminar de post-convergencia</h2>
+    <h2>Traducción de resultados a variables locales</h2>
     <dl class="cards">
 
       <div><dt>Casos traducidos</dt><dd>92/93</dd></div>
@@ -35,38 +34,38 @@
     <div class="split">
       <div class="callout">
         <h3>Qué se está traduciendo</h3>
-        <p>Los casos oficiales de post-convergencia siguen siendo los mismos resultados SPH. La diferencia es que cada <code>H_dam</code> se reemplaza por <code>h_local</code>, <code>u_x</code>, <code>max(rho h u_x^2)</code> y <code>Fr</code> medidos en la corrida sin bloque.</p>
+        <p>Los casos oficiales siguen siendo los mismos resultados SPH. La diferencia es que cada <code>H_dam</code> se reemplaza por <code>h_local</code>, <code>u_x</code>, <code>M = rho max(h u_x^2)</code> y <code>Fr</code> medidos en la corrida sin bloque.</p>
       </div>
       <div class="callout warning">
-        <h3>Límite metodológico</h3>
-        <p>Esto no es un GP reentrenado en variables locales. Es una transformación hidráulica 14/14 de <code>H_dam</code> hacia variables locales; el ajuste final se obtiene con el reentrenamiento correspondiente.</p>
+        <h3>Definición de M</h3>
+        <p><code>M</code> se calcula con series temporales sincronizadas como <code>rho max_t[h(t) u_x(t)^2]</code>. Usa <code>GaugesVel_V05</code> y <code>GaugesMaxZ_hmax03</code> antes del bloque, aproximadamente en <code>x=5.25 m</code>.</p>
       </div>
     </div>
   </section>
 
   <section>
-    <h2>Figuras traducidas desde post-convergencia</h2>
+    <h2>Figuras traducidas desde resultados</h2>
     <div class="figure-grid">
 <figure class="zoomable-figure">
         <button class="figure-open" type="button" data-zoom-src="figures/07_translated_local_momentum_map.svg" data-zoom-title="Mapa observado en solicitación local" aria-label="Ampliar gráfico: Mapa observado en solicitación local">
           <img src="figures/07_translated_local_momentum_map.png" alt="Mapa observado en solicitación local">
           <span class="zoom-chip">Ampliar gráfico</span>
         </button>
-        <figcaption><strong>Mapa observado en solicitación local.</strong> Reexpresa los casos oficiales de post-convergencia como proxy de momentum local sin bloque vs fricción, separado por masa relativa. Es evidencia observada traducida, no un GP nuevo.</figcaption>
+        <figcaption><strong>Mapa observado en solicitación local.</strong> Reexpresa los casos oficiales de resultados como solicitación local M sin bloque vs fricción, separado por masa relativa. Es evidencia observada traducida, no un GP nuevo.</figcaption>
       </figure>
 <figure class="zoomable-figure">
         <button class="figure-open" type="button" data-zoom-src="figures/08_translated_margin_vs_momentum.svg" data-zoom-title="Margen de falla vs solicitación local" aria-label="Ampliar gráfico: Margen de falla vs solicitación local">
           <img src="figures/08_translated_margin_vs_momentum.png" alt="Margen de falla vs solicitación local">
           <span class="zoom-chip">Ampliar gráfico</span>
         </button>
-        <figcaption><strong>Margen de falla vs solicitación local.</strong> Muestra cuánto queda cada caso sobre o bajo el umbral de 5% d_eq después de reemplazar H_dam por el proxy local. El eje vertical se trunca para enfocar la zona cercana al umbral.</figcaption>
+        <figcaption><strong>Margen de falla vs solicitación local.</strong> Muestra cuánto queda cada caso sobre o bajo el umbral de 5% d_eq después de reemplazar H_dam por M. El eje vertical se trunca para enfocar la zona cercana al umbral.</figcaption>
       </figure>
 <figure class="zoomable-figure">
         <button class="figure-open" type="button" data-zoom-src="figures/09_translated_displacement_vs_local_forcing.svg" data-zoom-title="Desplazamiento observado vs solicitación local" aria-label="Ampliar gráfico: Desplazamiento observado vs solicitación local">
           <img src="figures/09_translated_displacement_vs_local_forcing.png" alt="Desplazamiento observado vs solicitación local">
           <span class="zoom-chip">Ampliar gráfico</span>
         </button>
-        <figcaption><strong>Desplazamiento observado vs solicitación local.</strong> Relaciona el desplazamiento máximo observado con el proxy de momentum local. La línea punteada es el criterio de falla; el eje se trunca para no esconder la zona cercana al umbral.</figcaption>
+        <figcaption><strong>Desplazamiento observado vs solicitación local.</strong> Relaciona el desplazamiento máximo observado con la solicitación local M. La línea punteada es el criterio de falla; el eje se trunca para no esconder la zona cercana al umbral.</figcaption>
       </figure>
     </div>
     <p class="note">La traducción cubre el dominio base caracterizado hidráulicamente; el caso <code>H_dam=0.250</code> queda fuera de esta lectura local porque no forma parte de la base hidráulica principal.</p>
@@ -78,7 +77,7 @@
       <table>
         <thead>
           <tr>
-            <th>H_dam</th><th>h_local max (m)</th><th>u_x max (m/s)</th><th>proxy momentum (N/m)</th><th>Fr</th><th>rango m*</th><th>rango mu</th><th>clases observadas</th>
+            <th>H_dam</th><th>h_local max (m)</th><th>u_x max (m/s)</th><th>M local (N/m)</th><th>Fr</th><th>rango m*</th><th>rango mu</th><th>clases observadas</th>
           </tr>
         </thead>
         <tbody>
@@ -92,6 +91,20 @@
   </section>
 
   <section>
+    <h2>Modelo local con M, mu y m*</h2>
+    <p>El GP local usa la solicitación hidráulica <code>M</code>, la fricción <code>mu</code> y la masa relativa <code>m*</code> para interpolar el margen de estabilidad. Es una herramienta para resumir la frontera y guiar validación; la evidencia física sigue viniendo de las simulaciones SPH.</p>
+    <div class="figure-grid">
+<figure class="zoomable-figure">
+        <button class="figure-open" type="button" data-zoom-src="figures/10_validacion_gp_local.svg" data-zoom-title="Validación GP local" aria-label="Ampliar gráfico: Validación GP local">
+          <img src="figures/10_validacion_gp_local.png" alt="Validación GP local">
+          <span class="zoom-chip">Ampliar gráfico</span>
+        </button>
+        <figcaption><strong>Validación GP local.</strong> Muestra el desempeño leave-one-out del modelo que usa M, mu y m*. Es una herramienta de interpolación; no reemplaza simulaciones SPH.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
     <h2>Estado del paquete</h2>
     <dl class="cards">
 
@@ -100,13 +113,13 @@
       <div><dt>Con bloque ref.</dt><dd>7/7</dd></div>
       <div><dt>Profundidad max. sin bloque</dt><dd>0.059 m</dd></div>
       <div><dt>Velocidad max. sin bloque</dt><dd>0.930 m/s</dd></div>
-      <div><dt>Proxy de momentum max.</dt><dd>16.75 N/m</dd></div>
+      <div><dt>M local máxima</dt><dd>16.75 N/m</dd></div>
 
     </dl>
     <div class="split">
       <div class="callout">
         <h3>Lectura principal</h3>
-        <p><strong>Sin bloque</strong> es la traducción transferible: convierte <code>H_dam</code> en profundidad local, velocidad longitudinal, proxy de momentum y <code>Fr</code> antes del bloque.</p>
+        <p><strong>Sin bloque</strong> es la traducción transferible: convierte <code>H_dam</code> en profundidad local, velocidad longitudinal, solicitación local <code>M</code> y <code>Fr</code> antes del bloque.</p>
       </div>
       <div class="callout warning">
         <h3>Lectura diagnostica</h3>
@@ -123,7 +136,7 @@
           <img src="figures/01_local_variables_by_h.png" alt="De H_dam a variables locales">
           <span class="zoom-chip">Ampliar gráfico</span>
         </button>
-        <figcaption><strong>De H_dam a variables locales.</strong> Muestra la traducción preliminar desde la altura inicial dam-break hacia profundidad local, velocidad, proxy de momentum y Froude. La serie sin bloque es la base transferible.</figcaption>
+        <figcaption><strong>De H_dam a variables locales.</strong> Muestra la traducción desde la altura inicial dam-break hacia profundidad local, velocidad, solicitación local M y Froude. La serie sin bloque es la base transferible.</figcaption>
       </figure>
 <figure class="zoomable-figure">
         <button class="figure-open" type="button" data-zoom-src="figures/02_with_block_ratios.svg" data-zoom-title="Perturbación por bloque" aria-label="Ampliar gráfico: Perturbación por bloque">
@@ -137,7 +150,7 @@
           <img src="figures/03_local_feature_space.png" alt="Espacio h-u local">
           <span class="zoom-chip">Ampliar gráfico</span>
         </button>
-        <figcaption><strong>Espacio h-u local.</strong> Ubica cada corrida en el plano profundidad local vs velocidad local y muestra el proxy usado para el GP local. Color/forma separan sin bloque y con bloque de referencia.</figcaption>
+        <figcaption><strong>Espacio h-u local.</strong> Ubica cada corrida en el plano profundidad local vs velocidad local y muestra la solicitación M usada por el GP local. Color/forma separan sin bloque y con bloque de referencia.</figcaption>
       </figure>
 <figure class="zoomable-figure">
         <button class="figure-open" type="button" data-zoom-src="figures/04_unblocked_hydrographs.svg" data-zoom-title="Series locales sin bloque" aria-label="Ampliar gráfico: Series locales sin bloque">
@@ -169,7 +182,7 @@
       <table>
         <thead>
           <tr>
-            <th>Caso</th><th>Condicion</th><th>H_dam</th><th>prof. max (m)</th><th>vel. max (m/s)</th><th>proxy momentum (N/m)</th><th>Fr</th><th>D bloque</th>
+            <th>Caso</th><th>Condicion</th><th>H_dam</th><th>prof. max (m)</th><th>vel. max (m/s)</th><th>M local (N/m)</th><th>Fr</th><th>D bloque</th>
           </tr>
         </thead>
         <tbody>
@@ -197,9 +210,9 @@
     <h2>Navegación</h2>
     <nav class="site-nav" aria-label="Navegación entre páginas">
   <a href="../">Convergencia dp</a>
-  <a href="../post-convergencia/">Post-convergencia</a>
+  <a href="../post-convergencia/">Resultados</a>
   <a href="../hidraulica-preliminar/" aria-current="page">Hidráulica local</a>
-  <a href="../lo-que-viene/">Lo que viene</a>
+  <a href="../lo-que-viene/">Cierre</a>
 </nav>
   </section>
 </main>

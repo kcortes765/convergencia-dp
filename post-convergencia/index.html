@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Post-convergencia SPH</title>
+  <title>Resultados SPH</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <main class="page">
   <header class="top">
-    <h1>Post-convergencia: frontera, variables locales e incertidumbre de resolución</h1>
-    <p>Estado actualizado con AL8, checks base <code>dp=0.002</code> y refinamiento fino parcial. Cerca del umbral, la resolución fina muestra una banda de sensibilidad y ya entrega un bracket directo en <code>H=0.225, m*=1.00</code>.</p>
-    <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../post-convergencia/" aria-current="page">Post-convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../lo-que-viene/">Lo que viene</a></nav>
+    <h1>Resultados: frontera e incertidumbre de resolución</h1>
+    <p>Estado actualizado con AL8, checks base <code>dp=0.002</code> y refinamiento fino parcial. La evidencia de estabilidad, falla y cierre de fronteras se muestra separada de la hidráulica local y del GP local.</p>
+    <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../post-convergencia/" aria-current="page">Resultados</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../lo-que-viene/">Cierre</a></nav>
   </header>
 
   <section>
@@ -23,7 +23,6 @@
 <div><dt>dp=0.002</dt><dd>6/6 OK</dd><small>6 ESTABLE, 0 FALLO</small></div>
 <div><dt>Cambios de clase</dt><dd>4/6</dd><small>FALLO en dp=0.003 -&gt; ESTABLE en dp=0.002</small></div>
 <div><dt>Refinamiento fino</dt><dd>2/4</dd><small>2 FALLO, 2 en curso</small></div>
-<div><dt>GP local LOO</dt><dd>0.861</dd><small>variables M, mu, m*</small></div>
     </dl>
     <div class="split">
       <div class="callout">
@@ -53,16 +52,8 @@
         <figcaption><strong>Sensibilidad de resolución dp=0.002 base.</strong> Compara los 6 checks base contra sus pares de referencia dp=0.003; el refinamiento fino parcial se resume en el texto superior.</figcaption>
       </figure>
       <figure>
-        <a href="figures/04_variables_locales_mapa_observado.png" target="_blank" aria-label="Abrir figura: Traducción a variables locales"><img src="figures/04_variables_locales_mapa_observado.png" alt="Traducción a variables locales"></a>
-        <figcaption><strong>Traducción a variables locales.</strong> Conecta H_dam con la solicitación local M=rho max(h u_x^2) y muestra los resultados observados en el espacio M, μ y m*.</figcaption>
-      </figure>
-      <figure>
         <a href="figures/05_confiabilidad_por_capas.png" target="_blank" aria-label="Abrir figura: Confiabilidad por capas"><img src="figures/05_confiabilidad_por_capas.png" alt="Confiabilidad por capas"></a>
         <figcaption><strong>Confiabilidad por capas.</strong> Separa lo que ya está defendido de lo que aún falta para afirmar confiabilidad probabilística final.</figcaption>
-      </figure>
-      <figure>
-        <a href="figures/08_validacion_gp_local.png" target="_blank" aria-label="Abrir figura: Validación GP local"><img src="figures/08_validacion_gp_local.png" alt="Validación GP local"></a>
-        <figcaption><strong>Validación GP local.</strong> Muestra el desempeño leave-one-out del modelo que usa M, μ y m*. Es herramienta de interpolación, no reemplaza simulaciones SPH.</figcaption>
       </figure>
     </div>
   </section>
@@ -85,18 +76,6 @@
       </figure>
     </div>
     <p class="note">Controles de consistencia: resolución, benchmark hidráulico, contacto casi sin forzante y balance analítico. La clasificación final sigue definida por el desplazamiento máximo.</p>
-  </section>
-
-  <section>
-    <h2>Variables clave</h2>
-    <div class="terms">
-      <div class="term"><strong><code>H_dam</code></strong>Altura inicial de la columna dam-break. Genera el flujo, pero no es la variable final más transferible.</div>
-      <div class="term"><strong><code>h_local</code></strong>Profundidad local medida en gauges antes del bloque, en la condicion sin bloque.</div>
-      <div class="term"><strong><code>u_x</code></strong>Velocidad longitudinal local del flujo, positiva hacia la playa y el bloque.</div>
-      <div class="term"><strong><code>M = rho max(h u_x^2)</code></strong>Solicitación local tipo flujo de momentum por ancho. Es la mejor variable local preliminar porque combina profundidad y velocidad en el mismo instante de exigencia.</div>
-      <div class="term"><strong><code>mu</code></strong>Coeficiente de fricción bloque-playa usado para barrer estabilidad.</div>
-      <div class="term"><strong><code>m*</code></strong>Masa relativa: 1.00 es el bloque base, 0.85 más liviano y 1.25 más pesado.</div>
-    </div>
   </section>
 
   <section>
@@ -125,7 +104,7 @@
 
   <section class="footer-nav">
     <h2>Navegación</h2>
-    <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../post-convergencia/" aria-current="page">Post-convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../lo-que-viene/">Lo que viene</a></nav>
+    <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../post-convergencia/" aria-current="page">Resultados</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../lo-que-viene/">Cierre</a></nav>
   </section>
 </main>
 </body>
