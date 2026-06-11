@@ -15,8 +15,8 @@
       <p>Se adopta <code>dp=0.003 m</code> como resolución operativa para la campaña de estabilidad. La hidráulica local y el cierre probabilístico se tratan como bloques metodológicos independientes.</p>
       <nav class="site-nav" aria-label="Navegación entre páginas">
         <a href="./" aria-current="page">Convergencia dp</a>
-        <a href="hidraulica-preliminar/">Hidráulica local</a>
         <a href="modelo-gp/">Modelo GP</a>
+        <a href="hidraulica-preliminar/">Hidráulica local</a>
         <a href="post-convergencia/">Resultados</a>
         <a href="lo-que-viene/">Cierre</a>
       </nav>
@@ -29,8 +29,8 @@
         <div><dt>Resolución adoptada</dt><dd>dp = 0.003 m</dd></div>
         <div><dt>Convergencia</dt><dd>variables temporales y máximos</dd></div>
         <div><dt>Estabilidad</dt><dd>análisis posterior al dp elegido</dd></div>
-        <div><dt>Hidráulica local</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/hidraulica-preliminar/">preliminar 14/14</a></dd></div>
         <div><dt>Modelo GP</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/modelo-gp/">frontera e incertidumbre</a></dd></div>
+        <div><dt>Hidráulica local</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/hidraulica-preliminar/">preliminar 14/14</a></dd></div>
         <div><dt>Resultados</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/post-convergencia/">fronteras y clases</a></dd></div>
         <div><dt>Cierre</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/lo-que-viene/">validación y Monte Carlo</a></dd></div>
       </dl>
@@ -163,8 +163,8 @@
 
   <section>
     <h2>5. Resultados separados</h2>
-    <p>La selección de <code>dp</code> responde la pregunta de resolución. La hidráulica local, el modelo GP, los resultados de estabilidad y el cierre metodológico responden preguntas distintas dentro del mismo flujo de trabajo.</p>
-    <p><a class="button-link" href="https://kcortes765.github.io/convergencia-dp/hidraulica-preliminar/">Abrir hidráulica local</a> <a class="button-link" href="https://kcortes765.github.io/convergencia-dp/modelo-gp/">Abrir modelo GP</a> <a class="button-link" href="https://kcortes765.github.io/convergencia-dp/post-convergencia/">Abrir resultados</a> <a class="button-link" href="https://kcortes765.github.io/convergencia-dp/lo-que-viene/">Abrir cierre</a></p>
+    <p>La selección de <code>dp</code> responde la pregunta de resolución. El modelo GP, la hidráulica local, los resultados de estabilidad y el cierre metodológico responden preguntas distintas dentro del mismo flujo de trabajo.</p>
+    <p><a class="button-link" href="https://kcortes765.github.io/convergencia-dp/modelo-gp/">Abrir modelo GP</a> <a class="button-link" href="https://kcortes765.github.io/convergencia-dp/hidraulica-preliminar/">Abrir hidráulica local</a> <a class="button-link" href="https://kcortes765.github.io/convergencia-dp/post-convergencia/">Abrir resultados</a> <a class="button-link" href="https://kcortes765.github.io/convergencia-dp/lo-que-viene/">Abrir cierre</a></p>
   </section>
 
   <section>
@@ -180,6 +180,20 @@
           <tr><td>Comparación analítica</td><td>Los casos SPH no contradicen un balance físico de arrastre, peso, pendiente y fricción a nivel de orden de magnitud.</td><td>No reemplaza SPH-Chrono ni predice exactamente desplazamiento/rotación.</td><td>Nott/Nandasena para bloques costeros, experimentos de Bressan, datos moved/unmoved de Iwai & Goto y advertencias de Cox et al.</td></tr>
         </tbody>
       </table>
+    </div>
+    <div class="grid">
+      <figure>
+        <img src="figures/09_benchmark_hidraulico.png" alt="Benchmark hidráulico de canal">
+        <figcaption>Benchmark hidráulico de canal. Verifica el solver y el postproceso contra un caso dam-break de referencia.</figcaption>
+      </figure>
+      <figure>
+        <img src="figures/10_contact_sanity.png" alt="Sanity de contacto casi sin agua">
+        <figcaption>Sanity de contacto casi sin agua. Verifica que el bloque no supere el umbral por apoyo inicial o contacto espurio sin forzante hidráulica local.</figcaption>
+      </figure>
+      <figure>
+        <img src="figures/11_comparacion_analitica.png" alt="Comparación analítica de fuerza motriz y resistencia">
+        <figcaption>Comparación analítica Fmotriz/Fresistente. No reclasifica casos; verifica coherencia de orden de magnitud.</figcaption>
+      </figure>
     </div>
     <div class="source-grid">
       <article>
@@ -218,8 +232,8 @@
     <h2>Navegación</h2>
     <nav class="site-nav" aria-label="Navegación entre páginas">
       <a href="./" aria-current="page">Convergencia dp</a>
-      <a href="hidraulica-preliminar/">Hidráulica local</a>
       <a href="modelo-gp/">Modelo GP</a>
+      <a href="hidraulica-preliminar/">Hidráulica local</a>
       <a href="post-convergencia/">Resultados</a>
       <a href="lo-que-viene/">Cierre</a>
     </nav>
