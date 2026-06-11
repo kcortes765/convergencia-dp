@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modelo GP</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="page">
+  <header class="top">
+    <h1>Modelo GP: frontera, incertidumbre y active learning</h1>
+    <p>El modelo GP estima el margen de estabilidad <code>g = 5 - Dmax</code>. Valores positivos indican margen estable; valores negativos indican movimiento sobre el umbral. Su función es interpolar entre simulaciones SPH y elegir nuevos casos informativos, no reemplazar la evidencia numérica.</p>
+    <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/" aria-current="page">Modelo GP</a><a href="../post-convergencia/">Resultados</a><a href="../lo-que-viene/">Cierre</a></nav>
+  </header>
+
+  <section>
+    <h2>Estado del modelo</h2>
+    <dl class="cards">
+      <div><dt>Casos usados</dt><dd>79</dd><small>base H_dam, μ, m*</small></div>
+      <div><dt>Clases</dt><dd>46 ESTABLE / 33 FALLO</dd><small>entrenamiento</small></div>
+      <div><dt>Accuracy LOO</dt><dd>0.861</dd><small>validación cruzada</small></div>
+      <div><dt>MAE LOO</dt><dd>2.08% d_eq</dd><small>margen</small></div>
+      <div><dt>RMSE LOO</dt><dd>3.50% d_eq</dd><small>margen</small></div>
+      <div><dt>GP local</dt><dd>0.861</dd><small>accuracy LOO con M</small></div>
+    </dl>
+    <div class="split">
+      <div class="callout">
+        <h3>Qué predice</h3>
+        <p>Predice el margen al umbral, no solo una etiqueta binaria. Eso permite distinguir casos claramente estables, casos claramente fallidos y casos cercanos a la frontera.</p>
+      </div>
+      <div class="callout warning">
+        <h3>Qué significa la incertidumbre</h3>
+        <p>La desviación estándar del GP muestra dónde el modelo tiene menos respaldo local. El active learning prioriza zonas cercanas a la frontera y/o con incertidumbre alta.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Modelo base con H_dam, μ y m*</h2>
+    <p>Este es el modelo que guió la campaña de active learning hasta AL6. Usa la altura dam-break como generador del flujo, el coeficiente de fricción y la masa relativa del bloque.</p>
+    <div class="figure-grid">
+      <figure>
+        <a href="figures/01_validacion_loo_h_gp.png" target="_blank" aria-label="Abrir figura: Validación leave-one-out">
+          <img src="figures/01_validacion_loo_h_gp.png" alt="Validación leave-one-out">
+        </a>
+        <figcaption><strong>Validación leave-one-out.</strong> Compara margen observado contra margen predicho al dejar cada caso fuera del entrenamiento. Sirve para medir desempeño sin entrenar y evaluar sobre el mismo punto.</figcaption>
+      </figure>
+      <figure>
+        <a href="figures/02_frontera_gp_por_masa.png" target="_blank" aria-label="Abrir figura: Frontera estimada por masa relativa">
+          <img src="figures/02_frontera_gp_por_masa.png" alt="Frontera estimada por masa relativa">
+        </a>
+        <figcaption><strong>Frontera estimada por masa relativa.</strong> Mapa de calor del margen predicho. La línea de nivel cero separa estabilidad esperada de falla esperada; los puntos muestran simulaciones SPH observadas.</figcaption>
+      </figure>
+      <figure>
+        <a href="figures/03_incertidumbre_gp_por_masa.png" target="_blank" aria-label="Abrir figura: Incertidumbre del GP">
+          <img src="figures/03_incertidumbre_gp_por_masa.png" alt="Incertidumbre del GP">
+        </a>
+        <figcaption><strong>Incertidumbre del GP.</strong> Mapa de desviación estándar del GP. Zonas más intensas indican menor certeza del modelo y ayudan a decidir nuevas simulaciones.</figcaption>
+      </figure>
+      <figure>
+        <a href="figures/04_cortes_margen_observado.png" target="_blank" aria-label="Abrir figura: Cortes observados del margen">
+          <img src="figures/04_cortes_margen_observado.png" alt="Cortes observados del margen">
+        </a>
+        <figcaption><strong>Cortes observados del margen.</strong> Resume cómo se distribuyen los casos simulados respecto del umbral para distintas masas. Complementa la frontera predicha con evidencia observada.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>Migración hacia variables locales</h2>
+    <p>La versión local reemplaza <code>H_dam</code> por la solicitación hidráulica incidente <code>M = rho max_t[h(t)u_x(t)^2]</code>, medida antes del bloque. Esto acerca el modelo a variables transferibles para una ecuación final.</p>
+    <div class="figure-grid">
+      <figure>
+        <a href="figures/05_validacion_gp_local.png" target="_blank" aria-label="Abrir figura: Validación del GP local">
+          <img src="figures/05_validacion_gp_local.png" alt="Validación del GP local">
+        </a>
+        <figcaption><strong>Validación del GP local.</strong> Evalúa el modelo reexpresado con M, μ y m*. El desempeño es comparable al GP con H_dam, por lo que la migración local es defendible como formulación preliminar.</figcaption>
+      </figure>
+    </div>
+    <p class="note">La lectura local depende de la caracterización hidráulica 14/14. El detalle de gauges y de la definición de <code>M</code> está en Hidráulica local.</p>
+  </section>
+
+  <section>
+    <h2>Lectura metodológica</h2>
+    <div class="split">
+      <div class="callout">
+        <h3>Uso correcto</h3>
+        <p>El GP resume la frontera y orienta nuevas simulaciones. En zonas bien cubiertas, interpola el margen de estabilidad y permite evaluar sensibilidad por fricción, masa y solicitación hidráulica.</p>
+      </div>
+      <div class="callout warning">
+        <h3>Límite</h3>
+        <p>La clasificación final de un caso sigue viniendo de SPH. El GP entrega una superficie estimada con incertidumbre; por eso los brackets, los checks finos y la validación externa siguen siendo necesarios.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="footer-nav">
+    <h2>Navegación</h2>
+    <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/" aria-current="page">Modelo GP</a><a href="../post-convergencia/">Resultados</a><a href="../lo-que-viene/">Cierre</a></nav>
+  </section>
+</main>
+</body>
+</html>

@@ -11,7 +11,7 @@
   <header class="top">
     <h1>Resultados: frontera e incertidumbre de resolución</h1>
     <p>Estado actualizado con AL8, checks base <code>dp=0.002</code> y refinamiento fino parcial. La evidencia de estabilidad, falla y cierre de fronteras se muestra separada de la hidráulica local y del GP local.</p>
-    <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../post-convergencia/" aria-current="page">Resultados</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../lo-que-viene/">Cierre</a></nav>
+    <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/" aria-current="page">Resultados</a><a href="../lo-que-viene/">Cierre</a></nav>
   </header>
 
   <section>
@@ -40,8 +40,8 @@
     <h2>Figuras principales</h2>
     <div class="figure-grid">
       <figure>
-        <a href="figures/01_campania_hasta_al8.png" target="_blank" aria-label="Abrir figura: Campana hasta AL8"><img src="figures/01_campania_hasta_al8.png" alt="Campana hasta AL8"></a>
-        <figcaption><strong>Campana hasta AL8.</strong> Muestra cuanta evidencia SPH oficial existe y como quedo el balance ESTABLE/FALLO por lote.</figcaption>
+        <a href="figures/01_campania_hasta_al8.png" target="_blank" aria-label="Abrir figura: Campaña hasta AL8"><img src="figures/01_campania_hasta_al8.png" alt="Campaña hasta AL8"></a>
+        <figcaption><strong>Campaña hasta AL8.</strong> Muestra cuánta evidencia SPH oficial existe y cómo quedó el balance ESTABLE/FALLO por lote.</figcaption>
       </figure>
       <figure>
         <a href="figures/02_fronteras_al8_h0210.png" target="_blank" aria-label="Abrir figura: Fronteras AL8 en H=0.210"><img src="figures/02_fronteras_al8_h0210.png" alt="Fronteras AL8 en H=0.210"></a>
@@ -52,8 +52,16 @@
         <figcaption><strong>Sensibilidad de resolución dp=0.002 base.</strong> Compara los 6 checks base contra sus pares de referencia dp=0.003; el refinamiento fino parcial se resume en el texto superior.</figcaption>
       </figure>
       <figure>
+        <a href="figures/04_variables_locales_mapa_observado.png" target="_blank" aria-label="Abrir figura: Traducción a solicitación local"><img src="figures/04_variables_locales_mapa_observado.png" alt="Traducción a solicitación local"></a>
+        <figcaption><strong>Traducción a solicitación local.</strong> Conecta H_dam con la solicitación local M=rho max(h u_x^2) y muestra los resultados observados en el espacio M, μ y m*.</figcaption>
+      </figure>
+      <figure>
         <a href="figures/05_confiabilidad_por_capas.png" target="_blank" aria-label="Abrir figura: Confiabilidad por capas"><img src="figures/05_confiabilidad_por_capas.png" alt="Confiabilidad por capas"></a>
         <figcaption><strong>Confiabilidad por capas.</strong> Separa lo que ya está defendido de lo que aún falta para afirmar confiabilidad probabilística final.</figcaption>
+      </figure>
+      <figure>
+        <a href="figures/08_validacion_gp_local.png" target="_blank" aria-label="Abrir figura: Validación GP local"><img src="figures/08_validacion_gp_local.png" alt="Validación GP local"></a>
+        <figcaption><strong>Validación GP local.</strong> Muestra el desempeño leave-one-out del modelo que usa M, μ y m*. Es herramienta de interpolación; no reemplaza simulaciones SPH.</figcaption>
       </figure>
     </div>
   </section>
@@ -104,7 +112,7 @@
 
   <section class="footer-nav">
     <h2>Navegación</h2>
-    <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../post-convergencia/" aria-current="page">Resultados</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../lo-que-viene/">Cierre</a></nav>
+    <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/" aria-current="page">Resultados</a><a href="../lo-que-viene/">Cierre</a></nav>
   </section>
 </main>
 </body>
