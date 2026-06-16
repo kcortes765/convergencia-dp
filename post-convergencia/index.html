@@ -10,7 +10,7 @@
 <main class="page">
   <header class="top">
     <h1>Resultados: frontera e incertidumbre de resolución</h1>
-    <p>Estado actualizado con AL8, checks base <code>dp=0.002</code> y refinamiento fino parcial. La evidencia de estabilidad, falla y cierre de fronteras se muestra separada de la hidráulica local y del GP local.</p>
+    <p>Estado actualizado con AL8 y 16 simulaciones finas <code>dp=0.002</code>. La evidencia de estabilidad, falla y cierre de fronteras se muestra separada de la hidráulica local y del GP local.</p>
     <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../modelo-gp/">Modelo GP</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../post-convergencia/" aria-current="page">Resultados</a><a href="../lo-que-viene/">Cierre</a></nav>
   </header>
 
@@ -20,9 +20,9 @@
 <div><dt>Casos oficiales</dt><dd>93</dd><small>campana productiva hasta AL8</small></div>
 <div><dt>Estables / Fallos</dt><dd>54 / 39</dd><small>criterio Dmax &gt; 5% d_eq</small></div>
 <div><dt>AL8</dt><dd>8/8 OK</dd><small>5 ESTABLE, 3 FALLO</small></div>
-<div><dt>dp=0.002</dt><dd>6/6 OK</dd><small>6 ESTABLE, 0 FALLO</small></div>
+<div><dt>dp=0.002</dt><dd>16/16 OK</dd><small>12 ESTABLE, 4 FALLO</small></div>
 <div><dt>Cambios de clase</dt><dd>4/6</dd><small>FALLO en dp=0.003 -&gt; ESTABLE en dp=0.002</small></div>
-<div><dt>Refinamiento fino</dt><dd>2/4</dd><small>2 FALLO, 2 en curso</small></div>
+<div><dt>Bracket fino</dt><dd>0.8605-0.8625</dd><small>H=0.225, m*=1.00</small></div>
     </dl>
     <div class="split">
       <div class="callout">
@@ -31,7 +31,7 @@
       </div>
       <div class="callout warning">
         <h3>Checks finos dp=0.002</h3>
-        <p>Los 6 checks base quedaron ESTABLES. Luego, el refinamiento fino en <code>H=0.225, m*=1.00</code> ya tiene dos FALLO: <code>mu=0.8535</code> y <code>mu=0.8570</code>. El bracket parcial queda entre <code>mu=0.8570</code> FALLO y <code>mu=0.8640</code> ESTABLE.</p>
+        <p>La fase fina queda cerrada como sensibilidad de resolución: 16/16 corridas OK, sin fallos numéricos. El bracket fino real quedó en <code>H=0.225, m*=1.00</code>, entre <code>mu=0.8605</code> FALLO y <code>mu=0.8625</code> ESTABLE.</p>
       </div>
     </div>
   </section>
@@ -49,7 +49,19 @@
       </figure>
       <figure>
         <a href="figures/03_dp002_vs_dp003_completo.png" target="_blank" aria-label="Abrir figura: Sensibilidad de resolución dp=0.002 base"><img src="figures/03_dp002_vs_dp003_completo.png" alt="Sensibilidad de resolución dp=0.002 base"></a>
-        <figcaption><strong>Sensibilidad de resolución dp=0.002 base.</strong> Compara los 6 checks base contra sus pares de referencia dp=0.003; el refinamiento fino parcial se resume en el texto superior.</figcaption>
+        <figcaption><strong>Sensibilidad de resolución dp=0.002 base.</strong> Compara los 6 checks base contra sus pares de referencia dp=0.003.</figcaption>
+      </figure>
+      <figure>
+        <a href="figures/12_dp002_evidencia_completa_por_corte.png" target="_blank" aria-label="Abrir figura: Evidencia fina completa por corte"><img src="figures/12_dp002_evidencia_completa_por_corte.png" alt="Evidencia fina completa por corte"></a>
+        <figcaption><strong>Evidencia fina completa por corte.</strong> Muestra las 16 simulaciones dp=0.002 agrupadas por H y masa relativa. Permite ver dónde hay bracket y dónde solo estabilidad cercana al umbral.</figcaption>
+      </figure>
+      <figure>
+        <a href="figures/13_dp002_bracket_fino_highH_m100.png" target="_blank" aria-label="Abrir figura: Bracket fino cerrado"><img src="figures/13_dp002_bracket_fino_highH_m100.png" alt="Bracket fino cerrado"></a>
+        <figcaption><strong>Bracket fino cerrado.</strong> Zoom del corte H=0.225, m*=1.00. Es el caso que acota directamente la frontera fina a dp=0.002.</figcaption>
+      </figure>
+      <figure>
+        <a href="figures/14_dp002_resumen_cierre_incertidumbre.png" target="_blank" aria-label="Abrir figura: Resumen de cierre dp=0.002"><img src="figures/14_dp002_resumen_cierre_incertidumbre.png" alt="Resumen de cierre dp=0.002"></a>
+        <figcaption><strong>Resumen de cierre dp=0.002.</strong> Resume la cobertura de los checks finos y por qué ya no conviene seguir ampliando esta fase.</figcaption>
       </figure>
       <figure>
         <a href="figures/04_variables_locales_mapa_observado.png" target="_blank" aria-label="Abrir figura: Traducción a solicitación local"><img src="figures/04_variables_locales_mapa_observado.png" alt="Traducción a solicitación local"></a>

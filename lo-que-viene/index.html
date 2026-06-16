@@ -10,22 +10,22 @@
 <main class="page">
   <header class="top">
     <h1>Cierre metodológico</h1>
-    <p>Con los checks base <code>dp=0.002</code> completos y el refinamiento fino parcialmente observado, el estado técnico se organiza en cuatro bloques: cerrar el bracket fino, actualizar el GP, validar externamente y ejecutar Monte Carlo.</p>
+    <p>Con la fase <code>dp=0.002</code> cerrada, el estado técnico se organiza en cuatro bloques: actualizar gráficos y análisis, revisar el GP final, validar externamente y ejecutar Monte Carlo.</p>
     <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../modelo-gp/">Modelo GP</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../post-convergencia/">Resultados</a><a href="../lo-que-viene/" aria-current="page">Cierre</a></nav>
   </header>
 
   <section>
     <h2>Resumen corto</h2>
     <dl class="cards">
-<div><dt>Checks base</dt><dd>6/6 dp=0.002</dd><small>todos ESTABLE</small></div>
-<div><dt>Refinamiento fino</dt><dd>2/4</dd><small>2 FALLO, 2 en curso</small></div>
-<div><dt>Bracket actual</dt><dd>0.8570-0.8640</dd><small>H=0.225, m*=1.00</small></div>
+<div><dt>Checks finos</dt><dd>16/16 dp=0.002</dd><small>12 ESTABLE, 4 FALLO</small></div>
+<div><dt>Bracket fino</dt><dd>0.8605-0.8625</dd><small>H=0.225, m*=1.00</small></div>
+<div><dt>SPH fino nuevo</dt><dd>0 sims</dd><small>no correr mas dp=0.002</small></div>
 <div><dt>Cambios clase</dt><dd>4/6</dd><small>banda de resolución</small></div>
 <div><dt>Validación externa</dt><dd>6 sims</dd><small>validación formal dp=0.003</small></div>
 <div><dt>Monte Carlo</dt><dd>0 SPH</dd><small>corre sobre GP final</small></div>
 <div><dt>GP local actual</dt><dd>0.861</dd><small>accuracy LOO preliminar</small></div>
     </dl>
-    <p>Los checks base muestran sensibilidad de resolución cerca del umbral: seis casos quedaron ESTABLES en <code>dp=0.002</code>. El refinamiento posterior ya detectó dos FALLO en <code>H=0.225, m*=1.00</code>, por lo que la frontera fina parcial queda entre <code>mu=0.8570</code> y <code>mu=0.8640</code>.</p>
+    <p>Los checks finos muestran sensibilidad de resolución cerca del umbral: 16 simulaciones terminaron OK, sin fallos numéricos. La frontera fina directamente cerrada queda en <code>H=0.225, m*=1.00</code>, entre <code>mu=0.8605</code> y <code>mu=0.8625</code>.</p>
   </section>
 
   <section>
@@ -33,7 +33,7 @@
     <div class="figure-grid">
       <figure>
         <a href="figures/06_ruta_cierre_dp002_completo.png" target="_blank" aria-label="Abrir figura: Secuencia de cierre"><img src="figures/06_ruta_cierre_dp002_completo.png" alt="Secuencia de cierre"></a>
-        <figcaption><strong>Secuencia de cierre.</strong> Orden técnico después de los checks finos: cerrar bracket, GP local, validación externa y Monte Carlo.</figcaption>
+        <figcaption><strong>Secuencia de cierre.</strong> Orden técnico después del cierre fino: análisis local, GP, validación externa y Monte Carlo.</figcaption>
       </figure>
       <figure>
         <a href="figures/07_presupuesto_simulaciones.png" target="_blank" aria-label="Abrir figura: Presupuesto de simulaciones"><img src="figures/07_presupuesto_simulaciones.png" alt="Presupuesto de simulaciones"></a>
@@ -46,12 +46,12 @@
     <h2>Escenarios restantes</h2>
     <div class="split">
       <div class="callout">
-        <h3>Si los dos casos restantes fallan</h3>
-        <p>La frontera queda muy cerca del estable <code>mu=0.8640</code>. Eso entrega un bracket fino estrecho y suficiente para cerrar esta fase.</p>
+        <h3>Análisis y modelo</h3>
+        <p>Ahora corresponde actualizar figuras, tablas, narrativa y modelo. Esta etapa no requiere nuevas simulaciones SPH.</p>
       </div>
       <div class="callout warning">
-        <h3>Si alguno estabiliza</h3>
-        <p>El bracket queda cerrado dentro de los puntos intermedios. El resultado se usa como evidencia de sensibilidad de resolución y no cambia la resolución productiva principal.</p>
+        <h3>Simulaciones nuevas</h3>
+        <p>Solo vuelven a ser necesarias si se decide validación externa, pendiente, orientación o forma.</p>
       </div>
     </div>
   </section>
