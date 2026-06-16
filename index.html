@@ -4,283 +4,231 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Convergencia de resolución SPH</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>:root {
+  --ink: #17202a;
+  --muted: #596675;
+  --line: #d8dee8;
+  --bg: #f4f6f9;
+  --paper: #ffffff;
+  --blue: #285f91;
+  --blue-soft: #e8f1f8;
+  --green: #2f7d4f;
+  --red: #b73b3b;
+  --amber: #b98524;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.55;
+}
+.page {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 24px 0 54px;
+}
+.top {
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 20px;
+}
+h1 {
+  margin: 0 0 10px;
+  max-width: 980px;
+  font-size: clamp(31px, 3.5vw, 48px);
+  line-height: 1.08;
+}
+.lead {
+  max-width: 940px;
+  margin: 0 0 12px;
+  color: #1f2a36;
+  font-size: 18px;
+}
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
+.site-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 8px 13px;
+  border: 1px solid #bdcad8;
+  border-radius: 6px;
+  color: var(--blue);
+  background: #fff;
+  text-decoration: none;
+  font-weight: 700;
+}
+.site-nav a[aria-current="page"] {
+  color: #fff;
+  background: var(--blue);
+  border-color: var(--blue);
+}
+section {
+  margin: 22px 0;
+  padding: 22px 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+h2 { margin: 0 0 12px; font-size: 24px; }
+h3 { margin: 0 0 8px; font-size: 17px; }
+p { margin: 0 0 12px; }
+code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: #eef2f6;
+  overflow-wrap: anywhere;
+}
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid var(--line);
+  margin: 14px 0 6px;
+}
+.metric-grid div {
+  padding: 13px 15px;
+  border-right: 1px solid var(--line);
+}
+.metric-grid div:last-child { border-right: 0; }
+.metric-grid dt {
+  margin: 0 0 5px;
+  font-weight: 700;
+}
+.metric-grid dd {
+  margin: 0;
+  font-size: 25px;
+  font-weight: 800;
+  color: #465568;
+}
+.metric-grid small { display: block; margin-top: 3px; color: var(--muted); }
+.split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.note-list {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+.note-list li { margin-bottom: 8px; }
+.figure-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+figure {
+  margin: 0;
+  padding: 14px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+figure.wide { grid-column: 1 / -1; }
+figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+figcaption {
+  margin-top: 10px;
+  color: #334155;
+  font-size: 14px;
+}
+figcaption strong { color: #203247; }
+.callout {
+  border-left: 4px solid var(--blue);
+  background: var(--blue-soft);
+  padding: 14px 16px;
+  margin-top: 14px;
+}
+.table-wrap { overflow-x: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+th, td {
+  border-bottom: 1px solid var(--line);
+  padding: 9px 8px;
+  text-align: left;
+}
+th { background: #f7f9fc; }
+.footer-nav { margin-top: 22px; }
+@media (max-width: 860px) {
+  .metric-grid, .split, .figure-grid { grid-template-columns: 1fr; }
+  .metric-grid div { border-right: 0; border-bottom: 1px solid var(--line); }
+  .metric-grid div:last-child { border-bottom: 0; }
+  section { padding: 18px; }
+}</style>
 </head>
 <body>
 <main class="page">
   <header class="top">
-    <div>
-      <p class="meta">Tesis UCN · modelo SPH-Chrono</p>
-      <h1>Convergencia de resolución SPH</h1>
-      <p>Se adopta <code>dp=0.003 m</code> como resolución operativa para la campaña de estabilidad. La hidráulica local y el cierre probabilístico se tratan como bloques metodológicos independientes.</p>
-      <nav class="site-nav" aria-label="Navegación entre páginas">
-        <a href="./" aria-current="page">Convergencia dp</a>
-        <a href="modelo-gp/">Modelo GP</a>
-        <a href="hidraulica-preliminar/">Hidráulica local</a>
-        <a href="post-convergencia/">Resultados</a>
-        <a href="lo-que-viene/">Cierre</a>
-      </nav>
-    </div>
+    <h1>Convergencia de resolución SPH</h1>
+    <p class="lead">Justificacion numerica de la resolución usada para producir la frontera de movimiento.</p>
+    <nav class="site-nav" aria-label="Navegación principal"><a href="./" aria-current="page">Convergencia</a><a href="hidraulica-preliminar/">Hidráulica local</a><a href="modelo-gp/">Modelo GP</a><a href="post-convergencia/">Resultados SPH</a><a href="incertidumbre-resolucion/">Incertidumbre</a><a href="lo-que-viene/">Cierre</a></nav>
   </header>
-
-    <section>
-      <h2>1. Enfoque del estudio</h2>
-      <dl class="key-strip">
-        <div><dt>Resolución adoptada</dt><dd>dp = 0.003 m</dd></div>
-        <div><dt>Convergencia</dt><dd>variables temporales y máximos</dd></div>
-        <div><dt>Estabilidad</dt><dd>análisis posterior al dp elegido</dd></div>
-        <div><dt>Modelo GP</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/modelo-gp/">frontera e incertidumbre</a></dd></div>
-        <div><dt>Hidráulica local</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/hidraulica-preliminar/">preliminar 14/14</a></dd></div>
-        <div><dt>Resultados</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/post-convergencia/">fronteras y clases</a></dd></div>
-        <div><dt>Cierre</dt><dd><a href="https://kcortes765.github.io/convergencia-dp/lo-que-viene/">validación y Monte Carlo</a></dd></div>
-      </dl>
-      <figure>
-        <img src="figures/00_setup_planta_elevacion.png" alt="Planta y elevación del setup SPH">
-        <figcaption>Setup físico usado en la lectura: canal, playa 1:20 y bloque irregular. La elevación global realza z para legibilidad; el detalle muestra el apoyo local sin penetración.</figcaption>
-      </figure>
-    <h3>Ficha del caso físico usado para la convergencia</h3>
-    <p>Todos los valores de la tabla por resolución corresponden a este mismo caso físico; lo único que cambia entre filas es <code>dp</code>.</p>
-    <div class="table-wrap compact-table">
-      <table>
-        <tbody><tr><th>Altura de presa / columna inicial</th><td>0.20 m</td></tr>
-<tr><th>Masa del bloque</th><td>1.00 kg</td></tr>
-<tr><th>Coeficiente de fricción bloque-playa</th><td>mu = 0.50</td></tr>
-<tr><th>Pendiente de playa</th><td>1:20</td></tr>
-<tr><th>Rotación adicional del bloque</th><td>rot_z = 0.0 deg</td></tr>
-<tr><th>Posición inicial nominal</th><td>(x, y, z) = (6.5, 0.5, 0.025) m</td></tr>
-<tr><th>Bloque</th><td>bloque irregular representativo, escala geometrica 0.04</td></tr>
-<tr><th>Volumen / densidad</th><td>0.00053023 m3 / 1886.0 kg/m3</td></tr>
-<tr><th>Diámetro equivalente</th><td>d_eq = 0.100421 m</td></tr>
-<tr><th>Dimensiones aproximadas del bloque</th><td>0.1710 x 0.2100 x 0.0399 m</td></tr>
-<tr><th>Canal</th><td>L_flat=6.0 m, L_ramp=9.0 m, L_end=15.0 m, W=1.0 m, H=1.5 m</td></tr>
-<tr><th>Puntos de medición</th><td>velocidad y altura/cota máxima junto al bloque</td></tr>
-<tr><th>Resoluciones barridas</th><td>dp = 0.010, 0.008, 0.006, 0.005, 0.004, 0.003, 0.002 m</td></tr></tbody>
-      </table>
-    </div>
-    <p class="note">Esta es la condicion especifica usada para la convergencia continua; no representa todos los casos productivos posteriores.</p>
-      <p>SPH no usa una malla fija; usa partículas. Por eso aquí <code>dp</code> significa <strong>espaciamiento inicial entre partículas</strong> y se interpreta como resolución espacial del modelo.</p>
-      <p>El análisis se ordena así: primero se comparan variables continuas para distintos <code>dp</code>, como desplazamiento del bloque, velocidad del bloque, velocidad del flujo y altura de agua en gauges. Esa es la parte de convergencia o sensibilidad de resolución.</p>
-      <p>Luego, con una resolución seleccionada por equilibrio entre respuesta y costo, se analiza si el bloque inicia movimiento bajo un criterio operacional. Esa segunda parte es el estudio de estabilidad, no el reemplazo del análisis de convergencia.</p>
-      <div class="callout">
-        <h3>Qué exige una convergencia clásica</h3>
-        <p>En un estudio CFD ideal, al refinar la discretización las variables deberían acercarse a un valor asintótico. Con tres o más resoluciones se puede estimar orden de convergencia, extrapolación de Richardson y una banda tipo GCI. Ese enfoque es el marco de referencia correcto.</p>
-        <p>En este caso se adapta a SPH usando <code>dp</code> como escala de resolución. Sin embargo, la clasificación estable/fallo no es una variable suave: depende de contacto, superficie libre y un umbral de desplazamiento. Por eso la convergencia se evalúa primero sobre variables continuas, no sobre la clase final.</p>
-      </div>
-      <figure>
-        <img src="figures/00_orden_metodologico.png" alt="Orden metodológico del análisis">
-        <figcaption>La lectura final separa convergencia de variables, selección de resolución y análisis posterior de estabilidad.</figcaption>
-      </figure>
-    </section>
-
-  <section>
-    <h2>2. Variables que sostienen la resolución adoptada</h2>
-    <p>La lectura de convergencia se concentró en variables continuas, antes de clasificar estabilidad. Para defender <code>dp=0.003 m</code> no se usan todas las salidas con el mismo peso: se priorizan las que describen el movimiento principal del bloque y el forzante hidráulico.</p>
-    <p>El caso <code>dp=0.002 m</code> se usa como referencia fina. La lectura no es que la convergencia sea perfecta: en <code>dp=0.003 m</code>, la altura/cota de agua y la velocidad máxima del bloque quedan dentro o muy cerca de una banda de 5%, mientras que el desplazamiento máximo queda levemente fuera, con una diferencia cercana a 6%. Esta evidencia sostiene una <strong>estabilización práctica</strong> de las variables principales, suficiente para adoptar una resolución operativa con cautela.</p>
-      <figure>
-        <img src="figures/01_variables_defendibles_dp003.png" alt="Variables principales que sostienen dp 0.003">
-      <figcaption>Variables principales en <code>dp=0.003 m</code> comparadas con <code>dp=0.002 m</code>. Cada diferencia porcentual incluye su diferencia absoluta: mm para desplazamiento/altura y m/s para velocidad.</figcaption>
-      <div class="read-guide">
-        <strong>Cómo leer esta figura:</strong>
-        <ul>
-          <li><strong>Panel A:</strong> compara solo el valor máximo. Cero significa igual al caso fino <code>dp=0.002 m</code>; las etiquetas agregan la diferencia absoluta.</li>
-          <li><strong>Panel B:</strong> compara la forma completa de la curva temporal. Menor porcentaje significa curva más parecida al caso fino.</li>
-          <li><strong>Conclusión:</strong> el agua y la velocidad del bloque son las evidencias más limpias; el desplazamiento queda cercano y se acepta con cautela.</li>
-        </ul>
-      </div>
-    </figure>
-    <h3>Resultados por resolución</h3>
-    <p>Esta tabla responde la pregunta práctica: cuánto cambia cada resolución respecto del caso fino <code>dp=0.002 m</code>, y cuánto cuesta obtenerla.</p>
-    <div class="table-wrap convergence-table">
-      <table>
-        <thead>
-          <tr>
-            <th>dp (m)</th>
-            <th>Sim</th>
-            <th>Dmax (mm)</th>
-            <th>Dmax (% d_eq)</th>
-            <th>Delta Dmax vs 0.002</th>
-            <th>V bloque max (m/s)</th>
-            <th>h agua max</th>
-            <th>U flujo max (m/s)</th>
-            <th>Rot. acum. max (deg)</th>
-            <th>Costo</th>
-            <th>Lectura</th>
-          </tr>
-        </thead>
-        <tbody><tr><td><span class='dp-chip coarse'>0.010</span></td><td><span class='pill stable'>OK</span></td><td>384.46</td><td>382.8%</td><td>+256.09 mm<br><span class='muted'>(+199.5%)</span></td><td>0.427</td><td>122.6 mm</td><td>2.07</td><td>23.04</td><td>0.87 M<br><span class='muted'>0.2 GB · 13.3 min</span></td><td>Gruesa: sobreestima el movimiento</td></tr>
-<tr><td><span class='dp-chip coarse'>0.008</span></td><td><span class='pill stable'>OK</span></td><td>393.27</td><td>391.6%</td><td>+264.90 mm<br><span class='muted'>(+206.4%)</span></td><td>0.394</td><td>125.6 mm</td><td>2.15</td><td>24.53</td><td>1.47 M<br><span class='muted'>0.3 GB · 17.8 min</span></td><td>Gruesa: sobreestima el movimiento</td></tr>
-<tr><td><span class='dp-chip coarse'>0.006</span></td><td><span class='pill stable'>OK</span></td><td>180.91</td><td>180.1%</td><td>+52.54 mm<br><span class='muted'>(+40.9%)</span></td><td>0.206</td><td>121.7 mm</td><td>1.68</td><td>12.82</td><td>2.95 M<br><span class='muted'>0.6 GB · 30.4 min</span></td><td>Transición: aún cambia bastante</td></tr>
-<tr><td><span class='dp-chip coarse'>0.005</span></td><td><span class='pill stable'>OK</span></td><td>142.26</td><td>141.7%</td><td>+13.89 mm<br><span class='muted'>(+10.8%)</span></td><td>0.157</td><td>122.3 mm</td><td>1.64</td><td>15.72</td><td>4.69 M<br><span class='muted'>0.9 GB · 48.1 min</span></td><td>Transición: aún cambia bastante</td></tr>
-<tr><td><span class='dp-chip fine'>0.004</span></td><td><span class='pill stable'>OK</span></td><td>120.60</td><td>120.1%</td><td>-7.77 mm<br><span class='muted'>(-6.1%)</span></td><td>0.164</td><td>128.1 mm</td><td>1.46</td><td>16.61</td><td>8.15 M<br><span class='muted'>1.5 GB · 89.5 min</span></td><td>Rango fino: respuesta estabilizada</td></tr>
-<tr><td><span class='dp-chip adopted'>0.003</span></td><td><span class='pill stable'>OK</span></td><td>120.41</td><td>119.9%</td><td>-7.96 mm<br><span class='muted'>(-6.2%)</span></td><td>0.143</td><td>130.3 mm</td><td>1.53</td><td>16.47</td><td>17.53 M<br><span class='muted'>3.3 GB · 249.2 min</span></td><td>Adoptada: cercana al fino y 4.6x más rápida</td></tr>
-<tr><td><span class='dp-chip reference'>0.002</span></td><td><span class='pill stable'>OK</span></td><td>128.37</td><td>127.8%</td><td>referencia</td><td>0.148</td><td>135.9 mm</td><td>1.64</td><td>24.02</td><td>51.86 M<br><span class='muted'>9.8 GB · 1144.2 min</span></td><td>Referencia fina</td></tr></tbody>
-      </table>
-    </div>
-    <p class="note"><code>Delta Dmax</code> se calcula contra el caso fino <code>dp=0.002 m</code>; valores negativos significan menor desplazamiento máximo que la referencia fina.</p>
-    <div class="figure-stack">
-      <figure>
-        <img src="figures/02_tendencia_variables_principales.png" alt="Tendencia de variables principales hacia el caso fino">
-        <figcaption>En el rango fino, las variables principales se muestran en unidades físicas: Dmax en mm, velocidad en m/s y altura/cota en mm. El eje derecho conserva la lectura relativa respecto de <code>dp=0.002 m</code>.</figcaption>
-      </figure>
-      <figure>
-        <img src="figures/03_curvas_temporales_finas.png" alt="Curvas temporales de desplazamiento, velocidad del bloque y altura de agua">
-        <figcaption>Curvas temporales del rango fino en unidades absolutas: desplazamiento en mm, velocidad del bloque en m/s y altura/cota de agua en mm. El porcentaje del desplazamiento queda solo como eje auxiliar.</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section>
-    <h2>3. Salidas sensibles y límite de la conclusión</h2>
-    <p>No todas las salidas tienen el mismo nivel de cierre. La velocidad de flujo puntual en un gauge y la rotación acumulada del bloque son más sensibles al refinamiento. Por eso se muestran como límite del análisis, pero no se usan como base principal para fijar <code>dp</code> ni para clasificar el movimiento.</p>
-    <div class="grid">
-      <figure>
-        <img src="figures/04_salidas_sensibles.png" alt="Salidas sensibles al refinamiento de dp">
-        <figcaption>La velocidad de flujo puntual y la rotación muestran mayor sensibilidad. Esto se declara explícitamente para no presentar una convergencia más fuerte que la observada.</figcaption>
-      </figure>
-      <figure>
-        <img src="figures/05_costo_vs_dp.png" alt="Costo computacional contra dp">
-        <figcaption>El refinamiento reduce <code>dp</code>, pero aumenta fuertemente partículas, memoria y tiempo. El caso <code>dp=0.002 m</code> es útil como referencia fina, pero costoso como resolución productiva.</figcaption>
-      </figure>
-    </div>
-    <p class="note"><strong>Lectura defendible:</strong> <code>dp=0.003 m</code> se adopta porque las variables principales se estabilizan en el rango fino y el costo de <code>dp=0.002 m</code> crece mucho. La conclusión no es “todo converge perfectamente”, sino “la resolución es suficientemente cercana al caso fino para continuar con un análisis productivo conservador, manteniendo controles puntuales a <code>dp=0.002 m</code>”.</p>
-  </section>
-
-  <section>
-    <h2>4. Uso posterior: estabilidad y frontera</h2>
-    <p>Una vez fijado <code>dp=0.003 m</code>, se puede estudiar estabilidad. Aquí <strong>frontera</strong> significa el intervalo de fricción <code>μ</code> donde, bajo la misma geometría y forzante, el bloque cambia entre no superar y superar el umbral de movimiento.</p>
-    <p>El umbral usado es <code>D_max &gt; 5% d_eq</code>, donde <code>D_max</code> es el desplazamiento máximo del bloque y <code>d_eq</code> su diámetro equivalente. La rotación se informa aparte como variable observada.</p>
-    <div class="figure-stack">
-      <figure>
-        <img src="figures/06_frontera_posterior_dp003.png" alt="Frontera posterior con dp 0.003">
-        <figcaption>Con <code>dp=0.003 m</code>, la condición base queda acotada entre <code>μ=0.68050</code> y <code>μ=0.68075</code>.</figcaption>
-      </figure>
-      <figure>
-        <img src="figures/07_sensibilidad_frontera_dp.png" alt="Sensibilidad de la frontera al cambiar dp">
-        <figcaption>Al refinar a <code>dp=0.002 m</code>, los casos cercanos quedan bajo el umbral. Esto se reporta como sensibilidad de resolución de la frontera.</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section>
-    <h2>5. Resultados separados</h2>
-    <p>La selección de <code>dp</code> responde la pregunta de resolución. El modelo GP, la hidráulica local, los resultados de estabilidad y el cierre metodológico responden preguntas distintas dentro del mismo flujo de trabajo.</p>
-    <p><a class="button-link" href="https://kcortes765.github.io/convergencia-dp/modelo-gp/">Abrir modelo GP</a> <a class="button-link" href="https://kcortes765.github.io/convergencia-dp/hidraulica-preliminar/">Abrir hidráulica local</a> <a class="button-link" href="https://kcortes765.github.io/convergencia-dp/post-convergencia/">Abrir resultados</a> <a class="button-link" href="https://kcortes765.github.io/convergencia-dp/lo-que-viene/">Abrir cierre</a></p>
-  </section>
-
-  <section>
-    <h2>6. Análisis final y literatura usada</h2>
-    <p>Sin un experimento físico propio del bloque, la tesis no debe afirmar validación experimental directa del caso completo. La defensa se arma por capas: sensibilidad de resolución, benchmark hidráulico externo, sanity de contacto bloque-suelo y comparación analítica de orden de magnitud. Cada capa responde una pregunta distinta.</p>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Capa</th><th>Que permite afirmar</th><th>Que no permite afirmar</th><th>Base de literatura</th></tr></thead>
-        <tbody>
-          <tr><td>Convergencia/sensibilidad de <code>dp</code></td><td>Las variables continuas principales se estabilizan en el rango fino y <code>dp=0.003 m</code> es una resolución operativa defendible.</td><td>No demuestra convergencia asintótica fuerte de la clase estable/fallo.</td><td>Richardson/Roache-GCI y tutorial NASA WIND sobre refinamiento espacial.</td></tr>
-          <tr><td>Benchmark hidráulico</td><td>La instalación local de GenCase/DualSPHysics/GPU/postproceso reproduce un dam-break conocido.</td><td>No valida contacto, fricción ni movimiento del bloque irregular.</td><td>Testcases oficiales DualSPHysics y benchmarks SPHERIC de dam-break.</td></tr>
-          <tr><td>Sanity de contacto</td><td>El bloque no supera el umbral por apoyo inicial, penetración o contacto numérico sin impacto hidráulico local.</td><td>No valida el movimiento bajo tsunami ni coeficientes de fricción reales.</td><td>Acoplamiento DualSPHysics-Chrono y documentación de contacto/cuerpos rígidos.</td></tr>
-          <tr><td>Comparación analítica</td><td>Los casos SPH no contradicen un balance físico de arrastre, peso, pendiente y fricción a nivel de orden de magnitud.</td><td>No reemplaza SPH-Chrono ni predice exactamente desplazamiento/rotación.</td><td>Nott/Nandasena para bloques costeros, experimentos de Bressan, datos moved/unmoved de Iwai & Goto y advertencias de Cox et al.</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="grid">
-      <figure>
-        <img src="figures/09_benchmark_hidraulico.png" alt="Benchmark hidráulico de canal">
-        <figcaption>Benchmark hidráulico de canal. Verifica el solver y el postproceso contra un caso dam-break de referencia.</figcaption>
-      </figure>
-      <figure>
-        <img src="figures/10_contact_sanity.png" alt="Sanity de contacto casi sin agua">
-        <figcaption>Sanity de contacto casi sin agua. Verifica que el bloque no supere el umbral por apoyo inicial o contacto espurio sin forzante hidráulica local.</figcaption>
-      </figure>
-      <figure>
-        <img src="figures/11_comparacion_analitica.png" alt="Comparación analítica de fuerza motriz y resistencia">
-        <figcaption>Comparación analítica Fmotriz/Fresistente. No reclasifica casos; verifica coherencia de orden de magnitud.</figcaption>
-      </figure>
-    </div>
-    <div class="source-grid">
-      <article>
-        <h3>SPH y benchmark hidráulico</h3>
-        <p>Los <a href="https://github.com/DualSPHysics/DualSPHysics/wiki/7.-Testcases">testcases oficiales de DualSPHysics</a> y los <a href="https://www.spheric-sph.org/validation-tests">benchmarks SPHERIC</a> justifican usar casos dam-break como verificación hidráulica del solver y del postproceso. Esa verificación valida el entorno numérico, no la respuesta del bloque.</p>
-      </article>
-      <article>
-        <h3>Convergencia numérica</h3>
-        <p>El marco clásico de refinamiento se toma de Richardson/Roache-GCI, resumido por el tutorial de <a href="https://www.grc.nasa.gov/www/wind/valid/tutorial/spatconv.html?force_isolation=true">NASA WIND</a>. En SPH se adapta usando <code>dp</code> como escala de resolución y evaluando variables continuas antes de hablar de estabilidad.</p>
-      </article>
-      <article>
-        <h3>Contacto y cuerpo rigido</h3>
-        <p>DualSPHysics documenta la <a href="https://github.com/DualSPHysics/DualSPHysics/wiki/3.-SPH-formulation">integracion con Project Chrono</a> para cuerpos rigidos y contacto. Por eso el chequeo correcto no es otro dam-break, sino comprobar que el bloque no se desplaza por una condicion inicial defectuosa.</p>
-      </article>
-      <article>
-        <h3>Bloques costeros</h3>
-        <p><a href="https://research.uaeu.ac.ae/en/publications/reassessment-of-hydrodynamic-equations-minimum-flow-velocity-to-i/">Nandasena, Paris & Tanaka</a> plantean balances de fuerzas para inicio de movimiento; <a href="https://pearl.plymouth.ac.uk/secam-research/1746">Bressan et al.</a> muestran experimentalmente la influencia de profundidad, velocidad, peso, forma y orientación; <a href="https://www.nature.com/articles/s41598-021-92917-2">Iwai & Goto</a> refuerzan la importancia de casos movidos/no movidos; <a href="https://www.frontiersin.org/articles/10.3389/fmars.2020.00004/full">Cox et al.</a> discuten limitaciones de balances analíticos simplificados. Esos balances se usan como control de coherencia física.</p>
-      </article>
-    </div>
-    <p class="note">Controles usados: convergencia de resolución, benchmark hidráulico externo, sanity de contacto y comparación con balances analíticos. La frontera final queda condicionada a <code>dp=0.003 m</code>, geometría fija, criterio <code>displacement_only</code> y parámetros de contacto usados.</p>
-  </section>
-
-  <section>
-    <h2>7. Términos usados</h2>
-    <dl class="terms">
-      <div><dt>dp</dt><dd>Espaciamiento inicial entre partículas SPH. Menor <code>dp</code> implica mayor resolución y mayor costo computacional.</dd></div>
-      <div><dt>Resolución SPH</dt><dd>Nivel de detalle espacial dado por el tamaño/separación de partículas, no por una malla fija.</dd></div>
-      <div><dt>μ</dt><dd>Coeficiente de fricción bloque-suelo usado para explorar el inicio de movimiento.</dd></div>
-      <div><dt>d_eq</dt><dd>Diámetro equivalente del bloque, usado para normalizar desplazamientos.</dd></div>
-      <div><dt>Umbral de movimiento</dt><dd>Condición operacional <code>D_max &gt; 5% d_eq</code>.</dd></div>
-      <div><dt>Frontera</dt><dd>Intervalo de valores de <code>μ</code> donde cambia la respuesta estable/falla para una resolución y condición física dadas.</dd></div>
-      <div><dt>Rotación observada</dt><dd>Variable física que se reporta para interpretar el comportamiento del bloque; no decide sola la clase de movimiento.</dd></div>
-    </dl>
-  </section>
-  <section class="footer-nav">
-    <h2>Navegación</h2>
-    <nav class="site-nav" aria-label="Navegación entre páginas">
-      <a href="./" aria-current="page">Convergencia dp</a>
-      <a href="modelo-gp/">Modelo GP</a>
-      <a href="hidraulica-preliminar/">Hidráulica local</a>
-      <a href="post-convergencia/">Resultados</a>
-      <a href="lo-que-viene/">Cierre</a>
-    </nav>
-  </section>
+  <section><h2>Conclusión de resolución</h2>
+<p>La resolución <code>dp=0.003</code> se usa como base productiva porque conserva la respuesta de interes con un costo computacional viable. El refinamiento <code>dp=0.002</code> queda reservado para cuantificar incertidumbre cerca del umbral, no para reemplazar toda la campaña principal.</p>
+<dl class="metric-grid"><div><dt>Base productiva</dt><dd>dp=0.003</dd><small>frontera y GP</small></div><div><dt>Referencia fina</dt><dd>dp=0.002</dd><small>incertidumbre</small></div><div><dt>Criterio de movimiento</dt><dd>5% d_eq</dd><small>desplazamiento máximo</small></div><div><dt>Fuente del movimiento</dt><dd>Chrono</dd><small>bloque rigido</small></div></dl></section><section><h2>Evidencia de convergencia</h2><div class="figure-grid"><figure class="">
+  <a href="figures/01_variables_defendibles_dp003.png" target="_blank" aria-label="Abrir figura: Variables que sostienen dp=0.003">
+    <img src="figures/01_variables_defendibles_dp003.png" alt="Variables que sostienen dp=0.003">
+  </a>
+  <figcaption><strong>Variables que sostienen dp=0.003.</strong> Compara las metricas numericas que permiten adoptar una resolución productiva sin ocultar la sensibilidad residual.</figcaption>
+</figure>
+<figure class="">
+  <a href="figures/02_tendencia_variables_principales.png" target="_blank" aria-label="Abrir figura: Tendencia con refinamiento">
+    <img src="figures/02_tendencia_variables_principales.png" alt="Tendencia con refinamiento">
+  </a>
+  <figcaption><strong>Tendencia con refinamiento.</strong> Muestra la evolucion de las variables principales al disminuir el tamaño de particula.</figcaption>
+</figure>
+<figure class="">
+  <a href="figures/03_curvas_temporales_finas.png" target="_blank" aria-label="Abrir figura: Series temporales finas">
+    <img src="figures/03_curvas_temporales_finas.png" alt="Series temporales finas">
+  </a>
+  <figcaption><strong>Series temporales finas.</strong> Verifica que el comportamiento temporal principal se mantiene físicamente interpretable.</figcaption>
+</figure>
+<figure class="">
+  <a href="figures/04_salidas_sensibles.png" target="_blank" aria-label="Abrir figura: Salidas sensibles">
+    <img src="figures/04_salidas_sensibles.png" alt="Salidas sensibles">
+  </a>
+  <figcaption><strong>Salidas sensibles.</strong> Separa las variables robustas de las que no conviene usar como criterio principal.</figcaption>
+</figure>
+<figure class="">
+  <a href="figures/05_costo_vs_dp.png" target="_blank" aria-label="Abrir figura: Costo computacional">
+    <img src="figures/05_costo_vs_dp.png" alt="Costo computacional">
+  </a>
+  <figcaption><strong>Costo computacional.</strong> Explica el equilibrio entre resolución, tiempo de cálculo y útilidad de las simulaciónes.</figcaption>
+</figure>
+<figure class="">
+  <a href="figures/09_benchmark_hidraulico.png" target="_blank" aria-label="Abrir figura: Benchmark hidraulico">
+    <img src="figures/09_benchmark_hidraulico.png" alt="Benchmark hidraulico">
+  </a>
+  <figcaption><strong>Benchmark hidraulico.</strong> Contrasta la propagación hidráulica con una solucion de referencia de canal.</figcaption>
+</figure>
+<figure class="">
+  <a href="figures/10_contact_sanity.png" target="_blank" aria-label="Abrir figura: Verificacion de contacto">
+    <img src="figures/10_contact_sanity.png" alt="Verificacion de contacto">
+  </a>
+  <figcaption><strong>Verificacion de contacto.</strong> Comprueba que el contacto inicial no genera movimiento sostenido por si solo.</figcaption>
+</figure>
+<figure class="">
+  <a href="figures/11_comparacion_analitica.png" target="_blank" aria-label="Abrir figura: Comparación analítica">
+    <img src="figures/11_comparacion_analitica.png" alt="Comparación analítica">
+  </a>
+  <figcaption><strong>Comparación analítica.</strong> Usa una relación de fuerza motriz y resistencia para verificar ordenes de magnitud.</figcaption>
+</figure></div></section>
+  <footer class="footer-nav">
+    <nav class="site-nav" aria-label="Navegación principal"><a href="./" aria-current="page">Convergencia</a><a href="hidraulica-preliminar/">Hidráulica local</a><a href="modelo-gp/">Modelo GP</a><a href="post-convergencia/">Resultados SPH</a><a href="incertidumbre-resolucion/">Incertidumbre</a><a href="lo-que-viene/">Cierre</a></nav>
+  </footer>
 </main>
-
-<div id="lightbox" class="lightbox" aria-hidden="true">
-  <button class="lightbox-close" type="button" aria-label="Cerrar">×</button>
-  <img alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==">
-  <p></p>
-</div>
-<script>
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = lightbox.querySelector('img');
-  const lightboxCaption = lightbox.querySelector('p');
-  const closeLightbox = () => {
-    lightbox.classList.remove('open');
-    lightbox.setAttribute('aria-hidden', 'true');
-    lightboxImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
-  };
-  document.querySelectorAll('figure img').forEach((img) => {
-    img.setAttribute('tabindex', '0');
-    img.setAttribute('role', 'button');
-    img.setAttribute('title', 'Clic para ampliar');
-    const open = () => {
-      lightboxImg.src = img.src;
-      lightboxImg.alt = img.alt || '';
-      const caption = img.closest('figure')?.querySelector('figcaption')?.textContent || '';
-      lightboxCaption.textContent = caption;
-      lightbox.classList.add('open');
-      lightbox.setAttribute('aria-hidden', 'false');
-    };
-    img.addEventListener('click', open);
-    img.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        open();
-      }
-    });
-  });
-  lightbox.addEventListener('click', (event) => {
-    if (event.target === lightbox || event.target.classList.contains('lightbox-close')) closeLightbox();
-  });
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeLightbox();
-  });
-</script>
-
 </body>
 </html>

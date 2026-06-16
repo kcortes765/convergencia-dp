@@ -4,68 +4,195 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cierre metodológico</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>:root {
+  --ink: #17202a;
+  --muted: #596675;
+  --line: #d8dee8;
+  --bg: #f4f6f9;
+  --paper: #ffffff;
+  --blue: #285f91;
+  --blue-soft: #e8f1f8;
+  --green: #2f7d4f;
+  --red: #b73b3b;
+  --amber: #b98524;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.55;
+}
+.page {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 24px 0 54px;
+}
+.top {
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 20px;
+}
+h1 {
+  margin: 0 0 10px;
+  max-width: 980px;
+  font-size: clamp(31px, 3.5vw, 48px);
+  line-height: 1.08;
+}
+.lead {
+  max-width: 940px;
+  margin: 0 0 12px;
+  color: #1f2a36;
+  font-size: 18px;
+}
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
+.site-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 8px 13px;
+  border: 1px solid #bdcad8;
+  border-radius: 6px;
+  color: var(--blue);
+  background: #fff;
+  text-decoration: none;
+  font-weight: 700;
+}
+.site-nav a[aria-current="page"] {
+  color: #fff;
+  background: var(--blue);
+  border-color: var(--blue);
+}
+section {
+  margin: 22px 0;
+  padding: 22px 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+h2 { margin: 0 0 12px; font-size: 24px; }
+h3 { margin: 0 0 8px; font-size: 17px; }
+p { margin: 0 0 12px; }
+code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: #eef2f6;
+  overflow-wrap: anywhere;
+}
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid var(--line);
+  margin: 14px 0 6px;
+}
+.metric-grid div {
+  padding: 13px 15px;
+  border-right: 1px solid var(--line);
+}
+.metric-grid div:last-child { border-right: 0; }
+.metric-grid dt {
+  margin: 0 0 5px;
+  font-weight: 700;
+}
+.metric-grid dd {
+  margin: 0;
+  font-size: 25px;
+  font-weight: 800;
+  color: #465568;
+}
+.metric-grid small { display: block; margin-top: 3px; color: var(--muted); }
+.split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.note-list {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+.note-list li { margin-bottom: 8px; }
+.figure-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+figure {
+  margin: 0;
+  padding: 14px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+figure.wide { grid-column: 1 / -1; }
+figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+figcaption {
+  margin-top: 10px;
+  color: #334155;
+  font-size: 14px;
+}
+figcaption strong { color: #203247; }
+.callout {
+  border-left: 4px solid var(--blue);
+  background: var(--blue-soft);
+  padding: 14px 16px;
+  margin-top: 14px;
+}
+.table-wrap { overflow-x: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+th, td {
+  border-bottom: 1px solid var(--line);
+  padding: 9px 8px;
+  text-align: left;
+}
+th { background: #f7f9fc; }
+.footer-nav { margin-top: 22px; }
+@media (max-width: 860px) {
+  .metric-grid, .split, .figure-grid { grid-template-columns: 1fr; }
+  .metric-grid div { border-right: 0; border-bottom: 1px solid var(--line); }
+  .metric-grid div:last-child { border-bottom: 0; }
+  section { padding: 18px; }
+}</style>
 </head>
 <body>
 <main class="page">
   <header class="top">
     <h1>Cierre metodológico</h1>
-    <p>Con la fase <code>dp=0.002</code> cerrada, el estado técnico se organiza en cuatro bloques: actualizar gráficos y análisis, revisar el GP final, validar externamente y ejecutar Monte Carlo.</p>
-    <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../modelo-gp/">Modelo GP</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../post-convergencia/">Resultados</a><a href="../lo-que-viene/" aria-current="page">Cierre</a></nav>
+    <p class="lead">Plan tecnico para transformar la evidencia actual en una conclusion probabilística defendible.</p>
+    <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../lo-que-viene/" aria-current="page">Cierre</a></nav>
   </header>
-
-  <section>
-    <h2>Resumen corto</h2>
-    <dl class="cards">
-<div><dt>Checks finos</dt><dd>16/16 dp=0.002</dd><small>12 ESTABLE, 4 FALLO</small></div>
-<div><dt>Bracket fino</dt><dd>0.8605-0.8625</dd><small>H=0.225, m*=1.00</small></div>
-<div><dt>SPH fino nuevo</dt><dd>0 sims</dd><small>no correr mas dp=0.002</small></div>
-<div><dt>Cambios clase</dt><dd>4/6</dd><small>banda de resolución</small></div>
-<div><dt>Validación externa</dt><dd>6 sims</dd><small>validación formal dp=0.003</small></div>
-<div><dt>Monte Carlo</dt><dd>0 SPH</dd><small>corre sobre GP final</small></div>
-<div><dt>GP local actual</dt><dd>0.861</dd><small>accuracy LOO preliminar</small></div>
-    </dl>
-    <p>Los checks finos muestran sensibilidad de resolución cerca del umbral: 16 simulaciones terminaron OK, sin fallos numéricos. La frontera fina directamente cerrada queda en <code>H=0.225, m*=1.00</code>, entre <code>mu=0.8605</code> y <code>mu=0.8625</code>.</p>
-  </section>
-
-  <section>
-    <h2>Secuencia metodológica</h2>
-    <div class="figure-grid">
-      <figure>
-        <a href="figures/06_ruta_cierre_dp002_completo.png" target="_blank" aria-label="Abrir figura: Secuencia de cierre"><img src="figures/06_ruta_cierre_dp002_completo.png" alt="Secuencia de cierre"></a>
-        <figcaption><strong>Secuencia de cierre.</strong> Orden técnico después del cierre fino: análisis local, GP, validación externa y Monte Carlo.</figcaption>
-      </figure>
-      <figure>
-        <a href="figures/07_presupuesto_simulaciones.png" target="_blank" aria-label="Abrir figura: Presupuesto de simulaciones"><img src="figures/07_presupuesto_simulaciones.png" alt="Presupuesto de simulaciones"></a>
-        <figcaption><strong>Presupuesto de simulaciones.</strong> Rango razonable de SPH nuevas para un cierre robusto y trazable.</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section>
-    <h2>Escenarios restantes</h2>
-    <div class="split">
-      <div class="callout">
-        <h3>Análisis y modelo</h3>
-        <p>Ahora corresponde actualizar figuras, tablas, narrativa y modelo. Esta etapa no requiere nuevas simulaciones SPH.</p>
-      </div>
-      <div class="callout warning">
-        <h3>Simulaciones nuevas</h3>
-        <p>Solo vuelven a ser necesarias si se decide validación externa, pendiente, orientación o forma.</p>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2>Cierre probabilístico</h2>
-    <p>La probabilidad de falla se calcula sobre el GP final. La validación externa mide desempeño fuera del entrenamiento y el Monte Carlo propaga la incertidumbre del modelo en el espacio de variables.</p>
-    <p class="note">Los casos <code>dp=0.002</code> cuantifican sensibilidad de resolución cerca del umbral; la validación externa y Monte Carlo cuantifican desempeño e incertidumbre probabilística.</p>
-  </section>
-
-  <section class="footer-nav">
-    <h2>Navegación</h2>
-    <nav class="site-nav" aria-label="Navegación entre páginas"><a href="../">Convergencia dp</a><a href="../modelo-gp/">Modelo GP</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../post-convergencia/">Resultados</a><a href="../lo-que-viene/" aria-current="page">Cierre</a></nav>
-  </section>
+  <section><h2>Estado de cierre</h2><dl class="metric-grid"><div><dt>Resolución</dt><dd>cerrada</dd><small>dp=0.003 + dp=0.002</small></div><div><dt>Hidráulica local</dt><dd>cerrada</dd><small>14 casos</small></div><div><dt>Modelo GP</dt><dd>vigente</dd><small>requiere ajuste final</small></div><div><dt>Cierre probabilístico</dt><dd>siguiente etapa</dd><small>Monte Carlo</small></div></dl>
+<p>La etapa actual ya permite presentar una frontera física con incertidumbre de resolución cuantificada. Lo que falta para el cierre de tesis es consolidar el modelo final, validar contra casos externos y propagar incertidumbre con Monte Carlo.</p>
+</section><section><h2>Secuencia final</h2><div class="figure-grid"><figure class="wide">
+  <a href="figures/06_ruta_cierre_dp002_completo.png" target="_blank" aria-label="Abrir figura: Secuencia de cierre">
+    <img src="figures/06_ruta_cierre_dp002_completo.png" alt="Secuencia de cierre">
+  </a>
+  <figcaption><strong>Secuencia de cierre.</strong> Orden metodológico recomendado despues de cerrar la sensibilidad de resolución.</figcaption>
+</figure>
+<figure class="wide">
+  <a href="figures/07_presupuesto_simulaciones.png" target="_blank" aria-label="Abrir figura: Simulaciones restantes">
+    <img src="figures/07_presupuesto_simulaciones.png" alt="Simulaciones restantes">
+  </a>
+  <figcaption><strong>Simulaciones restantes.</strong> Escenarios razonables para validación y extensiones, separados del cierre probabilístico.</figcaption>
+</figure></div></section>
+  <footer class="footer-nav">
+    <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../lo-que-viene/" aria-current="page">Cierre</a></nav>
+  </footer>
 </main>
 </body>
 </html>

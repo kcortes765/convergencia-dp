@@ -3,347 +3,215 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Hidráulica local preliminar</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Hidráulica local antes del bloque</title>
+  <style>:root {
+  --ink: #17202a;
+  --muted: #596675;
+  --line: #d8dee8;
+  --bg: #f4f6f9;
+  --paper: #ffffff;
+  --blue: #285f91;
+  --blue-soft: #e8f1f8;
+  --green: #2f7d4f;
+  --red: #b73b3b;
+  --amber: #b98524;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.55;
+}
+.page {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 24px 0 54px;
+}
+.top {
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 20px;
+}
+h1 {
+  margin: 0 0 10px;
+  max-width: 980px;
+  font-size: clamp(31px, 3.5vw, 48px);
+  line-height: 1.08;
+}
+.lead {
+  max-width: 940px;
+  margin: 0 0 12px;
+  color: #1f2a36;
+  font-size: 18px;
+}
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
+.site-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 8px 13px;
+  border: 1px solid #bdcad8;
+  border-radius: 6px;
+  color: var(--blue);
+  background: #fff;
+  text-decoration: none;
+  font-weight: 700;
+}
+.site-nav a[aria-current="page"] {
+  color: #fff;
+  background: var(--blue);
+  border-color: var(--blue);
+}
+section {
+  margin: 22px 0;
+  padding: 22px 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+h2 { margin: 0 0 12px; font-size: 24px; }
+h3 { margin: 0 0 8px; font-size: 17px; }
+p { margin: 0 0 12px; }
+code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: #eef2f6;
+  overflow-wrap: anywhere;
+}
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid var(--line);
+  margin: 14px 0 6px;
+}
+.metric-grid div {
+  padding: 13px 15px;
+  border-right: 1px solid var(--line);
+}
+.metric-grid div:last-child { border-right: 0; }
+.metric-grid dt {
+  margin: 0 0 5px;
+  font-weight: 700;
+}
+.metric-grid dd {
+  margin: 0;
+  font-size: 25px;
+  font-weight: 800;
+  color: #465568;
+}
+.metric-grid small { display: block; margin-top: 3px; color: var(--muted); }
+.split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.note-list {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+.note-list li { margin-bottom: 8px; }
+.figure-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+figure {
+  margin: 0;
+  padding: 14px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+figure.wide { grid-column: 1 / -1; }
+figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+figcaption {
+  margin-top: 10px;
+  color: #334155;
+  font-size: 14px;
+}
+figcaption strong { color: #203247; }
+.callout {
+  border-left: 4px solid var(--blue);
+  background: var(--blue-soft);
+  padding: 14px 16px;
+  margin-top: 14px;
+}
+.table-wrap { overflow-x: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+th, td {
+  border-bottom: 1px solid var(--line);
+  padding: 9px 8px;
+  text-align: left;
+}
+th { background: #f7f9fc; }
+.footer-nav { margin-top: 22px; }
+@media (max-width: 860px) {
+  .metric-grid, .split, .figure-grid { grid-template-columns: 1fr; }
+  .metric-grid div { border-right: 0; border-bottom: 1px solid var(--line); }
+  .metric-grid div:last-child { border-bottom: 0; }
+  section { padding: 18px; }
+}</style>
 </head>
 <body>
 <main class="page">
   <header class="top">
-    <h1>Hidráulica local: de H_dam a solicitación antes del bloque</h1>
-    <p>La caracterización hidráulica local traduce la altura inicial <code>H_dam</code> al espacio <code>M, mu, m*</code> usado por el modelo GP local.</p>
-    <nav class="site-nav" aria-label="Navegación entre páginas">
-  <a href="../">Convergencia dp</a>
-  <a href="../modelo-gp/">Modelo GP</a>
-  <a href="../hidraulica-preliminar/" aria-current="page">Hidráulica local</a>
-  <a href="../post-convergencia/">Resultados</a>
-  <a href="../lo-que-viene/">Cierre</a>
-</nav>
+    <h1>Hidráulica local antes del bloque</h1>
+    <p class="lead">Traduccion de la altura dam-break hacia variables hidráulicas medibles y transferibles para la ecuación final.</p>
+    <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/" aria-current="page">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../lo-que-viene/">Cierre</a></nav>
   </header>
-
-  <section>
-    <h2>Traducción de resultados a variables locales</h2>
-    <dl class="cards">
-
-      <div><dt>Casos traducidos</dt><dd>92/93</dd></div>
-      <div><dt>Base hidráulica</dt><dd>sin bloque 7/7</dd></div>
-      <div><dt>Clases traducidas</dt><dd>54 ESTABLE / 38 FALLO</dd></div>
-      <div><dt>H_dam cubiertos</dt><dd>4 niveles</dd></div>
-      <div><dt>Excluido por ahora</dt><dd>H_dam 0.250</dd></div>
-      <div><dt>Estado hidráulico</dt><dd>completo 14/14</dd></div>
-
-    </dl>
-    <div class="split">
-      <div class="callout">
-        <h3>Qué se está traduciendo</h3>
-        <p>Los casos oficiales siguen siendo los mismos resultados SPH. La diferencia es que cada <code>H_dam</code> se reemplaza por <code>h_local</code>, <code>u_x</code>, <code>M = rho max(h u_x^2)</code> y <code>Fr</code> medidos en la corrida sin bloque.</p>
-      </div>
-      <div class="callout warning">
-        <h3>Definición de M</h3>
-        <p><code>M</code> se calcula con series temporales sincronizadas como <code>rho max_t[h(t) u_x(t)^2]</code>. Usa <code>GaugesVel_V05</code> y <code>GaugesMaxZ_hmax03</code> antes del bloque, aproximadamente en <code>x=5.25 m</code>.</p>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2>Figuras traducidas desde resultados</h2>
-    <div class="figure-grid">
-<figure class="zoomable-figure">
-        <button class="figure-open" type="button" data-zoom-src="figures/07_translated_local_momentum_map.svg" data-zoom-title="Mapa observado en solicitación local" aria-label="Ampliar gráfico: Mapa observado en solicitación local">
-          <img src="figures/07_translated_local_momentum_map.png" alt="Mapa observado en solicitación local">
-          <span class="zoom-chip">Ampliar gráfico</span>
-        </button>
-        <figcaption><strong>Mapa observado en solicitación local.</strong> Reexpresa los casos oficiales de resultados como solicitación local M sin bloque vs fricción, separado por masa relativa. Es evidencia observada traducida, no un GP nuevo.</figcaption>
-      </figure>
-<figure class="zoomable-figure">
-        <button class="figure-open" type="button" data-zoom-src="figures/08_translated_margin_vs_momentum.svg" data-zoom-title="Margen de falla vs solicitación local" aria-label="Ampliar gráfico: Margen de falla vs solicitación local">
-          <img src="figures/08_translated_margin_vs_momentum.png" alt="Margen de falla vs solicitación local">
-          <span class="zoom-chip">Ampliar gráfico</span>
-        </button>
-        <figcaption><strong>Margen de falla vs solicitación local.</strong> Muestra cuánto queda cada caso sobre o bajo el umbral de 5% d_eq después de reemplazar H_dam por M. El eje vertical se trunca para enfocar la zona cercana al umbral.</figcaption>
-      </figure>
-<figure class="zoomable-figure">
-        <button class="figure-open" type="button" data-zoom-src="figures/09_translated_displacement_vs_local_forcing.svg" data-zoom-title="Desplazamiento observado vs solicitación local" aria-label="Ampliar gráfico: Desplazamiento observado vs solicitación local">
-          <img src="figures/09_translated_displacement_vs_local_forcing.png" alt="Desplazamiento observado vs solicitación local">
-          <span class="zoom-chip">Ampliar gráfico</span>
-        </button>
-        <figcaption><strong>Desplazamiento observado vs solicitación local.</strong> Relaciona el desplazamiento máximo observado con la solicitación local M. La línea punteada es el criterio de falla; el eje se trunca para no esconder la zona cercana al umbral.</figcaption>
-      </figure>
-    </div>
-    <p class="note">La traducción cubre el dominio base caracterizado hidráulicamente; el caso <code>H_dam=0.250</code> queda fuera de esta lectura local porque no forma parte de la base hidráulica principal.</p>
-  </section>
-
-  <section>
-    <h2>Resumen por nivel traducido</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>H_dam</th><th>h_local max (m)</th><th>u_x max (m/s)</th><th>M local (N/m)</th><th>Fr</th><th>rango m*</th><th>rango mu</th><th>clases observadas</th>
-          </tr>
-        </thead>
-        <tbody>
-<tr><td>0.175</td><td>0.0493</td><td>0.801</td><td>9.59</td><td>2.52</td><td>0.85-1.15</td><td>0.560-0.680</td><td><span class='pill stable'>9 ESTABLE</span> <span class='pill failure'>1 FALLO</span></td></tr>
-<tr><td>0.200</td><td>0.0540</td><td>0.818</td><td>13.08</td><td>2.56</td><td>0.85-1.25</td><td>0.600-0.860</td><td><span class='pill stable'>16 ESTABLE</span> <span class='pill failure'>10 FALLO</span></td></tr>
-<tr><td>0.210</td><td>0.0536</td><td>0.864</td><td>14.01</td><td>2.47</td><td>0.85-1.25</td><td>0.560-0.900</td><td><span class='pill stable'>17 ESTABLE</span> <span class='pill failure'>11 FALLO</span></td></tr>
-<tr><td>0.225</td><td>0.0592</td><td>0.896</td><td>16.75</td><td>2.61</td><td>0.85-1.25</td><td>0.660-0.900</td><td><span class='pill stable'>12 ESTABLE</span> <span class='pill failure'>16 FALLO</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section>
-    <h2>Modelo local con M, mu y m*</h2>
-    <p>El GP local usa la solicitación hidráulica <code>M</code>, la fricción <code>mu</code> y la masa relativa <code>m*</code> para interpolar el margen de estabilidad. Es una herramienta para resumir la frontera y guiar validación; la evidencia física sigue viniendo de las simulaciones SPH.</p>
-    <div class="figure-grid">
-<figure class="zoomable-figure">
-        <button class="figure-open" type="button" data-zoom-src="figures/10_validacion_gp_local.svg" data-zoom-title="Validación GP local" aria-label="Ampliar gráfico: Validación GP local">
-          <img src="figures/10_validacion_gp_local.png" alt="Validación GP local">
-          <span class="zoom-chip">Ampliar gráfico</span>
-        </button>
-        <figcaption><strong>Validación GP local.</strong> Muestra el desempeño leave-one-out del modelo que usa M, mu y m*. Es una herramienta de interpolación; no reemplaza simulaciones SPH.</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section>
-    <h2>Estado del paquete</h2>
-    <dl class="cards">
-
-      <div><dt>Corridas disponibles</dt><dd>14/14</dd></div>
-      <div><dt>Sin bloque</dt><dd>7/7</dd></div>
-      <div><dt>Con bloque ref.</dt><dd>7/7</dd></div>
-      <div><dt>Profundidad max. sin bloque</dt><dd>0.059 m</dd></div>
-      <div><dt>Velocidad max. sin bloque</dt><dd>0.930 m/s</dd></div>
-      <div><dt>M local máxima</dt><dd>16.75 N/m</dd></div>
-
-    </dl>
-    <div class="split">
-      <div class="callout">
-        <h3>Lectura principal</h3>
-        <p><strong>Sin bloque</strong> es la traducción transferible: convierte <code>H_dam</code> en profundidad local, velocidad longitudinal, solicitación local <code>M</code> y <code>Fr</code> antes del bloque.</p>
-      </div>
-      <div class="callout warning">
-        <h3>Lectura diagnostica</h3>
-        <p><strong>Con bloque de referencia</strong> muestra cuánto perturba el bloque al flujo. No reemplaza la entrada transferible; cuantifica la interacción bloque-flujo con una obstrucción estable.</p>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2>Figuras hidráulicas base</h2>
-    <div class="figure-grid">
-<figure class="zoomable-figure">
-        <button class="figure-open" type="button" data-zoom-src="figures/01_local_variables_by_h.svg" data-zoom-title="De H_dam a variables locales" aria-label="Ampliar gráfico: De H_dam a variables locales">
-          <img src="figures/01_local_variables_by_h.png" alt="De H_dam a variables locales">
-          <span class="zoom-chip">Ampliar gráfico</span>
-        </button>
-        <figcaption><strong>De H_dam a variables locales.</strong> Muestra la traducción desde la altura inicial dam-break hacia profundidad local, velocidad, solicitación local M y Froude. La serie sin bloque es la base transferible.</figcaption>
-      </figure>
-<figure class="zoomable-figure">
-        <button class="figure-open" type="button" data-zoom-src="figures/02_with_block_ratios.svg" data-zoom-title="Perturbación por bloque" aria-label="Ampliar gráfico: Perturbación por bloque">
-          <img src="figures/02_with_block_ratios.png" alt="Perturbación por bloque">
-          <span class="zoom-chip">Ampliar gráfico</span>
-        </button>
-        <figcaption><strong>Perturbación por bloque.</strong> Compara con bloque de referencia contra sin bloque para la misma H_dam. Si la razón es 1 no hay cambio; sobre 1 aumenta; bajo 1 disminuye.</figcaption>
-      </figure>
-<figure class="zoomable-figure">
-        <button class="figure-open" type="button" data-zoom-src="figures/03_local_feature_space.svg" data-zoom-title="Espacio h-u local" aria-label="Ampliar gráfico: Espacio h-u local">
-          <img src="figures/03_local_feature_space.png" alt="Espacio h-u local">
-          <span class="zoom-chip">Ampliar gráfico</span>
-        </button>
-        <figcaption><strong>Espacio h-u local.</strong> Ubica cada corrida en el plano profundidad local vs velocidad local y muestra la solicitación M usada por el GP local. Color/forma separan sin bloque y con bloque de referencia.</figcaption>
-      </figure>
-<figure class="zoomable-figure">
-        <button class="figure-open" type="button" data-zoom-src="figures/04_unblocked_hydrographs.svg" data-zoom-title="Series locales sin bloque" aria-label="Ampliar gráfico: Series locales sin bloque">
-          <img src="figures/04_unblocked_hydrographs.png" alt="Series locales sin bloque">
-          <span class="zoom-chip">Ampliar gráfico</span>
-        </button>
-        <figcaption><strong>Series locales sin bloque.</strong> Muestra la llegada temporal del flujo no obstruido. La entrada local se obtiene desde gauges antes del bloque y no solo desde H_dam.</figcaption>
-      </figure>
-<figure class="zoomable-figure">
-        <button class="figure-open" type="button" data-zoom-src="figures/05_with_block_hydrographs.svg" data-zoom-title="Series locales con bloque" aria-label="Ampliar gráfico: Series locales con bloque">
-          <img src="figures/05_with_block_hydrographs.png" alt="Series locales con bloque">
-          <span class="zoom-chip">Ampliar gráfico</span>
-        </button>
-        <figcaption><strong>Series locales con bloque.</strong> Muestra cómo cambia la señal local cuando el bloque está presente. Es diagnóstico de interacción, no la entrada principal de la ecuación.</figcaption>
-      </figure>
-<figure class="zoomable-figure">
-        <button class="figure-open" type="button" data-zoom-src="figures/06_block_reference_motion.svg" data-zoom-title="Movimiento del bloque de referencia" aria-label="Ampliar gráfico: Movimiento del bloque de referencia">
-          <img src="figures/06_block_reference_motion.png" alt="Movimiento del bloque de referencia">
-          <span class="zoom-chip">Ampliar gráfico</span>
-        </button>
-        <figcaption><strong>Movimiento del bloque de referencia.</strong> Verifica que el bloque usado como obstrucción se mantuvo casi fijo: todos los casos disponibles quedan bajo 2% de d_eq.</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section>
-    <h2>Tabla compacta</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Caso</th><th>Condicion</th><th>H_dam</th><th>prof. max (m)</th><th>vel. max (m/s)</th><th>M local (N/m)</th><th>Fr</th><th>D bloque</th>
-          </tr>
-        </thead>
-        <tbody>
-<tr><td><code>hydro_unblocked_H0175</code></td><td><span class='pill water'>sin bloque</span></td><td>0.175</td><td>0.0493</td><td>0.801</td><td>9.59</td><td>2.52</td><td></td></tr>
-<tr><td><code>hydro2_unblocked_H01875</code></td><td><span class='pill water'>sin bloque</span></td><td>0.188</td><td>0.0492</td><td>0.873</td><td>11.45</td><td>2.42</td><td></td></tr>
-<tr><td><code>hydro_unblocked_H0200</code></td><td><span class='pill water'>sin bloque</span></td><td>0.200</td><td>0.0540</td><td>0.818</td><td>13.08</td><td>2.56</td><td></td></tr>
-<tr><td><code>hydro2_unblocked_H02050</code></td><td><span class='pill water'>sin bloque</span></td><td>0.205</td><td>0.0542</td><td>0.829</td><td>13.45</td><td>2.57</td><td></td></tr>
-<tr><td><code>hydro_unblocked_H0210</code></td><td><span class='pill water'>sin bloque</span></td><td>0.210</td><td>0.0536</td><td>0.864</td><td>14.01</td><td>2.47</td><td></td></tr>
-<tr><td><code>hydro2_unblocked_H02175</code></td><td><span class='pill water'>sin bloque</span></td><td>0.217</td><td>0.0577</td><td>0.930</td><td>15.33</td><td>2.76</td><td></td></tr>
-<tr><td><code>hydro_unblocked_H0225</code></td><td><span class='pill water'>sin bloque</span></td><td>0.225</td><td>0.0592</td><td>0.896</td><td>16.75</td><td>2.61</td><td></td></tr>
-<tr><td><code>hydro_withblock_ref_H0175</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.175</td><td>0.0663</td><td>0.778</td><td>7.59</td><td>2.22</td><td>1.23%</td></tr>
-<tr><td><code>hydro2_withblock_ref_H01875</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.188</td><td>0.0665</td><td>0.822</td><td>8.88</td><td>2.29</td><td>1.23%</td></tr>
-<tr><td><code>hydro_withblock_ref_H0200</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.200</td><td>0.0682</td><td>0.759</td><td>8.01</td><td>2.30</td><td>1.23%</td></tr>
-<tr><td><code>hydro2_withblock_ref_H02050</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.205</td><td>0.0680</td><td>0.814</td><td>9.00</td><td>2.48</td><td>1.23%</td></tr>
-<tr><td><code>hydro_withblock_ref_H0210</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.210</td><td>0.0692</td><td>0.868</td><td>7.98</td><td>2.69</td><td>1.23%</td></tr>
-<tr><td><code>hydro2_withblock_ref_H02175</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.217</td><td>0.0713</td><td>0.871</td><td>10.94</td><td>2.32</td><td>1.23%</td></tr>
-<tr><td><code>hydro_withblock_ref_H0225</code></td><td><span class='pill boulder'>con bloque ref.</span></td><td>0.225</td><td>0.0714</td><td>0.821</td><td>10.24</td><td>2.24</td><td>1.26%</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="note">Estado hidráulico completo 14/14. La traducción a ecuación final sigue siendo preliminar hasta cerrar el ajuste con variables locales.</p>
-  </section>
-
-  <section class="footer-nav">
-    <h2>Navegación</h2>
-    <nav class="site-nav" aria-label="Navegación entre páginas">
-  <a href="../">Convergencia dp</a>
-  <a href="../modelo-gp/">Modelo GP</a>
-  <a href="../hidraulica-preliminar/" aria-current="page">Hidráulica local</a>
-  <a href="../post-convergencia/">Resultados</a>
-  <a href="../lo-que-viene/">Cierre</a>
-</nav>
-  </section>
+  <section><h2>Variable hidráulica transferible</h2>
+<p>La altura inicial <code>H_dam</code> genera el flujo numerico, pero no es una variable transferible para una ecuación final. Por eso se reexpresa cada caso mediante variables medidas antes del bloque: profundidad local, velocidad longitudinal, número de Froude y solicitacion local <code>M = rho max(h u_x^2)</code>.</p>
+<div class="callout"><strong>Lectura clave:</strong> <code>M</code> resume la demanda hidrodinámica local del flujo no obstruido. No pretende ser una fuerza exacta sobre el bloque; es una variable de entrada más defendible que la altura dam-break.</div>
+<dl class="metric-grid"><div><dt>Caracterizacion</dt><dd>14 casos</dd><small>sin bloque y con bloque de referencia</small></div><div><dt>Entrada principal</dt><dd>M</dd><small>rho max(h u_x^2)</small></div><div><dt>Medición</dt><dd>antes del bloque</dd><small>flujo local no obstruido</small></div><div><dt>Uso</dt><dd>modelo local</dd><small>entrada transferible</small></div></dl></section><section><h2>Evidencia hidráulica</h2><div class="figure-grid"><figure class="">
+  <a href="figures/01_local_variables_by_h.png" target="_blank" aria-label="Abrir figura: De H_dam a variables locales">
+    <img src="figures/01_local_variables_by_h.png" alt="De H_dam a variables locales">
+  </a>
+  <figcaption><strong>De H_dam a variables locales.</strong> Muestra como cambian profundidad, velocidad, solicitacion local y Froude al variar la altura inicial.</figcaption>
+</figure>
+<figure class="">
+  <a href="figures/02_with_block_ratios.png" target="_blank" aria-label="Abrir figura: Perturbacion por bloque">
+    <img src="figures/02_with_block_ratios.png" alt="Perturbacion por bloque">
+  </a>
+  <figcaption><strong>Perturbacion por bloque.</strong> Compara la señal con y sin bloque de referencia para verificar cuanto altera la medición local.</figcaption>
+</figure>
+<figure class="">
+  <a href="figures/03_local_feature_space.png" target="_blank" aria-label="Abrir figura: Espacio local h-u">
+    <img src="figures/03_local_feature_space.png" alt="Espacio local h-u">
+  </a>
+  <figcaption><strong>Espacio local h-u.</strong> Ubica los casos en profundidad local y velocidad máxima; el tamaño representa la solicitacion local.</figcaption>
+</figure>
+<figure class="">
+  <a href="figures/06_block_reference_motion.png" target="_blank" aria-label="Abrir figura: Bloque de referencia">
+    <img src="figures/06_block_reference_motion.png" alt="Bloque de referencia">
+  </a>
+  <figcaption><strong>Bloque de referencia.</strong> Verifica que el bloque usado para la caracterizacion se mantiene casi fijo durante la medición.</figcaption>
+</figure>
+<figure class="wide">
+  <a href="figures/04_unblocked_hydrographs.png" target="_blank" aria-label="Abrir figura: Series sin bloque">
+    <img src="figures/04_unblocked_hydrographs.png" alt="Series sin bloque">
+  </a>
+  <figcaption><strong>Series sin bloque.</strong> Muestra la llegada temporal del flujo no obstruido en los puntos de medición.</figcaption>
+</figure></div></section>
+  <footer class="footer-nav">
+    <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/" aria-current="page">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../lo-que-viene/">Cierre</a></nav>
+  </footer>
 </main>
-
-
-<div class="zoom-modal" id="figureZoom" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Gráfico ampliado">
-  <div class="zoom-modal__panel">
-    <div class="zoom-modal__bar">
-      <p id="figureZoomTitle">Gráfico ampliado</p>
-      <div class="zoom-controls" aria-label="Controles de zoom">
-        <button type="button" data-zoom-action="out" aria-label="Alejar">-</button>
-        <button type="button" data-zoom-action="reset" aria-label="Restablecer zoom">100%</button>
-        <button type="button" data-zoom-action="in" aria-label="Acercar">+</button>
-        <button type="button" data-zoom-action="close" aria-label="Cerrar visor">Cerrar</button>
-      </div>
-    </div>
-    <div class="zoom-modal__stage">
-      <img id="figureZoomImage" alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==">
-    </div>
-    <p class="zoom-help">Rueda/trackpad para zoom, arrastrar para mover, doble clic para acercar, Esc para cerrar.</p>
-  </div>
-</div>
-
-
-<script>
-(() => {
-  const modal = document.getElementById("figureZoom");
-  const img = document.getElementById("figureZoomImage");
-  const title = document.getElementById("figureZoomTitle");
-  if (!modal || !img || !title) return;
-
-  let scale = 1;
-  let panX = 0;
-  let panY = 0;
-  let dragging = false;
-  let startX = 0;
-  let startY = 0;
-  let originX = 0;
-  let originY = 0;
-
-  const clampScale = (value) => Math.min(6, Math.max(0.75, value));
-  const applyTransform = () => {
-    img.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
-    modal.dataset.zoomed = scale > 1.01 ? "true" : "false";
-  };
-  const resetZoom = () => {
-    scale = 1;
-    panX = 0;
-    panY = 0;
-    applyTransform();
-  };
-  const zoomBy = (factor) => {
-    scale = clampScale(scale * factor);
-    if (scale <= 1.01) {
-      panX = 0;
-      panY = 0;
-    }
-    applyTransform();
-  };
-  const openZoom = (button) => {
-    const src = button.dataset.zoomSrc || button.querySelector("img")?.src;
-    const label = button.dataset.zoomTitle || button.querySelector("img")?.alt || "Gráfico ampliado";
-    if (!src) return;
-    img.src = src;
-    img.alt = label;
-    title.textContent = label;
-    resetZoom();
-    modal.classList.add("is-open");
-    modal.setAttribute("aria-hidden", "false");
-    document.body.classList.add("modal-open");
-    modal.querySelector('[data-zoom-action="close"]')?.focus();
-  };
-  const closeZoom = () => {
-    modal.classList.remove("is-open");
-    modal.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("modal-open");
-    img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-  };
-
-  document.querySelectorAll(".figure-open").forEach((button) => {
-    button.addEventListener("click", () => openZoom(button));
-  });
-  modal.addEventListener("click", (event) => {
-    if (event.target === modal) closeZoom();
-  });
-  modal.querySelectorAll("[data-zoom-action]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const action = button.dataset.zoomAction;
-      if (action === "in") zoomBy(1.25);
-      if (action === "out") zoomBy(0.8);
-      if (action === "reset") resetZoom();
-      if (action === "close") closeZoom();
-    });
-  });
-  modal.addEventListener("wheel", (event) => {
-    if (!modal.classList.contains("is-open")) return;
-    event.preventDefault();
-    zoomBy(event.deltaY < 0 ? 1.12 : 0.9);
-  }, { passive: false });
-  img.addEventListener("dblclick", () => {
-    if (scale < 1.5) zoomBy(2);
-    else resetZoom();
-  });
-  img.addEventListener("pointerdown", (event) => {
-    if (scale <= 1.01) return;
-    dragging = true;
-    startX = event.clientX;
-    startY = event.clientY;
-    originX = panX;
-    originY = panY;
-    img.setPointerCapture(event.pointerId);
-  });
-  img.addEventListener("pointermove", (event) => {
-    if (!dragging) return;
-    panX = originX + event.clientX - startX;
-    panY = originY + event.clientY - startY;
-    applyTransform();
-  });
-  img.addEventListener("pointerup", () => { dragging = false; });
-  img.addEventListener("pointercancel", () => { dragging = false; });
-  window.addEventListener("keydown", (event) => {
-    if (!modal.classList.contains("is-open")) return;
-    if (event.key === "Escape") closeZoom();
-    if (event.key === "+" || event.key === "=") zoomBy(1.25);
-    if (event.key === "-" || event.key === "_") zoomBy(0.8);
-    if (event.key === "0") resetZoom();
-  });
-})();
-</script>
-
 </body>
 </html>
