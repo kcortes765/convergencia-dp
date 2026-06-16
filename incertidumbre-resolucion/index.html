@@ -173,12 +173,13 @@ th { background: #f7f9fc; }
 <main class="page">
   <header class="top">
     <h1>Incertidumbre de resolución</h1>
-    <p class="lead">Lectura separada de los checks finos dp=0.002 y su efecto sobre la frontera de movimiento.</p>
+    <p class="lead">Lectura separada de los chequeos finos dp=0.002 y su efecto sobre la frontera de movimiento.</p>
     <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/" aria-current="page">Incertidumbre</a><a href="../lo-que-viene/">Cierre</a></nav>
   </header>
   <section><h2>Qué mide esta página</h2>
 <p>Esta sección separa la incertidumbre de resolución de los resultados principales. Las simulaciónes <code>dp=0.002</code> se usan para medir cuanto cambia la clasificación cerca del umbral cuando se refina la discretización.</p>
-<dl class="metric-grid"><div><dt>Simulaciones finas</dt><dd>16/16</dd><small>completadas</small></div><div><dt>Resultado global</dt><dd>12/4</dd><small>estable / movimiento</small></div><div><dt>Bracket fino</dt><dd>0.8605-0.8625</dd><small>H=0.225, m*=1.00</small></div><div><dt>Uso</dt><dd>banda</dd><small>incertidumbre de resolución</small></div></dl></section><section><h2>Evidencia fina</h2><div class="figure-grid"><figure class="">
+<div class="callout"><strong>Intervalo fino:</strong> en <code>H=0.225 m</code> y <code>m*=1.00</code>, <code>mu=0.8605</code> supera el umbral y <code>mu=0.8625</code> queda bajo el umbral. El intervalo entre ambos es la banda local de transición con malla fina.</div>
+<dl class="metric-grid"><div><dt>Simulaciones finas</dt><dd>16/16</dd><small>completadas</small></div><div><dt>Resultado global</dt><dd>12/4</dd><small>estable / movimiento</small></div><div><dt>Intervalo fino</dt><dd>0.8605-0.8625</dd><small>movimiento a estabilidad</small></div><div><dt>Uso</dt><dd>banda</dd><small>incertidumbre de resolución</small></div></dl></section><section><h2>Evidencia fina</h2><div class="figure-grid"><figure class="">
   <a href="figures/03_dp002_vs_dp003_completo.png" target="_blank" aria-label="Abrir figura: Cambio al refinar">
     <img src="figures/03_dp002_vs_dp003_completo.png" alt="Cambio al refinar">
   </a>
@@ -191,10 +192,10 @@ th { background: #f7f9fc; }
   <figcaption><strong>Evidencia por corte.</strong> Agrupa todos los cortes finos disponibles por altura, masa relativa y fricción.</figcaption>
 </figure>
 <figure class="wide">
-  <a href="figures/13_dp002_bracket_fino_highH_m100.png" target="_blank" aria-label="Abrir figura: Bracket fino cerrado">
-    <img src="figures/13_dp002_bracket_fino_highH_m100.png" alt="Bracket fino cerrado">
+  <a href="figures/clean_bracket_dp002_h225_m100.png" target="_blank" aria-label="Abrir figura: Intervalo fino cerrado">
+    <img src="figures/clean_bracket_dp002_h225_m100.png" alt="Intervalo fino cerrado">
   </a>
-  <figcaption><strong>Bracket fino cerrado.</strong> Muestra el intervalo de fricción donde la clasificación cambia con dp=0.002.</figcaption>
+  <figcaption><strong>Intervalo fino cerrado.</strong> Muestra el intervalo de fricción donde la clasificación cambia con dp=0.002.</figcaption>
 </figure>
 <figure class="wide">
   <a href="figures/04_resumen_incertidumbre_resolucion.png" target="_blank" aria-label="Abrir figura: Resumen de incertidumbre">

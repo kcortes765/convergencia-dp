@@ -1,7 +1,0 @@
-case_id,condition,csv_count,bytes_total,processed_path
-hydro2_unblocked_H01875,unblocked,22,8952939,C:\Users\Admin\Desktop\SPH-Tesis\data\processed\hydro2_unblocked_H01875
-hydro2_unblocked_H02050,unblocked,22,9027387,C:\Users\Admin\Desktop\SPH-Tesis\data\processed\hydro2_unblocked_H02050
-hydro2_unblocked_H02175,unblocked,22,9076301,C:\Users\Admin\Desktop\SPH-Tesis\data\processed\hydro2_unblocked_H02175
-hydro2_withblock_ref_H01875,with_block_ref,24,11929276,C:\Users\Admin\Desktop\SPH-Tesis\data\processed\hydro2_withblock_ref_H01875
-hydro2_withblock_ref_H02050,with_block_ref,24,11933942,C:\Users\Admin\Desktop\SPH-Tesis\data\processed\hydro2_withblock_ref_H02050
-hydro2_withblock_ref_H02175,with_block_ref,24,11999672,C:\Users\Admin\Desktop\SPH-Tesis\data\processed\hydro2_withblock_ref_H02175

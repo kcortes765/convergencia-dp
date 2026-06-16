@@ -177,8 +177,9 @@ th { background: #f7f9fc; }
     <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/" aria-current="page">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../lo-que-viene/">Cierre</a></nav>
   </header>
   <section><h2>Qué predice el modelo</h2>
-<p>El modelo GP interpola el margen <code>g = 5 - Dmax</code>. Si <code>g &gt; 0</code>, el desplazamiento queda bajo el umbral de movimiento; si <code>g &lt; 0</code>, el caso supera el umbral. La incertidumbre del GP sirve para decidir donde falta evidencia y para construir una lectura probabilística final.</p>
-<dl class="metric-grid"><div><dt>Salida</dt><dd>g = 5 - Dmax</dd><small>margen al umbral</small></div><div><dt>Modelo</dt><dd>GP</dd><small>Matern 5/2</small></div><div><dt>Validación</dt><dd>LOO</dd><small>accuracy 0.861</small></div><div><dt>Rol</dt><dd>interpolacion</dd><small>no reemplaza SPH</small></div></dl></section><section><h2>Modelo con H_dam</h2><div class="figure-grid"><figure class="">
+<p>El modelo GP interpola el margen <code>g = 5 - Dmax</code>. Si <code>g &gt; 0</code>, el desplazamiento queda bajo el umbral de movimiento; si <code>g &lt; 0</code>, el caso supera el umbral. La incertidumbre del GP sirve para interpolar la frontera y luego alimentar una lectura probabilística.</p>
+<div class="callout"><strong>Lectura de validación:</strong> <code>86.1%</code> no significa que el problema este resuelto con exactitud absoluta. Significa que, al dejar un caso fuera, el modelo acierta la clase en la mayoria de los casos; los errores se concentran cerca del umbral y se reportan con MAE/RMSE.</div>
+<dl class="metric-grid"><div><dt>Salida</dt><dd>g = 5 - Dmax</dd><small>margen al umbral</small></div><div><dt>Modelo</dt><dd>GP</dd><small>Matern 5/2</small></div><div><dt>Clase LOO</dt><dd>86.1%</dd><small>68/79 casos</small></div><div><dt>MAE LOO</dt><dd>2.08% d_eq</dd><small>error medio</small></div><div><dt>RMSE LOO</dt><dd>3.54% d_eq</dd><small>penaliza errores grandes</small></div><div><dt>Rol</dt><dd>interpolacion</dd><small>no reemplaza SPH</small></div></dl></section><section><h2>Modelo con H_dam</h2><div class="figure-grid"><figure class="">
   <a href="figures/clean_01_validacion_gp_h.png" target="_blank" aria-label="Abrir figura: Validación interna">
     <img src="figures/clean_01_validacion_gp_h.png" alt="Validación interna">
   </a>
@@ -205,7 +206,7 @@ th { background: #f7f9fc; }
   <a href="figures/clean_05_validacion_gp_local.png" target="_blank" aria-label="Abrir figura: Validación con variable local">
     <img src="figures/clean_05_validacion_gp_local.png" alt="Validación con variable local">
   </a>
-  <figcaption><strong>Validación con variable local.</strong> Evalua el modelo reexpresado con solicitacion local M, fricción y masa relativa.</figcaption>
+  <figcaption><strong>Validación con variable local.</strong> Evalua el modelo reexpresado con solicitación local M, fricción y masa relativa.</figcaption>
 </figure></div><p>La formulacion local no cambia la evidencia SPH; cambia la forma de expresar la entrada hidráulica para que el resultado sea más útil fuera del caso dam-break.</p></section>
   <footer class="footer-nav">
     <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/" aria-current="page">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../lo-que-viene/">Cierre</a></nav>

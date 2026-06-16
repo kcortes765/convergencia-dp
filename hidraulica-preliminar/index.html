@@ -177,13 +177,19 @@ th { background: #f7f9fc; }
     <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/" aria-current="page">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../lo-que-viene/">Cierre</a></nav>
   </header>
   <section><h2>Variable hidráulica transferible</h2>
-<p>La altura inicial <code>H_dam</code> genera el flujo numerico, pero no es una variable transferible para una ecuación final. Por eso se reexpresa cada caso mediante variables medidas antes del bloque: profundidad local, velocidad longitudinal, número de Froude y solicitacion local <code>M = rho max(h u_x^2)</code>.</p>
-<div class="callout"><strong>Lectura clave:</strong> <code>M</code> resume la demanda hidrodinámica local del flujo no obstruido. No pretende ser una fuerza exacta sobre el bloque; es una variable de entrada más defendible que la altura dam-break.</div>
-<dl class="metric-grid"><div><dt>Caracterizacion</dt><dd>14 casos</dd><small>sin bloque y con bloque de referencia</small></div><div><dt>Entrada principal</dt><dd>M</dd><small>rho max(h u_x^2)</small></div><div><dt>Medición</dt><dd>antes del bloque</dd><small>flujo local no obstruido</small></div><div><dt>Uso</dt><dd>modelo local</dd><small>entrada transferible</small></div></dl></section><section><h2>Evidencia hidráulica</h2><div class="figure-grid"><figure class="">
+<p>La altura inicial <code>H_dam</code> genera el flujo numérico, pero no es una variable transferible para una ecuación final. Por eso se reexpresa cada caso mediante variables medidas antes del bloque: profundidad local <code>h(t)</code>, velocidad longitudinal <code>u_x(t)</code>, número de Froude y solicitación local <code>M = max_t[rho h(t) u_x(t)^2]</code>.</p>
+<div class="callout"><strong>Lectura clave:</strong> <code>M</code> resume el flujo de momentum por unidad de ancho en la sección local antes del bloque. No es la fuerza exacta sobre el bloque; es una entrada hidráulica transferible para comparar escenarios.</div>
+<dl class="metric-grid"><div><dt>Caracterizacion</dt><dd>14 casos</dd><small>sin bloque y con bloque de referencia</small></div><div><dt>Entrada principal</dt><dd>M</dd><small>max rho h(t) u_x(t)^2</small></div><div><dt>Medición</dt><dd>gauge local</dd><small>antes del bloque</small></div><div><dt>Uso</dt><dd>modelo local</dd><small>entrada transferible</small></div></dl></section><section><h2>Evidencia hidráulica</h2><div class="figure-grid"><figure class="wide">
+  <a href="figures/clean_m_definicion.png" target="_blank" aria-label="Abrir figura: Definicion de M">
+    <img src="figures/clean_m_definicion.png" alt="Definicion de M">
+  </a>
+  <figcaption><strong>Definicion de M.</strong> Explica como se calcula la solicitación local desde h(t), u_x(t) y el máximo temporal antes del bloque.</figcaption>
+</figure>
+<figure class="">
   <a href="figures/01_local_variables_by_h.png" target="_blank" aria-label="Abrir figura: De H_dam a variables locales">
     <img src="figures/01_local_variables_by_h.png" alt="De H_dam a variables locales">
   </a>
-  <figcaption><strong>De H_dam a variables locales.</strong> Muestra como cambian profundidad, velocidad, solicitacion local y Froude al variar la altura inicial.</figcaption>
+  <figcaption><strong>De H_dam a variables locales.</strong> Muestra como cambian profundidad, velocidad, solicitación local y Froude al variar la altura inicial.</figcaption>
 </figure>
 <figure class="">
   <a href="figures/02_with_block_ratios.png" target="_blank" aria-label="Abrir figura: Perturbacion por bloque">
@@ -195,7 +201,7 @@ th { background: #f7f9fc; }
   <a href="figures/03_local_feature_space.png" target="_blank" aria-label="Abrir figura: Espacio local h-u">
     <img src="figures/03_local_feature_space.png" alt="Espacio local h-u">
   </a>
-  <figcaption><strong>Espacio local h-u.</strong> Ubica los casos en profundidad local y velocidad máxima; el tamaño representa la solicitacion local.</figcaption>
+  <figcaption><strong>Espacio local h-u.</strong> Ubica los casos en profundidad local y velocidad máxima; el tamaño representa la solicitación local.</figcaption>
 </figure>
 <figure class="">
   <a href="figures/06_block_reference_motion.png" target="_blank" aria-label="Abrir figura: Bloque de referencia">

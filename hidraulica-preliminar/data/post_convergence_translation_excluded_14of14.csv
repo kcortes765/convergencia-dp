@@ -1,2 +1,0 @@
-family,family_label,case_id,dam_height,boulder_mass,friction_coefficient,criterion_class,disp_pct_deq,margin_pct,source_csv
-pilot,Piloto,prod_pilot_stronger_hydraulic,0.25,1.0,0.3,FALLO,1341.54,-1336.54,exports\pilot_productivo_20260501\pilot_summary.csv

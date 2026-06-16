@@ -173,16 +173,16 @@ th { background: #f7f9fc; }
 <main class="page">
   <header class="top">
     <h1>Convergencia de resolución SPH</h1>
-    <p class="lead">Justificacion numerica de la resolución usada para producir la frontera de movimiento.</p>
+    <p class="lead">Justificacion numérica de la resolución usada para producir la frontera de movimiento.</p>
     <nav class="site-nav" aria-label="Navegación principal"><a href="./" aria-current="page">Convergencia</a><a href="hidraulica-preliminar/">Hidráulica local</a><a href="modelo-gp/">Modelo GP</a><a href="post-convergencia/">Resultados SPH</a><a href="incertidumbre-resolucion/">Incertidumbre</a><a href="lo-que-viene/">Cierre</a></nav>
   </header>
   <section><h2>Conclusión de resolución</h2>
-<p>La resolución <code>dp=0.003</code> se usa como base productiva porque conserva la respuesta de interes con un costo computacional viable. El refinamiento <code>dp=0.002</code> queda reservado para cuantificar incertidumbre cerca del umbral, no para reemplazar toda la campaña principal.</p>
+<p>La resolución <code>dp=0.003</code> se usa como base productiva porque conserva la respuesta de interés con un costo computacional viable. El refinamiento <code>dp=0.002</code> queda reservado para cuantificar incertidumbre cerca del umbral, no para reemplazar toda la campaña principal.</p>
 <dl class="metric-grid"><div><dt>Base productiva</dt><dd>dp=0.003</dd><small>frontera y GP</small></div><div><dt>Referencia fina</dt><dd>dp=0.002</dd><small>incertidumbre</small></div><div><dt>Criterio de movimiento</dt><dd>5% d_eq</dd><small>desplazamiento máximo</small></div><div><dt>Fuente del movimiento</dt><dd>Chrono</dd><small>bloque rigido</small></div></dl></section><section><h2>Evidencia de convergencia</h2><div class="figure-grid"><figure class="">
   <a href="figures/01_variables_defendibles_dp003.png" target="_blank" aria-label="Abrir figura: Variables que sostienen dp=0.003">
     <img src="figures/01_variables_defendibles_dp003.png" alt="Variables que sostienen dp=0.003">
   </a>
-  <figcaption><strong>Variables que sostienen dp=0.003.</strong> Compara las metricas numericas que permiten adoptar una resolución productiva sin ocultar la sensibilidad residual.</figcaption>
+  <figcaption><strong>Variables que sostienen dp=0.003.</strong> Compara las métricas numéricas que permiten adoptar una resolución productiva sin ocultar la sensibilidad residual.</figcaption>
 </figure>
 <figure class="">
   <a href="figures/02_tendencia_variables_principales.png" target="_blank" aria-label="Abrir figura: Tendencia con refinamiento">
