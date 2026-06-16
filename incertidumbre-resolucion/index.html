@@ -173,13 +173,19 @@ th { background: #f7f9fc; }
 <main class="page">
   <header class="top">
     <h1>Incertidumbre de resolución</h1>
-    <p class="lead">Lectura separada de los chequeos finos dp=0.002 y su efecto sobre la frontera de movimiento.</p>
+    <p class="lead">Lectura separada de los casos finos dp=0.002 y su efecto sobre la frontera de movimiento.</p>
     <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/" aria-current="page">Incertidumbre</a><a href="../lo-que-viene/">Cierre</a></nav>
   </header>
   <section><h2>Qué mide esta página</h2>
-<p>Esta sección separa la incertidumbre de resolución de los resultados principales. Las simulaciónes <code>dp=0.002</code> se usan para medir cuanto cambia la clasificación cerca del umbral cuando se refina la discretización.</p>
+<p>Esta sección separa la incertidumbre de resolución de los resultados principales. Las simulaciones <code>dp=0.002</code> se usan para medir cuánto cambia la clasificación cerca del umbral cuando se refina la discretización.</p>
 <div class="callout"><strong>Intervalo fino:</strong> en <code>H=0.225 m</code> y <code>m*=1.00</code>, <code>mu=0.8605</code> supera el umbral y <code>mu=0.8625</code> queda bajo el umbral. El intervalo entre ambos es la banda local de transición con malla fina.</div>
-<dl class="metric-grid"><div><dt>Simulaciones finas</dt><dd>16/16</dd><small>completadas</small></div><div><dt>Resultado global</dt><dd>12/4</dd><small>estable / movimiento</small></div><div><dt>Intervalo fino</dt><dd>0.8605-0.8625</dd><small>movimiento a estabilidad</small></div><div><dt>Uso</dt><dd>banda</dd><small>incertidumbre de resolución</small></div></dl></section><section><h2>Evidencia fina</h2><div class="figure-grid"><figure class="">
+<dl class="metric-grid"><div><dt>Simulaciones finas</dt><dd>16/16</dd><small>completadas</small></div><div><dt>Resultado global</dt><dd>12/4</dd><small>estable / movimiento</small></div><div><dt>Intervalo fino</dt><dd>0.8605-0.8625</dd><small>movimiento a estabilidad</small></div><div><dt>Uso</dt><dd>banda</dd><small>incertidumbre de resolución</small></div></dl></section><section><h2>Evidencia fina</h2><div class="figure-grid"><figure class="wide">
+  <a href="figures/pre_mc_04_resolution_uncertainty_reference.png" target="_blank" aria-label="Abrir figura: Banda fina de referencia">
+    <img src="figures/pre_mc_04_resolution_uncertainty_reference.png" alt="Banda fina de referencia">
+  </a>
+  <figcaption><strong>Banda fina de referencia.</strong> Muestra el intervalo local más exigente cerrado con malla fina.</figcaption>
+</figure>
+<figure class="">
   <a href="figures/03_dp002_vs_dp003_completo.png" target="_blank" aria-label="Abrir figura: Cambio al refinar">
     <img src="figures/03_dp002_vs_dp003_completo.png" alt="Cambio al refinar">
   </a>

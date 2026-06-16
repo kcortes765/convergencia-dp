@@ -173,16 +173,16 @@ th { background: #f7f9fc; }
 <main class="page">
   <header class="top">
     <h1>Cierre metodológico</h1>
-    <p class="lead">Estado de la evidencia y consolidacion necesaria antes de la etapa probabilística.</p>
+    <p class="lead">Estado de la evidencia y consolidación necesaria antes de la etapa probabilística.</p>
     <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../lo-que-viene/" aria-current="page">Cierre</a></nav>
   </header>
-  <section><h2>Estado metodológico</h2><dl class="metric-grid"><div><dt>Resolución</dt><dd>cerrada</dd><small>dp=0.003 + dp=0.002</small></div><div><dt>Hidráulica local</dt><dd>cerrada</dd><small>14 casos</small></div><div><dt>Modelo GP</dt><dd>vigente</dd><small>consolidacion final</small></div><div><dt>Cierre probabilístico</dt><dd>preparado</dd><small>Monte Carlo</small></div></dl>
-<p>La etapa actual ya permite presentar una frontera física con incertidumbre de resolución cuantificada. Antes de Monte Carlo corresponde fijar el conjunto de datos final, consolidar el GP con variables comparables y dejar las métricas/figuras en una versión única.</p>
-</section><section><h2>Sintesis del estado</h2><div class="figure-grid"><figure class="wide">
-  <a href="figures/clean_estado_metodologico.png" target="_blank" aria-label="Abrir figura: Estado antes de Monte Carlo">
-    <img src="figures/clean_estado_metodologico.png" alt="Estado antes de Monte Carlo">
+  <section><h2>Estado metodológico</h2><dl class="metric-grid"><div><dt>Resolución</dt><dd>cerrada</dd><small>dp=0.003 + dp=0.002</small></div><div><dt>Hidráulica local</dt><dd>cerrada</dd><small>14 casos</small></div><div><dt>Modelo GP</dt><dd>entrenado</dd><small>85.4%</small></div><div><dt>Cierre probabilístico</dt><dd>preparado</dd><small>Monte Carlo</small></div></dl>
+<p>La etapa actual ya permite presentar una frontera física con incertidumbre de resolución cuantificada y un modelo GP local entrenado. Monte Carlo entra después para propagar variabilidad de parámetros sobre este modelo final.</p>
+</section><section><h2>Síntesis del estado</h2><div class="figure-grid"><figure class="wide">
+  <a href="figures/pre_mc_05_readiness.png" target="_blank" aria-label="Abrir figura: Estado antes de Monte Carlo">
+    <img src="figures/pre_mc_05_readiness.png" alt="Estado antes de Monte Carlo">
   </a>
-  <figcaption><strong>Estado antes de Monte Carlo.</strong> Resume que esta consolidado y que debe quedar fijo antes de la propagación probabilística.</figcaption>
+  <figcaption><strong>Estado antes de Monte Carlo.</strong> Resume los datos, variables y modelos ya fijados antes de la propagación probabilística.</figcaption>
 </figure></div></section>
   <footer class="footer-nav">
     <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../lo-que-viene/" aria-current="page">Cierre</a></nav>
