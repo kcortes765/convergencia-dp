@@ -137,6 +137,51 @@ figure img {
   height: auto;
   border-radius: 4px;
 }
+.zoom-link {
+  display: block;
+  cursor: zoom-in;
+}
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  background: rgba(15, 23, 42, 0.86);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.16s ease;
+}
+.lightbox:target {
+  opacity: 1;
+  pointer-events: auto;
+}
+.lightbox img {
+  width: auto;
+  max-width: 96vw;
+  max-height: 88vh;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.35);
+}
+.lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  min-width: 38px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 800;
+}
 figcaption {
   margin-top: 10px;
   color: #334155;
@@ -180,44 +225,72 @@ th { background: #f7f9fc; }
 <p>El modelo GP interpola el margen <code>g = 5 - Dmax</code>. Si <code>g &gt; 0</code>, el desplazamiento queda bajo el umbral de movimiento; si <code>g &lt; 0</code>, el caso supera el umbral. La incertidumbre del GP sirve para interpolar la frontera y luego alimentar una lectura probabilística.</p>
 <div class="callout"><strong>Lectura de validación:</strong> el porcentaje de clase correcta mide consistencia predictiva caso a caso. Es suficientemente útil para interpolar y propagar incertidumbre, pero los errores cerca del umbral se deben leer junto con MAE, RMSE y la banda de resolución.</div>
 <dl class="metric-grid"><div><dt>Salida</dt><dd>g = 5 - Dmax</dd><small>margen al umbral</small></div><div><dt>Modelo</dt><dd>GP</dd><small>Matern 5/2</small></div><div><dt>Clase correcta</dt><dd>85.4%</dd><small>validación cruzada</small></div><div><dt>MAE</dt><dd>2.13% d_eq</dd><small>error medio</small></div><div><dt>RMSE</dt><dd>3.75% d_eq</dd><small>penaliza errores grandes</small></div><div><dt>Rol</dt><dd>interpolación</dd><small>no reemplaza SPH</small></div></dl></section><section><h2>Validación final comparable</h2><div class="figure-grid"><figure class="wide">
-  <a href="figures/pre_mc_01_model_comparison_metrics.png" target="_blank" aria-label="Abrir figura: Comparación H_dam y M">
+  <a class="zoom-link" href="#zoom-figures-pre-mc-01-model-comparison-metrics-png" aria-label="Ampliar figura: Comparación H_dam y M">
     <img src="figures/pre_mc_01_model_comparison_metrics.png" alt="Comparación H_dam y M">
   </a>
   <figcaption><strong>Comparación H_dam y M.</strong> Muestra que el modelo local conserva desempeño comparable al modelo expresado con H_dam.</figcaption>
+  <div class="lightbox" id="zoom-figures-pre-mc-01-model-comparison-metrics-png" aria-label="Figura ampliada: Comparación H_dam y M">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/pre_mc_01_model_comparison_metrics.png" alt="Comparación H_dam y M ampliada">
+  </div>
 </figure>
 <figure class="wide">
-  <a href="figures/pre_mc_02_local_gp_validation.png" target="_blank" aria-label="Abrir figura: Diagnóstico del GP local">
+  <a class="zoom-link" href="#zoom-figures-pre-mc-02-local-gp-validation-png" aria-label="Ampliar figura: Diagnóstico del GP local">
     <img src="figures/pre_mc_02_local_gp_validation.png" alt="Diagnóstico del GP local">
   </a>
   <figcaption><strong>Diagnóstico del GP local.</strong> Separa errores en movimiento claro, zona del umbral y estabilidad clara.</figcaption>
+  <div class="lightbox" id="zoom-figures-pre-mc-02-local-gp-validation-png" aria-label="Figura ampliada: Diagnóstico del GP local">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/pre_mc_02_local_gp_validation.png" alt="Diagnóstico del GP local ampliada">
+  </div>
 </figure></div></section><section><h2>Frontera e incertidumbre del modelo</h2><div class="figure-grid"><figure class="">
-  <a href="figures/clean_02_frontera_gp_por_masa.png" target="_blank" aria-label="Abrir figura: Frontera estimada">
+  <a class="zoom-link" href="#zoom-figures-clean-02-frontera-gp-por-masa-png" aria-label="Ampliar figura: Frontera estimada">
     <img src="figures/clean_02_frontera_gp_por_masa.png" alt="Frontera estimada">
   </a>
   <figcaption><strong>Frontera estimada.</strong> Mapa de margen predicho por altura, fricción y masa relativa.</figcaption>
+  <div class="lightbox" id="zoom-figures-clean-02-frontera-gp-por-masa-png" aria-label="Figura ampliada: Frontera estimada">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/clean_02_frontera_gp_por_masa.png" alt="Frontera estimada ampliada">
+  </div>
 </figure>
 <figure class="">
-  <a href="figures/clean_03_incertidumbre_gp_por_masa.png" target="_blank" aria-label="Abrir figura: Incertidumbre del modelo">
+  <a class="zoom-link" href="#zoom-figures-clean-03-incertidumbre-gp-por-masa-png" aria-label="Ampliar figura: Incertidumbre del modelo">
     <img src="figures/clean_03_incertidumbre_gp_por_masa.png" alt="Incertidumbre del modelo">
   </a>
   <figcaption><strong>Incertidumbre del modelo.</strong> Identifica regiones donde la interpolación es más o menos confiable.</figcaption>
+  <div class="lightbox" id="zoom-figures-clean-03-incertidumbre-gp-por-masa-png" aria-label="Figura ampliada: Incertidumbre del modelo">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/clean_03_incertidumbre_gp_por_masa.png" alt="Incertidumbre del modelo ampliada">
+  </div>
 </figure>
 <figure class="wide">
-  <a href="figures/04_cortes_margen_observado.png" target="_blank" aria-label="Abrir figura: Cortes observados">
+  <a class="zoom-link" href="#zoom-figures-04-cortes-margen-observado-png" aria-label="Ampliar figura: Cortes observados">
     <img src="figures/04_cortes_margen_observado.png" alt="Cortes observados">
   </a>
   <figcaption><strong>Cortes observados.</strong> Resume los puntos simulados que sostienen la frontera por nivel de masa.</figcaption>
+  <div class="lightbox" id="zoom-figures-04-cortes-margen-observado-png" aria-label="Figura ampliada: Cortes observados">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/04_cortes_margen_observado.png" alt="Cortes observados ampliada">
+  </div>
 </figure>
 <figure class="wide">
-  <a href="figures/pre_mc_03_local_frontier_maps.png" target="_blank" aria-label="Abrir figura: Frontera con variable local M">
+  <a class="zoom-link" href="#zoom-figures-pre-mc-03-local-frontier-maps-png" aria-label="Ampliar figura: Frontera con variable local M">
     <img src="figures/pre_mc_03_local_frontier_maps.png" alt="Frontera con variable local M">
   </a>
   <figcaption><strong>Frontera con variable local M.</strong> Reexpresa la frontera en solicitación local, fricción y masa relativa.</figcaption>
+  <div class="lightbox" id="zoom-figures-pre-mc-03-local-frontier-maps-png" aria-label="Figura ampliada: Frontera con variable local M">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/pre_mc_03_local_frontier_maps.png" alt="Frontera con variable local M ampliada">
+  </div>
 </figure></div></section><section><h2>Entrada local del modelo</h2><div class="figure-grid"><figure class="wide">
-  <a href="figures/clean_05_validacion_gp_local.png" target="_blank" aria-label="Abrir figura: Validación con variable local">
+  <a class="zoom-link" href="#zoom-figures-clean-05-validacion-gp-local-png" aria-label="Ampliar figura: Validación con variable local">
     <img src="figures/clean_05_validacion_gp_local.png" alt="Validación con variable local">
   </a>
   <figcaption><strong>Validación con variable local.</strong> Evalua el modelo reexpresado con solicitación local M, fricción y masa relativa.</figcaption>
+  <div class="lightbox" id="zoom-figures-clean-05-validacion-gp-local-png" aria-label="Figura ampliada: Validación con variable local">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/clean_05_validacion_gp_local.png" alt="Validación con variable local ampliada">
+  </div>
 </figure></div><p>La formulacion local no cambia la evidencia SPH; cambia la forma de expresar la entrada hidráulica para que el resultado sea más útil fuera del caso dam-break.</p></section>
   <footer class="footer-nav">
     <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/" aria-current="page">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../lo-que-viene/">Cierre</a></nav>

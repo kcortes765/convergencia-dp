@@ -137,6 +137,51 @@ figure img {
   height: auto;
   border-radius: 4px;
 }
+.zoom-link {
+  display: block;
+  cursor: zoom-in;
+}
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  background: rgba(15, 23, 42, 0.86);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.16s ease;
+}
+.lightbox:target {
+  opacity: 1;
+  pointer-events: auto;
+}
+.lightbox img {
+  width: auto;
+  max-width: 96vw;
+  max-height: 88vh;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.35);
+}
+.lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  min-width: 38px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 800;
+}
 figcaption {
   margin-top: 10px;
   color: #334155;
@@ -179,52 +224,84 @@ th { background: #f7f9fc; }
   <section><h2>Conclusión de resolución</h2>
 <p>La resolución <code>dp=0.003</code> se usa como base productiva porque conserva la respuesta de interés con un costo computacional viable. El refinamiento <code>dp=0.002</code> queda reservado para cuantificar incertidumbre cerca del umbral, no para reemplazar toda la campaña principal.</p>
 <dl class="metric-grid"><div><dt>Base productiva</dt><dd>dp=0.003</dd><small>frontera y GP</small></div><div><dt>Referencia fina</dt><dd>dp=0.002</dd><small>incertidumbre</small></div><div><dt>Criterio de movimiento</dt><dd>5% d_eq</dd><small>desplazamiento máximo</small></div><div><dt>Fuente del movimiento</dt><dd>Chrono</dd><small>bloque rigido</small></div></dl></section><section><h2>Evidencia de convergencia</h2><div class="figure-grid"><figure class="">
-  <a href="figures/01_variables_defendibles_dp003.png" target="_blank" aria-label="Abrir figura: Variables que sostienen dp=0.003">
+  <a class="zoom-link" href="#zoom-figures-01-variables-defendibles-dp003-png" aria-label="Ampliar figura: Variables que sostienen dp=0.003">
     <img src="figures/01_variables_defendibles_dp003.png" alt="Variables que sostienen dp=0.003">
   </a>
   <figcaption><strong>Variables que sostienen dp=0.003.</strong> Compara las métricas numéricas que permiten adoptar una resolución productiva sin ocultar la sensibilidad residual.</figcaption>
+  <div class="lightbox" id="zoom-figures-01-variables-defendibles-dp003-png" aria-label="Figura ampliada: Variables que sostienen dp=0.003">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/01_variables_defendibles_dp003.png" alt="Variables que sostienen dp=0.003 ampliada">
+  </div>
 </figure>
 <figure class="">
-  <a href="figures/02_tendencia_variables_principales.png" target="_blank" aria-label="Abrir figura: Tendencia con refinamiento">
+  <a class="zoom-link" href="#zoom-figures-02-tendencia-variables-principales-png" aria-label="Ampliar figura: Tendencia con refinamiento">
     <img src="figures/02_tendencia_variables_principales.png" alt="Tendencia con refinamiento">
   </a>
   <figcaption><strong>Tendencia con refinamiento.</strong> Muestra la evolucion de las variables principales al disminuir el tamaño de particula.</figcaption>
+  <div class="lightbox" id="zoom-figures-02-tendencia-variables-principales-png" aria-label="Figura ampliada: Tendencia con refinamiento">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/02_tendencia_variables_principales.png" alt="Tendencia con refinamiento ampliada">
+  </div>
 </figure>
 <figure class="">
-  <a href="figures/03_curvas_temporales_finas.png" target="_blank" aria-label="Abrir figura: Series temporales finas">
+  <a class="zoom-link" href="#zoom-figures-03-curvas-temporales-finas-png" aria-label="Ampliar figura: Series temporales finas">
     <img src="figures/03_curvas_temporales_finas.png" alt="Series temporales finas">
   </a>
   <figcaption><strong>Series temporales finas.</strong> Verifica que el comportamiento temporal principal se mantiene físicamente interpretable.</figcaption>
+  <div class="lightbox" id="zoom-figures-03-curvas-temporales-finas-png" aria-label="Figura ampliada: Series temporales finas">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/03_curvas_temporales_finas.png" alt="Series temporales finas ampliada">
+  </div>
 </figure>
 <figure class="">
-  <a href="figures/04_salidas_sensibles.png" target="_blank" aria-label="Abrir figura: Salidas sensibles">
+  <a class="zoom-link" href="#zoom-figures-04-salidas-sensibles-png" aria-label="Ampliar figura: Salidas sensibles">
     <img src="figures/04_salidas_sensibles.png" alt="Salidas sensibles">
   </a>
   <figcaption><strong>Salidas sensibles.</strong> Separa las variables robustas de las que no conviene usar como criterio principal.</figcaption>
+  <div class="lightbox" id="zoom-figures-04-salidas-sensibles-png" aria-label="Figura ampliada: Salidas sensibles">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/04_salidas_sensibles.png" alt="Salidas sensibles ampliada">
+  </div>
 </figure>
 <figure class="">
-  <a href="figures/05_costo_vs_dp.png" target="_blank" aria-label="Abrir figura: Costo computacional">
+  <a class="zoom-link" href="#zoom-figures-05-costo-vs-dp-png" aria-label="Ampliar figura: Costo computacional">
     <img src="figures/05_costo_vs_dp.png" alt="Costo computacional">
   </a>
   <figcaption><strong>Costo computacional.</strong> Explica el equilibrio entre resolución, tiempo de cálculo y útilidad de las simulaciones.</figcaption>
+  <div class="lightbox" id="zoom-figures-05-costo-vs-dp-png" aria-label="Figura ampliada: Costo computacional">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/05_costo_vs_dp.png" alt="Costo computacional ampliada">
+  </div>
 </figure>
 <figure class="">
-  <a href="figures/09_benchmark_hidraulico.png" target="_blank" aria-label="Abrir figura: Benchmark hidraulico">
+  <a class="zoom-link" href="#zoom-figures-09-benchmark-hidraulico-png" aria-label="Ampliar figura: Benchmark hidraulico">
     <img src="figures/09_benchmark_hidraulico.png" alt="Benchmark hidraulico">
   </a>
   <figcaption><strong>Benchmark hidraulico.</strong> Contrasta la propagación hidráulica con una solucion de referencia de canal.</figcaption>
+  <div class="lightbox" id="zoom-figures-09-benchmark-hidraulico-png" aria-label="Figura ampliada: Benchmark hidraulico">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/09_benchmark_hidraulico.png" alt="Benchmark hidraulico ampliada">
+  </div>
 </figure>
 <figure class="">
-  <a href="figures/10_contact_sanity.png" target="_blank" aria-label="Abrir figura: Verificacion de contacto">
+  <a class="zoom-link" href="#zoom-figures-10-contact-sanity-png" aria-label="Ampliar figura: Verificacion de contacto">
     <img src="figures/10_contact_sanity.png" alt="Verificacion de contacto">
   </a>
   <figcaption><strong>Verificacion de contacto.</strong> Comprueba que el contacto inicial no genera movimiento sostenido por si solo.</figcaption>
+  <div class="lightbox" id="zoom-figures-10-contact-sanity-png" aria-label="Figura ampliada: Verificacion de contacto">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/10_contact_sanity.png" alt="Verificacion de contacto ampliada">
+  </div>
 </figure>
 <figure class="">
-  <a href="figures/11_comparacion_analitica.png" target="_blank" aria-label="Abrir figura: Comparación analítica">
+  <a class="zoom-link" href="#zoom-figures-11-comparacion-analitica-png" aria-label="Ampliar figura: Comparación analítica">
     <img src="figures/11_comparacion_analitica.png" alt="Comparación analítica">
   </a>
   <figcaption><strong>Comparación analítica.</strong> Usa una relación de fuerza motriz y resistencia para verificar ordenes de magnitud.</figcaption>
+  <div class="lightbox" id="zoom-figures-11-comparacion-analitica-png" aria-label="Figura ampliada: Comparación analítica">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/11_comparacion_analitica.png" alt="Comparación analítica ampliada">
+  </div>
 </figure></div></section>
   <footer class="footer-nav">
     <nav class="site-nav" aria-label="Navegación principal"><a href="./" aria-current="page">Convergencia</a><a href="hidraulica-preliminar/">Hidráulica local</a><a href="modelo-gp/">Modelo GP</a><a href="post-convergencia/">Resultados SPH</a><a href="incertidumbre-resolucion/">Incertidumbre</a><a href="lo-que-viene/">Cierre</a></nav>

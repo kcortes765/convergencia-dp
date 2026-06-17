@@ -137,6 +137,51 @@ figure img {
   height: auto;
   border-radius: 4px;
 }
+.zoom-link {
+  display: block;
+  cursor: zoom-in;
+}
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  background: rgba(15, 23, 42, 0.86);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.16s ease;
+}
+.lightbox:target {
+  opacity: 1;
+  pointer-events: auto;
+}
+.lightbox img {
+  width: auto;
+  max-width: 96vw;
+  max-height: 88vh;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.35);
+}
+.lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  min-width: 38px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 800;
+}
 figcaption {
   margin-top: 10px;
   color: #334155;
@@ -177,12 +222,16 @@ th { background: #f7f9fc; }
     <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../lo-que-viene/" aria-current="page">Cierre</a></nav>
   </header>
   <section><h2>Estado metodológico</h2><dl class="metric-grid"><div><dt>Resolución</dt><dd>cerrada</dd><small>dp=0.003 + dp=0.002</small></div><div><dt>Hidráulica local</dt><dd>cerrada</dd><small>14 casos</small></div><div><dt>Modelo GP</dt><dd>entrenado</dd><small>85.4%</small></div><div><dt>Cierre probabilístico</dt><dd>preparado</dd><small>Monte Carlo</small></div></dl>
-<p>La etapa actual ya permite presentar una frontera física con incertidumbre de resolución cuantificada y un modelo GP local entrenado. Monte Carlo entra después para propagar variabilidad de parámetros sobre este modelo final.</p>
+<p>La etapa actual consolida una frontera física con incertidumbre de resolución cuantificada y un modelo GP local entrenado. Monte Carlo entra después para propagar variabilidad de parámetros sobre este modelo final.</p>
 </section><section><h2>Síntesis del estado</h2><div class="figure-grid"><figure class="wide">
-  <a href="figures/pre_mc_05_readiness.png" target="_blank" aria-label="Abrir figura: Estado antes de Monte Carlo">
+  <a class="zoom-link" href="#zoom-figures-pre-mc-05-readiness-png" aria-label="Ampliar figura: Estado antes de Monte Carlo">
     <img src="figures/pre_mc_05_readiness.png" alt="Estado antes de Monte Carlo">
   </a>
   <figcaption><strong>Estado antes de Monte Carlo.</strong> Resume los datos, variables y modelos ya fijados antes de la propagación probabilística.</figcaption>
+  <div class="lightbox" id="zoom-figures-pre-mc-05-readiness-png" aria-label="Figura ampliada: Estado antes de Monte Carlo">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/pre_mc_05_readiness.png" alt="Estado antes de Monte Carlo ampliada">
+  </div>
 </figure></div></section>
   <footer class="footer-nav">
     <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../lo-que-viene/" aria-current="page">Cierre</a></nav>

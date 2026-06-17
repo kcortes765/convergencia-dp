@@ -137,6 +137,51 @@ figure img {
   height: auto;
   border-radius: 4px;
 }
+.zoom-link {
+  display: block;
+  cursor: zoom-in;
+}
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  background: rgba(15, 23, 42, 0.86);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.16s ease;
+}
+.lightbox:target {
+  opacity: 1;
+  pointer-events: auto;
+}
+.lightbox img {
+  width: auto;
+  max-width: 96vw;
+  max-height: 88vh;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.35);
+}
+.lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  min-width: 38px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 800;
+}
 figcaption {
   margin-top: 10px;
   color: #334155;
@@ -180,40 +225,64 @@ th { background: #f7f9fc; }
 <p>La altura inicial <code>H_dam</code> genera el flujo numérico, pero no es una variable transferible para una ecuación final. Por eso se reexpresa cada caso mediante variables medidas antes del bloque: profundidad local <code>h(t)</code>, velocidad longitudinal <code>u_x(t)</code>, número de Froude y solicitación local <code>M = max_t[rho h(t) u_x(t)^2]</code>.</p>
 <div class="callout"><strong>Lectura clave:</strong> <code>M</code> resume el flujo de momentum por unidad de ancho en la sección local antes del bloque. No es la fuerza exacta sobre el bloque; es una entrada hidráulica transferible para comparar escenarios.</div>
 <dl class="metric-grid"><div><dt>Caracterizacion</dt><dd>14 casos</dd><small>sin bloque y con bloque de referencia</small></div><div><dt>Entrada principal</dt><dd>M</dd><small>max rho h(t) u_x(t)^2</small></div><div><dt>Medición</dt><dd>gauge local</dd><small>antes del bloque</small></div><div><dt>Uso</dt><dd>modelo local</dd><small>entrada transferible</small></div></dl></section><section><h2>Evidencia hidráulica</h2><div class="figure-grid"><figure class="wide">
-  <a href="figures/clean_m_definicion.png" target="_blank" aria-label="Abrir figura: Definicion de M">
+  <a class="zoom-link" href="#zoom-figures-clean-m-definicion-png" aria-label="Ampliar figura: Definicion de M">
     <img src="figures/clean_m_definicion.png" alt="Definicion de M">
   </a>
   <figcaption><strong>Definicion de M.</strong> Explica como se calcula la solicitación local desde h(t), u_x(t) y el máximo temporal antes del bloque.</figcaption>
+  <div class="lightbox" id="zoom-figures-clean-m-definicion-png" aria-label="Figura ampliada: Definicion de M">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/clean_m_definicion.png" alt="Definicion de M ampliada">
+  </div>
 </figure>
 <figure class="">
-  <a href="figures/01_local_variables_by_h.png" target="_blank" aria-label="Abrir figura: De H_dam a variables locales">
+  <a class="zoom-link" href="#zoom-figures-01-local-variables-by-h-png" aria-label="Ampliar figura: De H_dam a variables locales">
     <img src="figures/01_local_variables_by_h.png" alt="De H_dam a variables locales">
   </a>
   <figcaption><strong>De H_dam a variables locales.</strong> Muestra como cambian profundidad, velocidad, solicitación local y Froude al variar la altura inicial.</figcaption>
+  <div class="lightbox" id="zoom-figures-01-local-variables-by-h-png" aria-label="Figura ampliada: De H_dam a variables locales">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/01_local_variables_by_h.png" alt="De H_dam a variables locales ampliada">
+  </div>
 </figure>
 <figure class="">
-  <a href="figures/02_with_block_ratios.png" target="_blank" aria-label="Abrir figura: Perturbacion por bloque">
+  <a class="zoom-link" href="#zoom-figures-02-with-block-ratios-png" aria-label="Ampliar figura: Perturbacion por bloque">
     <img src="figures/02_with_block_ratios.png" alt="Perturbacion por bloque">
   </a>
   <figcaption><strong>Perturbacion por bloque.</strong> Compara la señal con y sin bloque de referencia para verificar cuánto altera la medición local.</figcaption>
+  <div class="lightbox" id="zoom-figures-02-with-block-ratios-png" aria-label="Figura ampliada: Perturbacion por bloque">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/02_with_block_ratios.png" alt="Perturbacion por bloque ampliada">
+  </div>
 </figure>
 <figure class="">
-  <a href="figures/03_local_feature_space.png" target="_blank" aria-label="Abrir figura: Espacio local h-u">
+  <a class="zoom-link" href="#zoom-figures-03-local-feature-space-png" aria-label="Ampliar figura: Espacio local h-u">
     <img src="figures/03_local_feature_space.png" alt="Espacio local h-u">
   </a>
   <figcaption><strong>Espacio local h-u.</strong> Ubica los casos en profundidad local y velocidad máxima; el tamaño representa la solicitación local.</figcaption>
+  <div class="lightbox" id="zoom-figures-03-local-feature-space-png" aria-label="Figura ampliada: Espacio local h-u">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/03_local_feature_space.png" alt="Espacio local h-u ampliada">
+  </div>
 </figure>
 <figure class="">
-  <a href="figures/06_block_reference_motion.png" target="_blank" aria-label="Abrir figura: Bloque de referencia">
+  <a class="zoom-link" href="#zoom-figures-06-block-reference-motion-png" aria-label="Ampliar figura: Bloque de referencia">
     <img src="figures/06_block_reference_motion.png" alt="Bloque de referencia">
   </a>
   <figcaption><strong>Bloque de referencia.</strong> Verifica que el bloque usado para la caracterizacion se mantiene casi fijo durante la medición.</figcaption>
+  <div class="lightbox" id="zoom-figures-06-block-reference-motion-png" aria-label="Figura ampliada: Bloque de referencia">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/06_block_reference_motion.png" alt="Bloque de referencia ampliada">
+  </div>
 </figure>
 <figure class="wide">
-  <a href="figures/04_unblocked_hydrographs.png" target="_blank" aria-label="Abrir figura: Series sin bloque">
+  <a class="zoom-link" href="#zoom-figures-04-unblocked-hydrographs-png" aria-label="Ampliar figura: Series sin bloque">
     <img src="figures/04_unblocked_hydrographs.png" alt="Series sin bloque">
   </a>
   <figcaption><strong>Series sin bloque.</strong> Muestra la llegada temporal del flujo no obstruido en los puntos de medición.</figcaption>
+  <div class="lightbox" id="zoom-figures-04-unblocked-hydrographs-png" aria-label="Figura ampliada: Series sin bloque">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/04_unblocked_hydrographs.png" alt="Series sin bloque ampliada">
+  </div>
 </figure></div></section>
   <footer class="footer-nav">
     <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/" aria-current="page">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../lo-que-viene/">Cierre</a></nav>

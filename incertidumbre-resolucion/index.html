@@ -137,6 +137,51 @@ figure img {
   height: auto;
   border-radius: 4px;
 }
+.zoom-link {
+  display: block;
+  cursor: zoom-in;
+}
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  background: rgba(15, 23, 42, 0.86);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.16s ease;
+}
+.lightbox:target {
+  opacity: 1;
+  pointer-events: auto;
+}
+.lightbox img {
+  width: auto;
+  max-width: 96vw;
+  max-height: 88vh;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.35);
+}
+.lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  min-width: 38px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 800;
+}
 figcaption {
   margin-top: 10px;
   color: #334155;
@@ -179,35 +224,65 @@ th { background: #f7f9fc; }
   <section><h2>Qué mide esta página</h2>
 <p>Esta sección separa la incertidumbre de resolución de los resultados principales. Las simulaciones <code>dp=0.002</code> se usan para medir cuánto cambia la clasificación cerca del umbral cuando se refina la discretización.</p>
 <div class="callout"><strong>Intervalo fino:</strong> en <code>H=0.225 m</code> y <code>m*=1.00</code>, <code>mu=0.8605</code> supera el umbral y <code>mu=0.8625</code> queda bajo el umbral. El intervalo entre ambos es la banda local de transición con malla fina.</div>
-<dl class="metric-grid"><div><dt>Simulaciones finas</dt><dd>16/16</dd><small>completadas</small></div><div><dt>Resultado global</dt><dd>12/4</dd><small>estable / movimiento</small></div><div><dt>Intervalo fino</dt><dd>0.8605-0.8625</dd><small>movimiento a estabilidad</small></div><div><dt>Uso</dt><dd>banda</dd><small>incertidumbre de resolución</small></div></dl></section><section><h2>Evidencia fina</h2><div class="figure-grid"><figure class="wide">
-  <a href="figures/pre_mc_04_resolution_uncertainty_reference.png" target="_blank" aria-label="Abrir figura: Banda fina de referencia">
+<dl class="metric-grid"><div><dt>Simulaciones finas</dt><dd>16/16</dd><small>completadas</small></div><div><dt>Pares comparables</dt><dd>6</dd><small>dp=0.003 vs dp=0.002</small></div><div><dt>Cambio de clase</dt><dd>4/6</dd><small>por refinamiento</small></div><div><dt>Cambio medio Dmax</dt><dd>-1.73% d_eq</dd><small>dp=0.002 - dp=0.003</small></div><div><dt>Resultado global</dt><dd>12/4</dd><small>estable / movimiento</small></div><div><dt>Intervalo fino</dt><dd>0.8605-0.8625</dd><small>movimiento a estabilidad</small></div></dl></section><section><h2>Evidencia fina</h2><div class="figure-grid"><figure class="wide">
+  <a class="zoom-link" href="#zoom-figures-clean-dp002-paired-comparison-png" aria-label="Ampliar figura: Comparación pareada de resolución">
+    <img src="figures/clean_dp002_paired_comparison.png" alt="Comparación pareada de resolución">
+  </a>
+  <figcaption><strong>Comparación pareada de resolución.</strong> Contrasta directamente Dmax, velocidad del bloque y altura de agua entre dp=0.003 y dp=0.002.</figcaption>
+  <div class="lightbox" id="zoom-figures-clean-dp002-paired-comparison-png" aria-label="Figura ampliada: Comparación pareada de resolución">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/clean_dp002_paired_comparison.png" alt="Comparación pareada de resolución ampliada">
+  </div>
+</figure>
+<figure class="wide">
+  <a class="zoom-link" href="#zoom-figures-pre-mc-04-resolution-uncertainty-reference-png" aria-label="Ampliar figura: Banda fina de referencia">
     <img src="figures/pre_mc_04_resolution_uncertainty_reference.png" alt="Banda fina de referencia">
   </a>
   <figcaption><strong>Banda fina de referencia.</strong> Muestra el intervalo local más exigente cerrado con malla fina.</figcaption>
+  <div class="lightbox" id="zoom-figures-pre-mc-04-resolution-uncertainty-reference-png" aria-label="Figura ampliada: Banda fina de referencia">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/pre_mc_04_resolution_uncertainty_reference.png" alt="Banda fina de referencia ampliada">
+  </div>
 </figure>
 <figure class="">
-  <a href="figures/03_dp002_vs_dp003_completo.png" target="_blank" aria-label="Abrir figura: Cambio al refinar">
+  <a class="zoom-link" href="#zoom-figures-03-dp002-vs-dp003-completo-png" aria-label="Ampliar figura: Cambio al refinar">
     <img src="figures/03_dp002_vs_dp003_completo.png" alt="Cambio al refinar">
   </a>
   <figcaption><strong>Cambio al refinar.</strong> Compara pares equivalentes entre dp=0.003 y dp=0.002 cerca del umbral.</figcaption>
+  <div class="lightbox" id="zoom-figures-03-dp002-vs-dp003-completo-png" aria-label="Figura ampliada: Cambio al refinar">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/03_dp002_vs_dp003_completo.png" alt="Cambio al refinar ampliada">
+  </div>
 </figure>
 <figure class="">
-  <a href="figures/12_dp002_evidencia_completa_por_corte.png" target="_blank" aria-label="Abrir figura: Evidencia por corte">
+  <a class="zoom-link" href="#zoom-figures-12-dp002-evidencia-completa-por-corte-png" aria-label="Ampliar figura: Evidencia por corte">
     <img src="figures/12_dp002_evidencia_completa_por_corte.png" alt="Evidencia por corte">
   </a>
   <figcaption><strong>Evidencia por corte.</strong> Agrupa todos los cortes finos disponibles por altura, masa relativa y fricción.</figcaption>
+  <div class="lightbox" id="zoom-figures-12-dp002-evidencia-completa-por-corte-png" aria-label="Figura ampliada: Evidencia por corte">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/12_dp002_evidencia_completa_por_corte.png" alt="Evidencia por corte ampliada">
+  </div>
 </figure>
 <figure class="wide">
-  <a href="figures/clean_bracket_dp002_h225_m100.png" target="_blank" aria-label="Abrir figura: Intervalo fino cerrado">
+  <a class="zoom-link" href="#zoom-figures-clean-bracket-dp002-h225-m100-png" aria-label="Ampliar figura: Intervalo fino cerrado">
     <img src="figures/clean_bracket_dp002_h225_m100.png" alt="Intervalo fino cerrado">
   </a>
   <figcaption><strong>Intervalo fino cerrado.</strong> Muestra el intervalo de fricción donde la clasificación cambia con dp=0.002.</figcaption>
+  <div class="lightbox" id="zoom-figures-clean-bracket-dp002-h225-m100-png" aria-label="Figura ampliada: Intervalo fino cerrado">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/clean_bracket_dp002_h225_m100.png" alt="Intervalo fino cerrado ampliada">
+  </div>
 </figure>
 <figure class="wide">
-  <a href="figures/04_resumen_incertidumbre_resolucion.png" target="_blank" aria-label="Abrir figura: Resumen de incertidumbre">
+  <a class="zoom-link" href="#zoom-figures-04-resumen-incertidumbre-resolucion-png" aria-label="Ampliar figura: Resumen de incertidumbre">
     <img src="figures/04_resumen_incertidumbre_resolucion.png" alt="Resumen de incertidumbre">
   </a>
   <figcaption><strong>Resumen de incertidumbre.</strong> Resume cobertura, clases y ubicación de la evidencia fina.</figcaption>
+  <div class="lightbox" id="zoom-figures-04-resumen-incertidumbre-resolucion-png" aria-label="Figura ampliada: Resumen de incertidumbre">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/04_resumen_incertidumbre_resolucion.png" alt="Resumen de incertidumbre ampliada">
+  </div>
 </figure></div></section>
   <footer class="footer-nav">
     <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/" aria-current="page">Incertidumbre</a><a href="../lo-que-viene/">Cierre</a></nav>

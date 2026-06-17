@@ -137,6 +137,51 @@ figure img {
   height: auto;
   border-radius: 4px;
 }
+.zoom-link {
+  display: block;
+  cursor: zoom-in;
+}
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  background: rgba(15, 23, 42, 0.86);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.16s ease;
+}
+.lightbox:target {
+  opacity: 1;
+  pointer-events: auto;
+}
+.lightbox img {
+  width: auto;
+  max-width: 96vw;
+  max-height: 88vh;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.35);
+}
+.lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  min-width: 38px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 800;
+}
 figcaption {
   margin-top: 10px;
   color: #334155;
@@ -176,13 +221,36 @@ th { background: #f7f9fc; }
     <p class="lead">Evidencia observada de movimiento y estabilidad para construir la frontera física principal.</p>
     <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/" aria-current="page">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../lo-que-viene/">Cierre</a></nav>
   </header>
-  <section><h2>Resultado observado</h2><dl class="metric-grid"><div><dt>Casos SPH oficiales</dt><dd>94</dd><small>base productiva</small></div><div><dt>Frontera H=0.210</dt><dd>cerrada</dd><small>dos masas relativas</small></div><div><dt>Criterio</dt><dd>5% d_eq</dd><small>desplazamiento máximo</small></div><div><dt>Clasificación</dt><dd>estable/movimiento</dd><small>segun Dmax</small></div></dl>
-<p>Los resultados SPH muestran una transición clara: al aumentar la fricción, el desplazamiento máximo disminuye y los casos pasan de movimiento a estabilidad. Esta página muestra la evidencia observada; la sensibilidad de resolución se separa en la pestaña de incertidumbre.</p>
-</section><section><h2>Fronteras observadas</h2><div class="figure-grid"><figure class="wide">
-  <a href="figures/clean_02_fronteras_h0210.png" target="_blank" aria-label="Abrir figura: Fronteras en H=0.210 m">
+  <section><h2>Resultado observado</h2><dl class="metric-grid"><div><dt>Casos SPH usados</dt><dd>89</dd><small>base dp=0.003</small></div><div><dt>Estables / movimiento</dt><dd>51/38</dd><small>criterio Dmax</small></div><div><dt>Frontera H=0.210</dt><dd>cerrada</dd><small>dos masas relativas</small></div><div><dt>Criterio</dt><dd>5% d_eq</dd><small>desplazamiento máximo</small></div><div><dt>Caso más cercano</dt><dd>0.02% d_eq</dd><small>distancia al umbral</small></div></dl>
+<p>Los resultados SPH muestran la frontera física observada antes de cualquier interpolación: al aumentar la fricción, el desplazamiento máximo disminuye y los casos pasan de movimiento a estabilidad. Esta página muestra la evidencia directa; el GP y la sensibilidad de resolución se muestran en pestañas separadas.</p>
+</section><section><h2>Mapa global observado</h2><div class="figure-grid"><figure class="wide">
+  <a class="zoom-link" href="#zoom-figures-clean-results-observed-map-png" aria-label="Ampliar figura: Mapa de clases observadas">
+    <img src="figures/clean_results_observed_map.png" alt="Mapa de clases observadas">
+  </a>
+  <figcaption><strong>Mapa de clases observadas.</strong> Ubica todos los casos oficiales usados para la frontera en H_dam, fricción y masa relativa.</figcaption>
+  <div class="lightbox" id="zoom-figures-clean-results-observed-map-png" aria-label="Figura ampliada: Mapa de clases observadas">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/clean_results_observed_map.png" alt="Mapa de clases observadas ampliada">
+  </div>
+</figure>
+<figure class="wide">
+  <a class="zoom-link" href="#zoom-figures-clean-results-displacement-sections-png" aria-label="Ampliar figura: Desplazamiento por masa">
+    <img src="figures/clean_results_displacement_sections.png" alt="Desplazamiento por masa">
+  </a>
+  <figcaption><strong>Desplazamiento por masa.</strong> Muestra cómo cae Dmax al aumentar μ y dónde cruza el umbral del 5% d_eq.</figcaption>
+  <div class="lightbox" id="zoom-figures-clean-results-displacement-sections-png" aria-label="Figura ampliada: Desplazamiento por masa">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/clean_results_displacement_sections.png" alt="Desplazamiento por masa ampliada">
+  </div>
+</figure></div></section><section><h2>Zoom de frontera</h2><div class="figure-grid"><figure class="wide">
+  <a class="zoom-link" href="#zoom-figures-clean-02-fronteras-h0210-png" aria-label="Ampliar figura: Fronteras en H=0.210 m">
     <img src="figures/clean_02_fronteras_h0210.png" alt="Fronteras en H=0.210 m">
   </a>
   <figcaption><strong>Fronteras en H=0.210 m.</strong> Cortes cercanos al umbral para m*=1.15 y m*=1.25; la linea punteada marca el criterio de movimiento.</figcaption>
+  <div class="lightbox" id="zoom-figures-clean-02-fronteras-h0210-png" aria-label="Figura ampliada: Fronteras en H=0.210 m">
+    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <img src="figures/clean_02_fronteras_h0210.png" alt="Fronteras en H=0.210 m ampliada">
+  </div>
 </figure></div></section>
   <footer class="footer-nav">
     <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/" aria-current="page">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../lo-que-viene/">Cierre</a></nav>
