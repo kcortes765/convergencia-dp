@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Incertidumbre de resolución</title>
+  <title>Monte Carlo sobre el modelo local</title>
   <style>:root {
   --ink: #17202a;
   --muted: #596675;
@@ -219,55 +219,64 @@ th { background: #f7f9fc; }
 <body>
 <main class="page">
   <header class="top">
-    <h1>Incertidumbre de resolución</h1>
-    <p class="lead">Lectura separada de los casos finos dp=0.002 y su efecto sobre la frontera de movimiento.</p>
-    <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/" aria-current="page">Incertidumbre</a><a href="../monte-carlo/">Monte Carlo</a><a href="../lo-que-viene/">Cierre</a></nav>
+    <h1>Monte Carlo sobre el modelo local</h1>
+    <p class="lead">Propagación probabilística de la frontera usando el GP local, la banda de resolución fina y las variables transferibles.</p>
+    <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../monte-carlo/" aria-current="page">Monte Carlo</a><a href="../lo-que-viene/">Cierre</a></nav>
   </header>
-  <section><h2>Qué mide esta página</h2>
-<p>Esta sección separa la incertidumbre de resolución de los resultados principales. Las simulaciones <code>dp=0.002</code> se usan para medir cuánto cambia la clasificación cerca del umbral cuando se refina la discretización.</p>
-<div class="callout"><strong>Intervalo fino:</strong> en <code>H=0.225 m</code> y <code>m*=1.00</code>, <code>mu=0.8605</code> supera el umbral y <code>mu=0.8625</code> queda bajo el umbral. El intervalo entre ambos es la banda local de transición con malla fina.</div>
-<dl class="metric-grid"><div><dt>Simulaciones finas</dt><dd>16/16</dd><small>completadas</small></div><div><dt>Pares comparables</dt><dd>6</dd><small>dp=0.003 vs dp=0.002</small></div><div><dt>Cambio de clase</dt><dd>4/6</dd><small>por refinamiento</small></div><div><dt>Cambio medio Dmax</dt><dd>-1.73% d_eq</dd><small>dp=0.002 - dp=0.003</small></div><div><dt>Resultado global</dt><dd>12/4</dd><small>estable / movimiento</small></div><div><dt>Intervalo fino</dt><dd>0.8605-0.8625</dd><small>movimiento a estabilidad</small></div></dl></section><section><h2>Evidencia fina</h2><div class="figure-grid"><figure class="wide">
-  <a class="zoom-link" href="#zoom-figures-clean-dp002-paired-comparison-png" aria-label="Ampliar figura: Comparación pareada de resolución">
-    <img src="figures/clean_dp002_paired_comparison.png" alt="Comparación pareada de resolución">
+  <section><h2>Propagación probabilística</h2>
+<p>Monte Carlo usa el GP local final para recorrer combinaciones de solicitación local <code>M</code>, fricción <code>mu</code> y masa relativa <code>m*</code>. No agrega nuevas simulaciones SPH: convierte la frontera interpolada en una lectura probabilística bajo un dominio uniforme de parámetros.</p>
+<div class="callout"><strong>Lectura clave:</strong> la probabilidad reportada no es una frecuencia experimental. Es la respuesta del modelo GP al muestrear el dominio de entrada; por eso se presenta junto con sensibilidad, incertidumbre interna y banda de resolución.</div>
+<dl class="metric-grid"><div><dt>Muestras</dt><dd>200.000</dd><small>dominio uniforme</small></div><div><dt>P movimiento GP</dt><dd>58.4%</dd><small>base dp=0.003</small></div><div><dt>Ajuste fino</dt><dd>53.4%</dd><small>corrimiento mediano</small></div><div><dt>Banda resolución</dt><dd>49.5%-58.4%</dd><small>dp=0.002</small></div><div><dt>Zona del umbral</dt><dd>31.9%</dd><small>|g| &lt;= 2% d_eq</small></div><div><dt>Variables</dt><dd>M, mu, m*</dd><small>entrada local</small></div></dl></section><section><h2>Mapas y efectos</h2><div class="figure-grid"><figure class="wide">
+  <a class="zoom-link" href="#zoom-figures-01-probability-maps-png" aria-label="Ampliar figura: Mapa de probabilidad">
+    <img src="figures/01_probability_maps.png" alt="Mapa de probabilidad">
   </a>
-  <figcaption><strong>Comparación pareada de resolución.</strong> Contrasta directamente Dmax, velocidad del bloque y altura de agua entre dp=0.003 y dp=0.002.</figcaption>
-  <div class="lightbox" id="zoom-figures-clean-dp002-paired-comparison-png" aria-label="Figura ampliada: Comparación pareada de resolución">
+  <figcaption><strong>Mapa de probabilidad.</strong> Probabilidad de movimiento en el espacio M-mu para cada masa relativa; la curva 50% resume la frontera probabilística.</figcaption>
+  <div class="lightbox" id="zoom-figures-01-probability-maps-png" aria-label="Figura ampliada: Mapa de probabilidad">
     <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
-    <img src="figures/clean_dp002_paired_comparison.png" alt="Comparación pareada de resolución ampliada">
+    <img src="figures/01_probability_maps.png" alt="Mapa de probabilidad ampliada">
   </div>
 </figure>
 <figure class="wide">
-  <a class="zoom-link" href="#zoom-figures-pre-mc-04-resolution-uncertainty-reference-png" aria-label="Ampliar figura: Banda fina de referencia">
-    <img src="figures/pre_mc_04_resolution_uncertainty_reference.png" alt="Banda fina de referencia">
+  <a class="zoom-link" href="#zoom-figures-02-frontier-slices-png" aria-label="Ampliar figura: Efectos marginales">
+    <img src="figures/02_frontier_slices.png" alt="Efectos marginales">
   </a>
-  <figcaption><strong>Banda fina de referencia.</strong> Muestra el intervalo local más exigente cerrado con malla fina.</figcaption>
-  <div class="lightbox" id="zoom-figures-pre-mc-04-resolution-uncertainty-reference-png" aria-label="Figura ampliada: Banda fina de referencia">
+  <figcaption><strong>Efectos marginales.</strong> Muestra como cambia la probabilidad promedio al aumentar M, fricción o masa relativa.</figcaption>
+  <div class="lightbox" id="zoom-figures-02-frontier-slices-png" aria-label="Figura ampliada: Efectos marginales">
     <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
-    <img src="figures/pre_mc_04_resolution_uncertainty_reference.png" alt="Banda fina de referencia ampliada">
+    <img src="figures/02_frontier_slices.png" alt="Efectos marginales ampliada">
+  </div>
+</figure></div></section><section><h2>Incertidumbre propagada</h2><div class="figure-grid"><figure class="wide">
+  <a class="zoom-link" href="#zoom-figures-03-resolution-band-png" aria-label="Ampliar figura: Banda de resolucion">
+    <img src="figures/03_resolution_band.png" alt="Banda de resolucion">
+  </a>
+  <figcaption><strong>Banda de resolución.</strong> Compara la probabilidad base del GP con el corrimiento observado en los pares finos dp=0.002.</figcaption>
+  <div class="lightbox" id="zoom-figures-03-resolution-band-png" aria-label="Figura ampliada: Banda de resolucion">
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
+    <img src="figures/03_resolution_band.png" alt="Banda de resolucion ampliada">
   </div>
 </figure>
 <figure class="wide">
-  <a class="zoom-link" href="#zoom-figures-clean-bracket-dp002-h225-m100-png" aria-label="Ampliar figura: Intervalo fino cerrado">
-    <img src="figures/clean_bracket_dp002_h225_m100.png" alt="Intervalo fino cerrado">
+  <a class="zoom-link" href="#zoom-figures-04-sensitivity-png" aria-label="Ampliar figura: Sensibilidad global">
+    <img src="figures/04_sensitivity.png" alt="Sensibilidad global">
   </a>
-  <figcaption><strong>Intervalo fino cerrado.</strong> Muestra el intervalo de fricción donde la clasificación cambia con dp=0.002.</figcaption>
-  <div class="lightbox" id="zoom-figures-clean-bracket-dp002-h225-m100-png" aria-label="Figura ampliada: Intervalo fino cerrado">
+  <figcaption><strong>Sensibilidad global.</strong> Cuantifica la direccion de influencia de M, fricción y masa relativa sobre la probabilidad de movimiento.</figcaption>
+  <div class="lightbox" id="zoom-figures-04-sensitivity-png" aria-label="Figura ampliada: Sensibilidad global">
     <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
-    <img src="figures/clean_bracket_dp002_h225_m100.png" alt="Intervalo fino cerrado ampliada">
+    <img src="figures/04_sensitivity.png" alt="Sensibilidad global ampliada">
   </div>
 </figure>
 <figure class="wide">
-  <a class="zoom-link" href="#zoom-figures-04-resumen-incertidumbre-resolucion-png" aria-label="Ampliar figura: Resumen de incertidumbre">
-    <img src="figures/04_resumen_incertidumbre_resolucion.png" alt="Resumen de incertidumbre">
+  <a class="zoom-link" href="#zoom-figures-05-model-uncertainty-png" aria-label="Ampliar figura: Incertidumbre interna">
+    <img src="figures/05_model_uncertainty.png" alt="Incertidumbre interna">
   </a>
-  <figcaption><strong>Resumen de incertidumbre.</strong> Resume cobertura, clases y ubicación de la evidencia fina.</figcaption>
-  <div class="lightbox" id="zoom-figures-04-resumen-incertidumbre-resolucion-png" aria-label="Figura ampliada: Resumen de incertidumbre">
+  <figcaption><strong>Incertidumbre interna.</strong> Muestra donde el GP interpola con mayor o menor soporte de simulaciones SPH.</figcaption>
+  <div class="lightbox" id="zoom-figures-05-model-uncertainty-png" aria-label="Figura ampliada: Incertidumbre interna">
     <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
-    <img src="figures/04_resumen_incertidumbre_resolucion.png" alt="Resumen de incertidumbre ampliada">
+    <img src="figures/05_model_uncertainty.png" alt="Incertidumbre interna ampliada">
   </div>
 </figure></div></section>
   <footer class="footer-nav">
-    <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/" aria-current="page">Incertidumbre</a><a href="../monte-carlo/">Monte Carlo</a><a href="../lo-que-viene/">Cierre</a></nav>
+    <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../monte-carlo/" aria-current="page">Monte Carlo</a><a href="../lo-que-viene/">Cierre</a></nav>
   </footer>
 </main>
 <script>
