@@ -154,7 +154,8 @@ figure img {
   pointer-events: none;
   transition: opacity 0.16s ease;
 }
-.lightbox:target {
+.lightbox:target,
+.lightbox.is-open {
   opacity: 1;
   pointer-events: auto;
 }
@@ -171,6 +172,7 @@ figure img {
   position: absolute;
   top: 16px;
   right: 20px;
+  border: 0;
   min-width: 38px;
   min-height: 38px;
   display: inline-flex;
@@ -179,8 +181,8 @@ figure img {
   border-radius: 999px;
   background: #fff;
   color: var(--ink);
-  text-decoration: none;
   font-weight: 800;
+  cursor: pointer;
 }
 figcaption {
   margin-top: 10px;
@@ -229,7 +231,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Estado antes de Monte Carlo.</strong> Resume los datos, variables y modelos ya fijados antes de la propagación probabilística.</figcaption>
   <div class="lightbox" id="zoom-figures-pre-mc-05-readiness-png" aria-label="Figura ampliada: Estado antes de Monte Carlo">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/pre_mc_05_readiness.png" alt="Estado antes de Monte Carlo ampliada">
   </div>
 </figure></div></section>
@@ -237,5 +239,42 @@ th { background: #f7f9fc; }
     <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../lo-que-viene/" aria-current="page">Cierre</a></nav>
   </footer>
 </main>
+<script>
+(function () {
+  var lastScrollY = 0;
+  function closeLightbox() {
+    var y = lastScrollY || window.scrollY || 0;
+    document.querySelectorAll(".lightbox.is-open").forEach(function (box) {
+      box.classList.remove("is-open");
+    });
+    if (window.location.hash && window.location.hash.indexOf("#zoom-") === 0) {
+      window.history.replaceState(null, document.title, window.location.pathname + window.location.search);
+    }
+    window.scrollTo(0, y);
+  }
+  document.addEventListener("click", function (event) {
+    var openLink = event.target.closest && event.target.closest("a.zoom-link");
+    if (openLink) {
+      event.preventDefault();
+      lastScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+      var box = document.querySelector(openLink.getAttribute("href"));
+      if (box) {
+        box.classList.add("is-open");
+      }
+      return;
+    }
+    var closeButton = event.target.closest && event.target.closest(".lightbox-close");
+    if (closeButton || (event.target.classList && event.target.classList.contains("lightbox"))) {
+      event.preventDefault();
+      closeLightbox();
+    }
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeLightbox();
+    }
+  });
+}());
+</script>
 </body>
 </html>

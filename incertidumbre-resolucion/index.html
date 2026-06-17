@@ -154,7 +154,8 @@ figure img {
   pointer-events: none;
   transition: opacity 0.16s ease;
 }
-.lightbox:target {
+.lightbox:target,
+.lightbox.is-open {
   opacity: 1;
   pointer-events: auto;
 }
@@ -171,6 +172,7 @@ figure img {
   position: absolute;
   top: 16px;
   right: 20px;
+  border: 0;
   min-width: 38px;
   min-height: 38px;
   display: inline-flex;
@@ -179,8 +181,8 @@ figure img {
   border-radius: 999px;
   background: #fff;
   color: var(--ink);
-  text-decoration: none;
   font-weight: 800;
+  cursor: pointer;
 }
 figcaption {
   margin-top: 10px;
@@ -230,7 +232,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Comparación pareada de resolución.</strong> Contrasta directamente Dmax, velocidad del bloque y altura de agua entre dp=0.003 y dp=0.002.</figcaption>
   <div class="lightbox" id="zoom-figures-clean-dp002-paired-comparison-png" aria-label="Figura ampliada: Comparación pareada de resolución">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/clean_dp002_paired_comparison.png" alt="Comparación pareada de resolución ampliada">
   </div>
 </figure>
@@ -240,28 +242,8 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Banda fina de referencia.</strong> Muestra el intervalo local más exigente cerrado con malla fina.</figcaption>
   <div class="lightbox" id="zoom-figures-pre-mc-04-resolution-uncertainty-reference-png" aria-label="Figura ampliada: Banda fina de referencia">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/pre_mc_04_resolution_uncertainty_reference.png" alt="Banda fina de referencia ampliada">
-  </div>
-</figure>
-<figure class="">
-  <a class="zoom-link" href="#zoom-figures-03-dp002-vs-dp003-completo-png" aria-label="Ampliar figura: Cambio al refinar">
-    <img src="figures/03_dp002_vs_dp003_completo.png" alt="Cambio al refinar">
-  </a>
-  <figcaption><strong>Cambio al refinar.</strong> Compara pares equivalentes entre dp=0.003 y dp=0.002 cerca del umbral.</figcaption>
-  <div class="lightbox" id="zoom-figures-03-dp002-vs-dp003-completo-png" aria-label="Figura ampliada: Cambio al refinar">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
-    <img src="figures/03_dp002_vs_dp003_completo.png" alt="Cambio al refinar ampliada">
-  </div>
-</figure>
-<figure class="">
-  <a class="zoom-link" href="#zoom-figures-12-dp002-evidencia-completa-por-corte-png" aria-label="Ampliar figura: Evidencia por corte">
-    <img src="figures/12_dp002_evidencia_completa_por_corte.png" alt="Evidencia por corte">
-  </a>
-  <figcaption><strong>Evidencia por corte.</strong> Agrupa todos los cortes finos disponibles por altura, masa relativa y fricción.</figcaption>
-  <div class="lightbox" id="zoom-figures-12-dp002-evidencia-completa-por-corte-png" aria-label="Figura ampliada: Evidencia por corte">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
-    <img src="figures/12_dp002_evidencia_completa_por_corte.png" alt="Evidencia por corte ampliada">
   </div>
 </figure>
 <figure class="wide">
@@ -270,7 +252,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Intervalo fino cerrado.</strong> Muestra el intervalo de fricción donde la clasificación cambia con dp=0.002.</figcaption>
   <div class="lightbox" id="zoom-figures-clean-bracket-dp002-h225-m100-png" aria-label="Figura ampliada: Intervalo fino cerrado">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/clean_bracket_dp002_h225_m100.png" alt="Intervalo fino cerrado ampliada">
   </div>
 </figure>
@@ -280,7 +262,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Resumen de incertidumbre.</strong> Resume cobertura, clases y ubicación de la evidencia fina.</figcaption>
   <div class="lightbox" id="zoom-figures-04-resumen-incertidumbre-resolucion-png" aria-label="Figura ampliada: Resumen de incertidumbre">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/04_resumen_incertidumbre_resolucion.png" alt="Resumen de incertidumbre ampliada">
   </div>
 </figure></div></section>
@@ -288,5 +270,42 @@ th { background: #f7f9fc; }
     <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/" aria-current="page">Incertidumbre</a><a href="../lo-que-viene/">Cierre</a></nav>
   </footer>
 </main>
+<script>
+(function () {
+  var lastScrollY = 0;
+  function closeLightbox() {
+    var y = lastScrollY || window.scrollY || 0;
+    document.querySelectorAll(".lightbox.is-open").forEach(function (box) {
+      box.classList.remove("is-open");
+    });
+    if (window.location.hash && window.location.hash.indexOf("#zoom-") === 0) {
+      window.history.replaceState(null, document.title, window.location.pathname + window.location.search);
+    }
+    window.scrollTo(0, y);
+  }
+  document.addEventListener("click", function (event) {
+    var openLink = event.target.closest && event.target.closest("a.zoom-link");
+    if (openLink) {
+      event.preventDefault();
+      lastScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+      var box = document.querySelector(openLink.getAttribute("href"));
+      if (box) {
+        box.classList.add("is-open");
+      }
+      return;
+    }
+    var closeButton = event.target.closest && event.target.closest(".lightbox-close");
+    if (closeButton || (event.target.classList && event.target.classList.contains("lightbox"))) {
+      event.preventDefault();
+      closeLightbox();
+    }
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeLightbox();
+    }
+  });
+}());
+</script>
 </body>
 </html>

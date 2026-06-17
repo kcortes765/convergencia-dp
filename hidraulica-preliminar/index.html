@@ -154,7 +154,8 @@ figure img {
   pointer-events: none;
   transition: opacity 0.16s ease;
 }
-.lightbox:target {
+.lightbox:target,
+.lightbox.is-open {
   opacity: 1;
   pointer-events: auto;
 }
@@ -171,6 +172,7 @@ figure img {
   position: absolute;
   top: 16px;
   right: 20px;
+  border: 0;
   min-width: 38px;
   min-height: 38px;
   display: inline-flex;
@@ -179,8 +181,8 @@ figure img {
   border-radius: 999px;
   background: #fff;
   color: var(--ink);
-  text-decoration: none;
   font-weight: 800;
+  cursor: pointer;
 }
 figcaption {
   margin-top: 10px;
@@ -230,7 +232,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Definicion de M.</strong> Explica como se calcula la solicitación local desde h(t), u_x(t) y el máximo temporal antes del bloque.</figcaption>
   <div class="lightbox" id="zoom-figures-clean-m-definicion-png" aria-label="Figura ampliada: Definicion de M">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/clean_m_definicion.png" alt="Definicion de M ampliada">
   </div>
 </figure>
@@ -240,7 +242,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>De H_dam a variables locales.</strong> Muestra como cambian profundidad, velocidad, solicitación local y Froude al variar la altura inicial.</figcaption>
   <div class="lightbox" id="zoom-figures-01-local-variables-by-h-png" aria-label="Figura ampliada: De H_dam a variables locales">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/01_local_variables_by_h.png" alt="De H_dam a variables locales ampliada">
   </div>
 </figure>
@@ -250,7 +252,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Perturbacion por bloque.</strong> Compara la señal con y sin bloque de referencia para verificar cuánto altera la medición local.</figcaption>
   <div class="lightbox" id="zoom-figures-02-with-block-ratios-png" aria-label="Figura ampliada: Perturbacion por bloque">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/02_with_block_ratios.png" alt="Perturbacion por bloque ampliada">
   </div>
 </figure>
@@ -260,7 +262,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Espacio local h-u.</strong> Ubica los casos en profundidad local y velocidad máxima; el tamaño representa la solicitación local.</figcaption>
   <div class="lightbox" id="zoom-figures-03-local-feature-space-png" aria-label="Figura ampliada: Espacio local h-u">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/03_local_feature_space.png" alt="Espacio local h-u ampliada">
   </div>
 </figure>
@@ -270,7 +272,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Bloque de referencia.</strong> Verifica que el bloque usado para la caracterizacion se mantiene casi fijo durante la medición.</figcaption>
   <div class="lightbox" id="zoom-figures-06-block-reference-motion-png" aria-label="Figura ampliada: Bloque de referencia">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/06_block_reference_motion.png" alt="Bloque de referencia ampliada">
   </div>
 </figure>
@@ -280,7 +282,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Series sin bloque.</strong> Muestra la llegada temporal del flujo no obstruido en los puntos de medición.</figcaption>
   <div class="lightbox" id="zoom-figures-04-unblocked-hydrographs-png" aria-label="Figura ampliada: Series sin bloque">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/04_unblocked_hydrographs.png" alt="Series sin bloque ampliada">
   </div>
 </figure></div></section>
@@ -288,5 +290,42 @@ th { background: #f7f9fc; }
     <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/" aria-current="page">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../lo-que-viene/">Cierre</a></nav>
   </footer>
 </main>
+<script>
+(function () {
+  var lastScrollY = 0;
+  function closeLightbox() {
+    var y = lastScrollY || window.scrollY || 0;
+    document.querySelectorAll(".lightbox.is-open").forEach(function (box) {
+      box.classList.remove("is-open");
+    });
+    if (window.location.hash && window.location.hash.indexOf("#zoom-") === 0) {
+      window.history.replaceState(null, document.title, window.location.pathname + window.location.search);
+    }
+    window.scrollTo(0, y);
+  }
+  document.addEventListener("click", function (event) {
+    var openLink = event.target.closest && event.target.closest("a.zoom-link");
+    if (openLink) {
+      event.preventDefault();
+      lastScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+      var box = document.querySelector(openLink.getAttribute("href"));
+      if (box) {
+        box.classList.add("is-open");
+      }
+      return;
+    }
+    var closeButton = event.target.closest && event.target.closest(".lightbox-close");
+    if (closeButton || (event.target.classList && event.target.classList.contains("lightbox"))) {
+      event.preventDefault();
+      closeLightbox();
+    }
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeLightbox();
+    }
+  });
+}());
+</script>
 </body>
 </html>

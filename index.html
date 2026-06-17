@@ -154,7 +154,8 @@ figure img {
   pointer-events: none;
   transition: opacity 0.16s ease;
 }
-.lightbox:target {
+.lightbox:target,
+.lightbox.is-open {
   opacity: 1;
   pointer-events: auto;
 }
@@ -171,6 +172,7 @@ figure img {
   position: absolute;
   top: 16px;
   right: 20px;
+  border: 0;
   min-width: 38px;
   min-height: 38px;
   display: inline-flex;
@@ -179,8 +181,8 @@ figure img {
   border-radius: 999px;
   background: #fff;
   color: var(--ink);
-  text-decoration: none;
   font-weight: 800;
+  cursor: pointer;
 }
 figcaption {
   margin-top: 10px;
@@ -229,7 +231,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Variables que sostienen dp=0.003.</strong> Compara las métricas numéricas que permiten adoptar una resolución productiva sin ocultar la sensibilidad residual.</figcaption>
   <div class="lightbox" id="zoom-figures-01-variables-defendibles-dp003-png" aria-label="Figura ampliada: Variables que sostienen dp=0.003">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/01_variables_defendibles_dp003.png" alt="Variables que sostienen dp=0.003 ampliada">
   </div>
 </figure>
@@ -239,7 +241,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Tendencia con refinamiento.</strong> Muestra la evolucion de las variables principales al disminuir el tamaño de particula.</figcaption>
   <div class="lightbox" id="zoom-figures-02-tendencia-variables-principales-png" aria-label="Figura ampliada: Tendencia con refinamiento">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/02_tendencia_variables_principales.png" alt="Tendencia con refinamiento ampliada">
   </div>
 </figure>
@@ -249,7 +251,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Series temporales finas.</strong> Verifica que el comportamiento temporal principal se mantiene físicamente interpretable.</figcaption>
   <div class="lightbox" id="zoom-figures-03-curvas-temporales-finas-png" aria-label="Figura ampliada: Series temporales finas">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/03_curvas_temporales_finas.png" alt="Series temporales finas ampliada">
   </div>
 </figure>
@@ -259,7 +261,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Salidas sensibles.</strong> Separa las variables robustas de las que no conviene usar como criterio principal.</figcaption>
   <div class="lightbox" id="zoom-figures-04-salidas-sensibles-png" aria-label="Figura ampliada: Salidas sensibles">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/04_salidas_sensibles.png" alt="Salidas sensibles ampliada">
   </div>
 </figure>
@@ -269,7 +271,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Costo computacional.</strong> Explica el equilibrio entre resolución, tiempo de cálculo y útilidad de las simulaciones.</figcaption>
   <div class="lightbox" id="zoom-figures-05-costo-vs-dp-png" aria-label="Figura ampliada: Costo computacional">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/05_costo_vs_dp.png" alt="Costo computacional ampliada">
   </div>
 </figure>
@@ -279,7 +281,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Benchmark hidraulico.</strong> Contrasta la propagación hidráulica con una solucion de referencia de canal.</figcaption>
   <div class="lightbox" id="zoom-figures-09-benchmark-hidraulico-png" aria-label="Figura ampliada: Benchmark hidraulico">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/09_benchmark_hidraulico.png" alt="Benchmark hidraulico ampliada">
   </div>
 </figure>
@@ -289,7 +291,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Verificacion de contacto.</strong> Comprueba que el contacto inicial no genera movimiento sostenido por si solo.</figcaption>
   <div class="lightbox" id="zoom-figures-10-contact-sanity-png" aria-label="Figura ampliada: Verificacion de contacto">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/10_contact_sanity.png" alt="Verificacion de contacto ampliada">
   </div>
 </figure>
@@ -299,7 +301,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Comparación analítica.</strong> Usa una relación de fuerza motriz y resistencia para verificar ordenes de magnitud.</figcaption>
   <div class="lightbox" id="zoom-figures-11-comparacion-analitica-png" aria-label="Figura ampliada: Comparación analítica">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/11_comparacion_analitica.png" alt="Comparación analítica ampliada">
   </div>
 </figure></div></section>
@@ -307,5 +309,42 @@ th { background: #f7f9fc; }
     <nav class="site-nav" aria-label="Navegación principal"><a href="./" aria-current="page">Convergencia</a><a href="hidraulica-preliminar/">Hidráulica local</a><a href="modelo-gp/">Modelo GP</a><a href="post-convergencia/">Resultados SPH</a><a href="incertidumbre-resolucion/">Incertidumbre</a><a href="lo-que-viene/">Cierre</a></nav>
   </footer>
 </main>
+<script>
+(function () {
+  var lastScrollY = 0;
+  function closeLightbox() {
+    var y = lastScrollY || window.scrollY || 0;
+    document.querySelectorAll(".lightbox.is-open").forEach(function (box) {
+      box.classList.remove("is-open");
+    });
+    if (window.location.hash && window.location.hash.indexOf("#zoom-") === 0) {
+      window.history.replaceState(null, document.title, window.location.pathname + window.location.search);
+    }
+    window.scrollTo(0, y);
+  }
+  document.addEventListener("click", function (event) {
+    var openLink = event.target.closest && event.target.closest("a.zoom-link");
+    if (openLink) {
+      event.preventDefault();
+      lastScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+      var box = document.querySelector(openLink.getAttribute("href"));
+      if (box) {
+        box.classList.add("is-open");
+      }
+      return;
+    }
+    var closeButton = event.target.closest && event.target.closest(".lightbox-close");
+    if (closeButton || (event.target.classList && event.target.classList.contains("lightbox"))) {
+      event.preventDefault();
+      closeLightbox();
+    }
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeLightbox();
+    }
+  });
+}());
+</script>
 </body>
 </html>

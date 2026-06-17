@@ -154,7 +154,8 @@ figure img {
   pointer-events: none;
   transition: opacity 0.16s ease;
 }
-.lightbox:target {
+.lightbox:target,
+.lightbox.is-open {
   opacity: 1;
   pointer-events: auto;
 }
@@ -171,6 +172,7 @@ figure img {
   position: absolute;
   top: 16px;
   right: 20px;
+  border: 0;
   min-width: 38px;
   min-height: 38px;
   display: inline-flex;
@@ -179,8 +181,8 @@ figure img {
   border-radius: 999px;
   background: #fff;
   color: var(--ink);
-  text-decoration: none;
   font-weight: 800;
+  cursor: pointer;
 }
 figcaption {
   margin-top: 10px;
@@ -229,7 +231,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Mapa de clases observadas.</strong> Ubica todos los casos oficiales usados para la frontera en H_dam, fricción y masa relativa.</figcaption>
   <div class="lightbox" id="zoom-figures-clean-results-observed-map-png" aria-label="Figura ampliada: Mapa de clases observadas">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/clean_results_observed_map.png" alt="Mapa de clases observadas ampliada">
   </div>
 </figure>
@@ -239,7 +241,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Desplazamiento por masa.</strong> Muestra cómo cae Dmax al aumentar μ y dónde cruza el umbral del 5% d_eq.</figcaption>
   <div class="lightbox" id="zoom-figures-clean-results-displacement-sections-png" aria-label="Figura ampliada: Desplazamiento por masa">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/clean_results_displacement_sections.png" alt="Desplazamiento por masa ampliada">
   </div>
 </figure></div></section><section><h2>Zoom de frontera</h2><div class="figure-grid"><figure class="wide">
@@ -248,7 +250,7 @@ th { background: #f7f9fc; }
   </a>
   <figcaption><strong>Fronteras en H=0.210 m.</strong> Cortes cercanos al umbral para m*=1.15 y m*=1.25; la linea punteada marca el criterio de movimiento.</figcaption>
   <div class="lightbox" id="zoom-figures-clean-02-fronteras-h0210-png" aria-label="Figura ampliada: Fronteras en H=0.210 m">
-    <a class="lightbox-close" href="#" aria-label="Cerrar figura ampliada">×</a>
+    <button class="lightbox-close" type="button" aria-label="Cerrar figura ampliada">×</button>
     <img src="figures/clean_02_fronteras_h0210.png" alt="Fronteras en H=0.210 m ampliada">
   </div>
 </figure></div></section>
@@ -256,5 +258,42 @@ th { background: #f7f9fc; }
     <nav class="site-nav" aria-label="Navegación principal"><a href="../">Convergencia</a><a href="../hidraulica-preliminar/">Hidráulica local</a><a href="../modelo-gp/">Modelo GP</a><a href="../post-convergencia/" aria-current="page">Resultados SPH</a><a href="../incertidumbre-resolucion/">Incertidumbre</a><a href="../lo-que-viene/">Cierre</a></nav>
   </footer>
 </main>
+<script>
+(function () {
+  var lastScrollY = 0;
+  function closeLightbox() {
+    var y = lastScrollY || window.scrollY || 0;
+    document.querySelectorAll(".lightbox.is-open").forEach(function (box) {
+      box.classList.remove("is-open");
+    });
+    if (window.location.hash && window.location.hash.indexOf("#zoom-") === 0) {
+      window.history.replaceState(null, document.title, window.location.pathname + window.location.search);
+    }
+    window.scrollTo(0, y);
+  }
+  document.addEventListener("click", function (event) {
+    var openLink = event.target.closest && event.target.closest("a.zoom-link");
+    if (openLink) {
+      event.preventDefault();
+      lastScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+      var box = document.querySelector(openLink.getAttribute("href"));
+      if (box) {
+        box.classList.add("is-open");
+      }
+      return;
+    }
+    var closeButton = event.target.closest && event.target.closest(".lightbox-close");
+    if (closeButton || (event.target.classList && event.target.classList.contains("lightbox"))) {
+      event.preventDefault();
+      closeLightbox();
+    }
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeLightbox();
+    }
+  });
+}());
+</script>
 </body>
 </html>
